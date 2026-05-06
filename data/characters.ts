@@ -6,7 +6,7 @@ export interface KeyScripture {
 
 export interface TimelineEvent {
   event: string;
-  reference: string;
+  reference?: string;
   year?: string;
 }
 
@@ -1460,10 +1460,972 @@ John is the only apostle not martyred — he died of old age in Ephesus, "the be
     relationships: ['Zebedee (father)', 'Salome (mother)', 'James (brother, martyred by Herod Agrippa)', 'Mary the mother of Jesus (entrusted to his care)', 'Peter (closest companion in ministry)'],
     relatedCharacters: ['peter', 'paul', 'james', 'mary', 'john-the-baptist'],
   },
+
+  // ─── AARON ───────────────────────────────────────────────────────────────
+  {
+    id: 'aaron',
+    name: 'Aaron',
+    hebrewGreek: 'אַהֲרֹן',
+    transliteration: 'Aharon',
+    nameMeaning: 'High mountain / Exalted / Enlightened',
+    testament: 'OT',
+    category: 'Priest / Prophet',
+    era: 'Exodus (~1526–1406 BC)',
+    keyBooks: ['Exodus', 'Leviticus', 'Numbers'],
+    oneLiner: 'Moses\'s brother, Israel\'s first High Priest — eloquent spokesman, mediator between God and the people, yet also prone to capitulating to crowd pressure when Moses was away.',
+    biography: `Aaron was born into the tribe of Levi, three years before Moses (Exodus 7:7), the son of Amram and Jochebed. He was the older brother who protected and hid the infant Moses (implied in Exodus 2), and who remained in Egypt through the years Moses spent in Midian.
+
+When God called Moses from the burning bush and Moses pleaded his inadequacy as a speaker, God provided Aaron as his spokesperson: "Is not Aaron the Levite thy brother? I know that he can speak well" (Exodus 4:14). From the moment Moses returned to Egypt, Aaron stood beside him — delivering demands to Pharaoh, performing the first three plagues (turning the Nile to blood, calling frogs, turning dust to gnats), and representing Israel before the most powerful man in the world.
+
+Aaron's greatest failure was the golden calf. When Moses delayed on Sinai, the people demanded gods they could see, and Aaron — the priest, the spokesman, the leader left in charge — yielded. He collected their gold, fashioned a calf, and declared a feast to "the LORD" (Exodus 32:5) — a syncretistic catastrophe that merged Israelite worship with Egyptian iconography. When Moses confronted him, Aaron's excuse was almost comical: "I cast it into the fire, and out came this calf" (Exodus 32:24). He lacked the backbone to resist.
+
+Nevertheless, God appointed Aaron and his sons as Israel's perpetual priesthood (Exodus 28-29). Aaron was anointed, robed in the magnificent garments of the High Priest, and set apart for the holiest work in Israel — approaching God on behalf of the people, offering sacrifices, maintaining the sanctuary, blessing Israel with the Aaronic benediction (Numbers 6:24-26).
+
+Aaron died on Mount Hor at the age of 123 (Numbers 33:39), stripped of his High Priestly garments, which were transferred to his son Eleazar — a poignant priestly succession. He died outside Canaan, as Moses did, because at Meribah he and Moses had failed to honor God before the people (Numbers 20:1-13).`,
+    historicalContext: `Aaron operated in the context of Egyptian imperial culture, where the Pharaoh claimed divine status and the priestly caste held enormous power. The golden calf incident almost certainly reflects the Apis bull cult — the sacred bull of Ptah worshipped at Memphis — which Israel had observed for generations. Aaron's High Priestly garments — the ephod, breastplate with twelve stones, bells and pomegranates on the hem, the turban with its gold plate inscribed "Holy to the LORD" — were garments of extraordinary symbolic density, encoding the theology of mediation and representation into fabric and jewel.`,
+    keyScriptures: [
+      { reference: 'Exodus 4:14-16', text: 'And the anger of the LORD was kindled against Moses, and he said, Is not Aaron the Levite thy brother? I know that he can speak well... and he shall be thy spokesman unto the people.', significance: 'God appoints Aaron as Moses\'s mouthpiece — establishing the partnership that will lead the Exodus.' },
+      { reference: 'Exodus 32:1-4', text: 'And when the people saw that Moses delayed to come down out of the mount, the people gathered themselves together unto Aaron... and Aaron... fashioned it with a graving tool, after he had made it a molten calf.', significance: 'Aaron\'s gravest failure — yielding to mob pressure rather than standing for the covenant.' },
+      { reference: 'Numbers 6:24-26', text: 'The LORD bless thee, and keep thee: The LORD make his face shine upon thee, and be gracious unto thee: The LORD lift up his countenance upon thee, and give thee peace.', significance: 'The Aaronic benediction — the most used blessing in all of Scripture, still spoken in synagogues and churches today.' },
+    ],
+    traits: ['Eloquent', 'Gifted spokesman', 'Spiritually sensitive', 'People-pleasing', 'Conflict-averse'],
+    failures: ['The golden calf — yielded to mob pressure instead of standing for the covenant', 'At Meribah — failed to honor God before Israel with Moses', 'Joined Miriam in criticizing Moses\'s Cushite wife (Numbers 12)'],
+    faithLessons: [
+      'Gifted leaders can still capitulate under pressure — courage and character must accompany ability.',
+      'God does not discard those who fail — Aaron was restored and continued as High Priest.',
+      'The Aaronic priesthood was preparatory; Christ fulfills it as the eternal, sinless High Priest (Hebrews 5-10).',
+    ],
+    typologyOfChrist: 'Aaron is a type of Christ as High Priest. He entered the Most Holy Place on the Day of Atonement bearing the names of the twelve tribes on his breastplate — interceding for all Israel. Christ, as our permanent High Priest (Hebrews 7:24), enters heaven itself to intercede for us perpetually. But where Aaron\'s priesthood required daily, yearly repetition (Hebrews 10:1-3), Christ\'s one sacrifice perfects forever those who are being made holy (Hebrews 10:14).',
+    theologicalSignificance: 'Aaron establishes the theology of priestly mediation — the idea that fallen human beings need a representative to approach a holy God. The entire Levitical system of sacrifice and priesthood, of which Aaron was the origin and embodiment, teaches that the wages of sin is death, that atonement is required, and that a consecrated mediator must stand between God and man. All of this points forward to the one Mediator between God and man, the man Christ Jesus (1 Timothy 2:5).',
+    timeline: [
+      { event: 'Born to Amram and Jochebed in Egypt', year: '~1526 BC' },
+      { event: 'Called as Moses\'s spokesman at the burning bush', reference: 'Exodus 4:14', year: '~1446 BC' },
+      { event: 'Ten plagues on Egypt; Passover', reference: 'Exodus 7-12', year: '~1446 BC' },
+      { event: 'Anointed as Israel\'s first High Priest', reference: 'Leviticus 8', year: '~1445 BC' },
+      { event: 'Golden calf incident', reference: 'Exodus 32', year: '~1445 BC' },
+      { event: 'Nadab and Abihu, his sons, die for offering unauthorized fire', reference: 'Leviticus 10', year: '~1445 BC' },
+      { event: 'Criticizes Moses with Miriam; Miriam struck with leprosy', reference: 'Numbers 12', year: '~1444 BC' },
+      { event: 'Dies on Mount Hor at age 123; Eleazar succeeds him', reference: 'Numbers 20:22-29', year: '~1406 BC' },
+    ],
+    relationships: ['Amram (father)', 'Jochebed (mother)', 'Moses (brother)', 'Miriam (sister)', 'Elisheba (wife)', 'Nadab, Abihu, Eleazar, Ithamar (sons)'],
+    relatedCharacters: ['moses', 'miriam', 'joshua', 'samuel'],
+  },
+
+  // ─── ISAAC ───────────────────────────────────────────────────────────────
+  {
+    id: 'isaac',
+    name: 'Isaac',
+    hebrewGreek: 'יִצְחָק',
+    transliteration: 'Yitzhak',
+    nameMeaning: 'He laughs / Laughter',
+    testament: 'OT',
+    category: 'Patriarch',
+    era: 'Patriarchal (~2066–1886 BC)',
+    keyBooks: ['Genesis'],
+    oneLiner: 'The miracle child of promise — born to aged parents, offered on Moriah, and through whom all the covenant blessings of Abraham flow to Jacob and to all nations.',
+    biography: `Isaac was born when Abraham was one hundred years old and Sarah was ninety — both "as good as dead" (Romans 4:19), long past the age of natural childbearing. His birth was the fulfillment of a promise made decades earlier, and the laughter his name commemorates was the laughter of incredulity that became the laughter of joy: "God has made laughter for me; everyone who hears will laugh over me" (Genesis 21:6, ESV).
+
+The supreme crisis of Isaac's life came when God commanded Abraham to offer him as a burnt offering on Mount Moriah (Genesis 22). Isaac, old enough to carry wood up the mountain, old enough to notice the absence of a lamb, old enough to ask the piercing question — "where is the lamb for the burnt offering?" — nonetheless bound himself and lay on the altar. His submission was as complete as Abraham's obedience. At the last moment, the angel of the LORD stayed Abraham's hand, and God provided a ram caught in a thicket — "the LORD will provide" (*Yahweh-Jireh*).
+
+Isaac was forty years old when he married Rebekah (Genesis 25:20), brought to him by Abraham's servant from Mesopotamia. He loved her deeply. For twenty years they were childless; Isaac prayed, and Rebekah conceived twins — Jacob and Esau — who struggled in her womb. God declared before their birth that the older would serve the younger.
+
+Isaac's later years were marked by favoritism (he favored Esau; Rebekah favored Jacob) and deception. When old and blind, he was deceived into blessing Jacob instead of Esau — a deception that grieved him but that God overruled to accomplish His covenant purposes. Isaac lived 180 years, the longest of the three patriarchs, and died at peace, buried by both sons at Machpelah.`,
+    historicalContext: `The archaeological record from the Middle Bronze Age (~2000-1550 BC) confirms many details of patriarchal life: the practice of adoption as an heir, the use of servant-wives to bear children for barren wives (as Hagar was used by Sarah), the custom of deathbed blessings with legal weight, and the grazing patterns of nomadic herdsmen in the Negev region where Isaac primarily dwelled. The binding of Isaac (the Akedah) became one of the most theologically generative narratives in both Jewish and Christian theology.`,
+    keyScriptures: [
+      { reference: 'Genesis 21:1-3', text: 'And the LORD visited Sarah as he had said, and the LORD did unto Sarah as he had spoken. For Sarah conceived, and bare Abraham a son... and Abraham called the name of his son that was born unto him, whom Sarah bare to him, Isaac.', significance: 'The fulfillment of the covenant promise — God keeps His word even when biology says impossible.' },
+      { reference: 'Genesis 22:9-12', text: 'And Abraham... bound Isaac his son, and laid him on the altar upon the wood. And Abraham stretched forth his hand, and took the knife to slay his son. And the angel of the LORD called unto him out of heaven, and said... Lay not thine hand upon the lad.', significance: 'The supreme test — and provision — that prefigures the sacrifice of Christ.' },
+      { reference: 'Romans 4:19-21', text: 'And being not weak in faith, he considered not his own body now dead... neither yet the deadness of Sarah\'s womb: He staggered not at the promise of God through unbelief; but was strong in faith, giving glory to God.', significance: 'Paul uses Isaac\'s miraculous birth as the paradigm case for saving faith that trusts God against all natural evidence.' },
+    ],
+    traits: ['Faithful', 'Patient', 'Contemplative', 'Passive', 'Prayerful', 'Prone to favoritism'],
+    failures: ['Played favorites between his sons — choosing Esau against God\'s revealed word', 'Attempted to bless Esau against the divine oracle', 'Like Abraham, deceived a foreign king about his wife (Genesis 26:7)'],
+    faithLessons: [
+      'The covenant is carried by the child of promise, not the child of natural ability — God\'s sovereign election shapes history.',
+      'Isaac\'s submission on Moriah shows that faith sometimes looks like laying down what we hold most dear.',
+      'God works through human weakness and even family dysfunction to accomplish His purposes.',
+    ],
+    typologyOfChrist: 'Isaac is one of the most direct types of Christ in all of Scripture. The parallels are precise: (1) Isaac\'s birth was supernatural — Christ\'s was virginal; (2) Isaac carried the wood up the mountain — Christ carried His cross; (3) Isaac was bound and "offered" by his father — Christ was offered by His Father (John 3:16); (4) a substitute ram took Isaac\'s place — Christ was the substitute for humanity; (5) Isaac received his life back "from the dead," which Paul calls a type of resurrection (Hebrews 11:19).',
+    theologicalSignificance: 'Isaac is the heir of the Abrahamic covenant — through him the blessing of all nations flows. His miraculous birth establishes the pattern of divine election: God chooses not according to birth order, natural merit, or human expectation, but according to His sovereign promise. Paul uses Isaac extensively in Romans 4 and Galatians 4 to establish the nature of saving faith and the relationship between the covenants.',
+    timeline: [
+      { event: 'Born miraculously to Abraham (age 100) and Sarah (age 90)', reference: 'Genesis 21:1-5', year: '~2066 BC' },
+      { event: 'Bound on Mount Moriah; ram provided as substitute', reference: 'Genesis 22', year: '~2051 BC' },
+      { event: 'Sarah, his mother, dies at age 127', reference: 'Genesis 23', year: '~2029 BC' },
+      { event: 'Marries Rebekah brought from Mesopotamia', reference: 'Genesis 24', year: '~2026 BC' },
+      { event: 'Jacob and Esau born after 20 years of barrenness', reference: 'Genesis 25:20-26', year: '~2006 BC' },
+      { event: 'Deceived into blessing Jacob instead of Esau', reference: 'Genesis 27', year: '~1930 BC' },
+      { event: 'Dies at age 180; buried at Machpelah', reference: 'Genesis 35:28-29', year: '~1886 BC' },
+    ],
+    relationships: ['Abraham (father)', 'Sarah (mother)', 'Rebekah (wife)', 'Jacob and Esau (sons)', 'Ishmael (half-brother)'],
+    relatedCharacters: ['abraham', 'jacob', 'sarah', 'moses'],
+  },
+
+  // ─── JACOB ───────────────────────────────────────────────────────────────
+  {
+    id: 'jacob',
+    name: 'Jacob / Israel',
+    hebrewGreek: 'יַעֲקֹב',
+    transliteration: 'Ya\'akov',
+    nameMeaning: 'He grasps the heel / Supplanter; later renamed Israel: He strives with God',
+    testament: 'OT',
+    category: 'Patriarch',
+    era: 'Patriarchal (~2006–1859 BC)',
+    keyBooks: ['Genesis'],
+    oneLiner: 'The wrestler who became Israel — a schemer transformed by God through suffering, exile, and a midnight encounter at Peniel into the father of the twelve tribes.',
+    biography: `Jacob was born holding the heel of his twin brother Esau — a sign of the striving that would define his life. Even before birth, God declared the elder would serve the younger (Genesis 25:23), but Jacob could not trust God to accomplish this in His own way. He schemed. He bargained Esau\'s birthright for a bowl of lentil stew. He deceived his elderly, blind father Isaac into giving him the patriarchal blessing intended for Esau, with his mother Rebekah\'s complicity. The name *Ya\'akov* — grasper, heel-catcher — was what he was.
+
+The consequences were immediate: Esau vowed to kill him, and Jacob fled to his uncle Laban in Haran, six hundred miles away. On the first night of his flight, at Bethel, he had his famous vision — a stairway reaching heaven, angels ascending and descending, and God standing above it renewing the Abrahamic covenant with him: "I am with you and will watch over you wherever you go" (Genesis 28:15). Jacob woke and said, "Surely the LORD is in this place, and I was not aware of it." He raised the stone he had used as a pillow into a memorial pillar and named the place Bethel — house of God.
+
+At Laban\'s house, the schemer met his match. Jacob worked seven years for Rachel, only to wake after the wedding night to find Leah in his bed. Laban explained: "It is not our custom here to give the younger daughter in marriage before the older one." Jacob worked another seven years for Rachel. For twenty years he was a hired servant in another man\'s household — the exile that God used to break and remake him.
+
+The decisive crisis came at the Jabbok River (Genesis 32). Jacob was returning to face Esau with four hundred armed men, terrified. The night before the meeting, a mysterious man wrestled with him until daybreak — touching his hip socket, leaving him permanently limping, but also giving him a new name: "Your name will no longer be Jacob, but Israel, because you have struggled with God and with humans and have overcome." The *Prince of God* — Israel — was the man that the schemer Jacob became.`,
+    historicalContext: `The ancient Near East world of the second millennium BC practiced the purchase of birthrights, the binding power of paternal deathbed blessings, and the custom of the older sibling preceding the younger in marriage and inheritance. Jacob\'s sojourn in Mesopotamia (the Paddan-Aram region of modern Syria) fits the pattern of semi-nomadic pastoral kinship groups attested in the Mari texts. The twelve tribes of Israel — the organizing structure of the entire Hebrew people — trace directly to Jacob\'s twelve sons from four women: Leah, Rachel, Zilpah, and Bilhah.`,
+    keyScriptures: [
+      { reference: 'Genesis 28:12-15', text: 'And he dreamed, and behold a ladder set up on the earth, and the top of it reached to heaven... And, behold, the LORD stood above it, and said, I am the LORD God of Abraham thy father... I am with thee, and will keep thee in all places whither thou goest.', significance: 'The Bethel vision — God\'s covenant faithfulness extended unconditionally to the exile and the schemer.' },
+      { reference: 'Genesis 32:28', text: 'And he said, Thy name shall be called no more Jacob, but Israel: for as a prince hast thou power with God and with men, and hast prevailed.', significance: 'The Peniel transformation — the scheming Jacob becomes Israel, father of a nation, through wrestling with God.' },
+      { reference: 'Hosea 12:3-4', text: 'He took his brother by the heel in the womb, and by his strength he had power with God: Yea, he had power over the angel, and prevailed.', significance: 'Hosea reflects on Jacob as a model of persistent, passionate prayer — the man who would not let God go without a blessing.' },
+    ],
+    traits: ['Persistent', 'Cunning', 'Passionate', 'Deceptive (early)', 'Faithful (later)', 'Fiercely loving'],
+    failures: ['Deceived Isaac and stole Esau\'s blessing', 'Played favorites among his sons — elevating Joseph, provoking jealousy that led to Joseph\'s betrayal', 'His household tolerated idol worship (Genesis 35:2-4)'],
+    faithLessons: [
+      'God\'s election is not based on human merit — He chose Jacob the schemer and made him Israel the patriarch.',
+      'God often works through suffering and exile to accomplish His transforming purposes.',
+      'The life of prayer is one of wrestling — not passive resignation but earnest, persistent engagement with God.',
+    ],
+    typologyOfChrist: 'Jacob\'s ladder (Genesis 28:12) is explicitly fulfilled in Christ, who tells Nathanael: "You shall see greater things... you will see the heavens opened, and the angels of God ascending and descending on the Son of Man" (John 1:51). Christ is the true ladder — the connection between heaven and earth, between God and humanity, which Jacob only saw in vision.',
+    theologicalSignificance: 'Jacob is the father of the twelve tribes of Israel — the entire ethnic and national structure of the Old Covenant people flows through him. His name "Israel" becomes the name of the people, the land, and the nation. His story is the story of grace: God choosing and transforming the undeserving, the schemer, the second-born, the exile — and making him the vehicle of His covenant purposes.',
+    timeline: [
+      { event: 'Born holding Esau\'s heel; twin to Esau', reference: 'Genesis 25:24-26', year: '~2006 BC' },
+      { event: 'Buys Esau\'s birthright for lentil stew', reference: 'Genesis 25:29-34', year: '' },
+      { event: 'Deceives Isaac; steals Esau\'s blessing; flees to Haran', reference: 'Genesis 27', year: '~1930 BC' },
+      { event: 'Bethel vision — the stairway and God\'s covenant renewal', reference: 'Genesis 28', year: '~1929 BC' },
+      { event: 'Works 14 years for Leah and Rachel; 6 more for flocks', reference: 'Genesis 29-31', year: '~1929–1909 BC' },
+      { event: 'Wrestles with God at Peniel; named Israel', reference: 'Genesis 32', year: '~1909 BC' },
+      { event: 'Reconciles with Esau', reference: 'Genesis 33', year: '~1909 BC' },
+      { event: 'Descends to Egypt with 70 persons; blesses his twelve sons', reference: 'Genesis 46-49', year: '~1876 BC' },
+      { event: 'Dies in Egypt at age 147; buried at Machpelah', reference: 'Genesis 49:33', year: '~1859 BC' },
+    ],
+    relationships: ['Isaac (father)', 'Rebekah (mother)', 'Esau (twin brother)', 'Leah and Rachel (wives)', 'Zilpah and Bilhah (concubines)', 'Twelve sons (the twelve tribes)', 'Laban (uncle and father-in-law)'],
+    relatedCharacters: ['abraham', 'isaac', 'joseph', 'moses'],
+  },
+
+  // ─── SARAH ───────────────────────────────────────────────────────────────
+  {
+    id: 'sarah',
+    name: 'Sarah',
+    hebrewGreek: 'שָׂרָה',
+    transliteration: 'Sarah',
+    nameMeaning: 'Princess / Noblewoman (formerly Sarai — my princess)',
+    testament: 'OT',
+    category: 'Patriarch',
+    era: 'Patriarchal (~2156–2029 BC)',
+    keyBooks: ['Genesis'],
+    oneLiner: 'The mother of all who believe — Abraham\'s wife who laughed at the impossible promise, yet bore Isaac at ninety and became the covenant mother of Israel and the spiritual foremother of all who trust God\'s word.',
+    biography: `Sarah was born as Sarai in Ur of the Chaldees, and was Abraham\'s half-sister as well as his wife (Genesis 20:12). She was renowned for her beauty — so strikingly beautiful that Abraham twice feared foreign kings would kill him to take her, and twice dishonestly described her as only his sister, placing her in peril (Genesis 12:10-20; 20:1-18). Each time God protected her.
+
+The defining reality of Sarah\'s early years was barrenness. In a culture where a woman\'s worth was measured by her children, Sarah had none. She grew old with Abraham through seventy-five years of marriage and multiple covenant promises — and remained childless. Her barrenness was not incidental but deliberate in God\'s economy: the child of promise would not be born of natural ability.
+
+Sarah\'s intervention — giving Abraham her Egyptian maidservant Hagar to bear a child on her behalf (Genesis 16) — was culturally accepted practice but theologically disastrous. Hagar conceived and despised her mistress; Sarah, feeling humiliated, treated Hagar harshly until Hagar fled. The rivalry between Hagar and Sarah, and between Ishmael and Isaac, became a template for conflict that echoes through biblical history.
+
+When God appeared to Abraham at the oaks of Mamre and announced that Sarah would bear a son within a year, Sarah — listening at the tent door — laughed to herself: "After I am worn out and my lord is old, will I now have this pleasure?" God heard and replied: "Is anything too hard for the LORD?" (Genesis 18:12-14). It was the laugh of incredulity. But one year later, she laughed again — the laugh of joy: "God has brought me laughter, and everyone who hears about this will laugh with me" (Genesis 21:6).
+
+Sarah died at 127 — the only woman in Scripture whose age at death is recorded — and Abraham wept for her and negotiated the purchase of the cave of Machpelah as her burial site.`,
+    historicalContext: `In the ancient Near East, a barren wife\'s legal option to provide a slave-woman to bear children for her husband is well-attested in the Nuzi tablets (~1500 BC) and similar legal texts, confirming the cultural background of Sarah\'s action with Hagar. The purchase of Machpelah (Genesis 23) is the most legally detailed transaction in Genesis, reflecting Hittite property law and establishing the patriarchs\' permanent stake in the Promised Land.`,
+    keyScriptures: [
+      { reference: 'Genesis 18:13-14', text: 'And the LORD said unto Abraham, Wherefore did Sarah laugh, saying, Shall I of a surety bear a child, which am old? Is any thing too hard for the LORD?', significance: 'The rhetorical question that anchors all biblical faith — divine omnipotence renders all natural impossibilities irrelevant.' },
+      { reference: 'Hebrews 11:11', text: 'Through faith also Sara herself received strength to conceive seed, and was delivered of a child when she was past age, because she judged him faithful who had promised.', significance: 'Sarah\'s name appears in the faith hall of fame — her faith was genuine, even if mixed with laughter and doubt.' },
+      { reference: '1 Peter 3:6', text: 'Even as Sara obeyed Abraham, calling him lord: whose daughters ye are, as long as ye do well, and are not afraid with any amazement.', significance: 'Peter holds Sarah as a model for Christian women — her life of covenant faithfulness is a pattern for all who follow.' },
+    ],
+    traits: ['Beautiful', 'Strong-willed', 'Faithful (ultimately)', 'Impatient', 'Protective of Isaac', 'Hospitable'],
+    failures: ['Gave Hagar to Abraham out of impatience rather than faith', 'Laughed at God\'s promise', 'Harshly mistreated Hagar when Hagar became pregnant', 'Denied laughing when confronted by God'],
+    faithLessons: [
+      'Faith does not require perfect absence of doubt — Sarah laughed, yet is called faithful in Hebrews 11.',
+      'Human "solutions" to God\'s timing (Hagar) often create problems that outlast the original difficulty.',
+      '"Is anything too hard for the LORD?" is the answer to every circumstance that seems beyond hope.',
+    ],
+    typologyOfChrist: 'Sarah represents the "Jerusalem above" — the free woman and the covenant of grace, as Paul argues in Galatians 4:22-31. Isaac, her miraculous child, is the child of promise — born not of human effort but of the Spirit, a type of Christ and of all who are born again by the Spirit\'s work rather than human striving.',
+    theologicalSignificance: 'Sarah is the mother of the covenant line — without her, there is no Isaac, no Jacob, no twelve tribes, no David, no Christ. Her barrenness and miraculous conception establish the pattern that runs throughout redemptive history: God\'s purposes are carried by those whom the world would count as unable — the barren, the weak, the past-their-time. The same God who opened Sarah\'s womb would open a virgin\'s womb in Bethlehem.',
+    timeline: [
+      { event: 'Born in Ur; married to Abram as Sarai', year: '~2156 BC' },
+      { event: 'Called with Abraham to leave Ur for Canaan', reference: 'Genesis 12:1-5', year: '~2091 BC' },
+      { event: 'In Egypt; taken into Pharaoh\'s household; God intervenes', reference: 'Genesis 12:10-20', year: '~2081 BC' },
+      { event: 'Gives Hagar to Abraham; Ishmael born', reference: 'Genesis 16', year: '~2080 BC' },
+      { event: 'Renamed from Sarai to Sarah; promise of Isaac renewed', reference: 'Genesis 17:15', year: '~2067 BC' },
+      { event: 'Hears the angel\'s promise; laughs; conception follows', reference: 'Genesis 18', year: '~2067 BC' },
+      { event: 'Isaac born at age 90', reference: 'Genesis 21:1-3', year: '~2066 BC' },
+      { event: 'Dies at 127 in Kiriath-arba; buried at Machpelah', reference: 'Genesis 23', year: '~2029 BC' },
+    ],
+    relationships: ['Abraham (husband and half-brother)', 'Isaac (son)', 'Hagar (maidservant)', 'Ishmael (Hagar\'s son by Abraham)'],
+    relatedCharacters: ['abraham', 'isaac', 'jacob', 'hagar'],
+  },
+
+  // ─── HANNAH ──────────────────────────────────────────────────────────────
+  {
+    id: 'hannah',
+    name: 'Hannah',
+    hebrewGreek: 'חַנָּה',
+    transliteration: 'Channah',
+    nameMeaning: 'Grace / Favor',
+    testament: 'OT',
+    category: 'Prophet',
+    era: 'Pre-Monarchic Israel (~1100–1070 BC)',
+    keyBooks: ['1 Samuel'],
+    oneLiner: 'A barren woman whose anguished prayer at Shiloh became one of Scripture\'s greatest models of desperate, specific, persistent intercession — and whose answer was Samuel, the last judge and kingmaker of Israel.',
+    biography: `Hannah was one of two wives of Elkanah of Ramathaim-Zophim from the tribe of Ephraim. The other wife, Peninnah, had children; Hannah had none. Peninnah used this advantage cruelly, provoking Hannah year after year at the annual pilgrimage to Shiloh, until Hannah wept and could not eat.
+
+At Shiloh, in a condition of deep distress, Hannah prayed to the LORD with bitter weeping, making a vow: "O LORD of Hosts, if you will indeed look on the affliction of your servant and remember me and not forget your servant, but will give to your servant a son, then I will give him to the LORD all the days of his life, and no razor shall touch his head" (1 Samuel 1:11). The high priest Eli saw her lips moving without sound and assumed she was drunk. She corrected him with dignity: "I am a woman troubled in spirit... I have been pouring out my soul before the LORD." Eli blessed her.
+
+Hannah conceived and bore Samuel — which she understood as divine "remembrance" (1 Samuel 1:19). She kept her vow. When Samuel was weaned (perhaps three years old), she brought him to Shiloh and gave him to Eli for lifelong service in the sanctuary. Her prayer of thanksgiving in 1 Samuel 2:1-10 is one of Scripture\'s great hymns — a prophetic poem about God\'s reversal of human fortunes, His exaltation of the humble and humiliation of the proud. Mary\'s Magnificat (Luke 1:46-55) is almost a New Testament echo of Hannah\'s prayer.
+
+Hannah subsequently had five more children (1 Samuel 2:21), and visited Samuel annually, bringing him a little robe she had made.`,
+    historicalContext: `Polygamy in ancient Israel, though not God\'s ideal, was common and legally regulated. The rivalry between a fertile and a barren co-wife was a painful social reality; barrenness carried deep shame in a culture where progeny was both economic security and covenant blessing. Shiloh was Israel\'s central sanctuary during the period of the judges, housing the Ark of the Covenant. The Nazirite vow Hannah made for Samuel — dedication from birth, no razor on his head — placed him in the same category as Samson and John the Baptist.`,
+    keyScriptures: [
+      { reference: '1 Samuel 1:11', text: 'O LORD of hosts, if thou wilt indeed look on the affliction of thine handmaid, and remember me... and wilt give unto thine handmaid a man child, then I will give him unto the LORD all the days of his life.', significance: 'The model of specific, sacrificial, vow-driven intercession — Hannah asks for what she is willing to give away.' },
+      { reference: '1 Samuel 2:1-2', text: 'And Hannah prayed, and said, My heart rejoiceth in the LORD, mine horn is exalted in the LORD... There is none holy as the LORD: for there is none beside thee: neither is there any rock like our God.', significance: 'Hannah\'s prophetic hymn of praise — a theological masterpiece about God\'s sovereignty over human fortunes.' },
+    ],
+    traits: ['Prayerful', 'Persistent', 'Sacrificial', 'Faithful to her vow', 'Prophetic', 'Gentle in dignity'],
+    failures: ['Deep personal grief sometimes overwhelmed her to the point of not eating — though this was human, not sinful'],
+    faithLessons: [
+      'Specific, honest, desperate prayer moves God — Hannah did not offer polite generalities but poured out her soul.',
+      'True faith is willing to give to God what it asks from God — Hannah vowed to return the very gift she requested.',
+      'God uses barrenness, suffering, and seasons of waiting to accomplish His largest purposes.',
+    ],
+    typologyOfChrist: 'Hannah\'s prayer in 1 Samuel 2 is one of the earliest prototypes of the New Testament theology of reversal. Mary\'s Magnificat echoes it line by line. Both women — one in the pre-monarchic period, one at the dawn of the new covenant — celebrate the same God who pulls down the mighty and raises the lowly (Luke 1:52). Hannah\'s son Samuel anointed the first two kings of Israel; the Spirit resting on Mary\'s Son would establish the eternal kingdom.',
+    theologicalSignificance: 'Hannah\'s story establishes several foundational theological patterns: (1) God hears the prayers of the oppressed and overlooked; (2) children are gifts from God, not achievements of human biology; (3) what is given to God in faith is returned multiplied; (4) the birth of a child can turn the tide of redemptive history. Samuel, Hannah\'s answer to prayer, anointed both Saul and David — shaping the entire monarchic period.',
+    timeline: [
+      { event: 'Endures years of barrenness and Peninnah\'s provocation', year: '~1110–1100 BC' },
+      { event: 'Prays at Shiloh; vows to give any son to the LORD', reference: '1 Samuel 1:9-11', year: '~1105 BC' },
+      { event: 'Conceives and bears Samuel', reference: '1 Samuel 1:19-20', year: '~1105 BC' },
+      { event: 'Weans Samuel; brings him to Eli at Shiloh', reference: '1 Samuel 1:24-28', year: '~1102 BC' },
+      { event: 'Offers her great prophetic prayer of thanksgiving', reference: '1 Samuel 2:1-10', year: '~1102 BC' },
+      { event: 'Bears five more children; visits Samuel annually', reference: '1 Samuel 2:21', year: '~1101–1090 BC' },
+    ],
+    relationships: ['Elkanah (husband)', 'Peninnah (co-wife)', 'Samuel (son)'],
+    relatedCharacters: ['samuel', 'eli', 'david'],
+  },
+
+  // ─── ELISHA ──────────────────────────────────────────────────────────────
+  {
+    id: 'elisha',
+    name: 'Elisha',
+    hebrewGreek: 'אֱלִישָׁע',
+    transliteration: 'Elisha',
+    nameMeaning: 'My God is salvation',
+    testament: 'OT',
+    category: 'Prophet',
+    era: 'Divided Monarchy (~850–795 BC)',
+    keyBooks: ['1 Kings', '2 Kings'],
+    oneLiner: 'Elijah\'s fiery successor — the prophet of grace who performed twice as many miracles as his mentor, ministering to the poor and sick with remarkable tenderness and to Israel\'s enemies with surprising compassion.',
+    biography: `Elisha was plowing with twelve yoke of oxen when Elijah found him and threw his cloak over him — the silent but unmistakable call to prophetic succession (1 Kings 19:19). Without delay, Elisha slaughtered his oxen, burned his plowing equipment (burning his bridges), and followed. When Elijah was taken to heaven in a whirlwind, Elisha asked for a double portion of Elijah\'s spirit — and received it, as indicated by the fact that he performed approximately twice as many miracles as Elijah.
+
+Elisha\'s ministry was defined by grace and accessibility. Where Elijah was often solitary and confrontational — the lone prophet on Mount Carmel — Elisha lived among the "sons of the prophets" (prophetic communities) and circulated widely among ordinary people. He purified a poisoned spring (2 Kings 2:19-22), multiplied a widow\'s oil to pay her debts (2 Kings 4:1-7), raised the Shunammite\'s son from the dead (2 Kings 4:18-37), healed a pot of poisonous stew (2 Kings 4:38-41), fed a hundred men with twenty loaves (2 Kings 4:42-44 — remarkably similar to Jesus\'s feeding of multitudes), and healed Naaman the Syrian general of leprosy (2 Kings 5).
+
+The Naaman episode is particularly striking: a foreign enemy commander, of a nation that oppressed Israel, came seeking healing. Elisha sent his servant with instructions — wash seven times in the Jordan. Naaman, expecting a dramatic performance, was insulted. His servants persuaded him. He obeyed. He was cleansed. He confessed: "Behold, I know that there is no God in all the earth except in Israel" (2 Kings 5:15). Jesus would later hold up Naaman as evidence that God\'s grace crosses ethnic and national boundaries (Luke 4:27).`,
+    historicalContext: `Elisha\'s ministry (~850-795 BC) spanned the reigns of Jehoram, Jehu, Jehoahaz, and Joash in the northern kingdom of Israel — a period of Aramean (Syrian) military pressure and internal spiritual apostasy. The "sons of the prophets" communities Elisha mentored were centers of prophetic training and covenant faithfulness in a hostile religious environment.`,
+    keyScriptures: [
+      { reference: '2 Kings 2:9', text: 'And Elisha said, I pray thee, let a double portion of thy spirit be upon me.', significance: 'Elisha\'s bold request — asking not for comfort or safety but for the fullness of the prophetic spirit.' },
+      { reference: '2 Kings 5:1', text: 'Now Naaman, captain of the host of the king of Syria, was a great man with his master... but he was a leper.', significance: 'The paradox that sets up the greatest individual healing in the OT — "a great man... but." Human greatness leaves the one problem God alone can solve.' },
+      { reference: '2 Kings 13:21', text: 'And it came to pass, as they were burying a man, that, behold, they spied a band of men; and they cast the man into the sepulchre of Elisha: and when the man was let down, and touched the bones of Elisha, he revived, and stood up on his feet.', significance: 'Even Elisha\'s dead bones had life-giving power — foreshadowing resurrection and pointing forward to Christ\'s resurrection power.' },
+    ],
+    traits: ['Compassionate', 'Bold', 'Accessible', 'Merciful to enemies', 'Miracle-working', 'Persistent in faith'],
+    failures: ['His servant Gehazi\'s greed (2 Kings 5:20-27) reflects poorly on Elisha\'s household management, though Elisha himself pronounced judgment on Gehazi'],
+    faithLessons: [
+      'Ministry effectiveness is not only in dramatic confrontations but in consistent, compassionate service to ordinary people.',
+      'God\'s grace crosses national, ethnic, and religious lines — Naaman the Syrian was healed when Israelites often were not.',
+      'The double portion of the Spirit is available to those who are willing to ask boldly and follow faithfully.',
+    ],
+    typologyOfChrist: 'Elisha\'s ministry foreshadows Christ\'s in striking ways: (1) multiplying food for multitudes; (2) raising the dead (the Shunammite\'s son — cf. Lazarus, Jairus\'s daughter); (3) healing leprosy (Naaman — cf. the ten lepers of Luke 17); (4) Jesus himself referred to Naaman\'s healing as a precedent for His ministry beyond Israel (Luke 4:27). Luke uses Elisha as a template for understanding Jesus\'s Galilean ministry.',
+    theologicalSignificance: 'Elisha represents the grace of God extended beyond Israel\'s borders — a recurrent biblical theme that points toward the universal scope of the gospel. His miraculous ministry demonstrates that God is not limited by geography, ethnicity, or human expectation. His bones raising the dead (2 Kings 13:21) are a vivid illustration of the principle that God\'s power is not extinguished by death.',
+    timeline: [
+      { event: 'Called by Elijah while plowing — burns his oxen and follows', reference: '1 Kings 19:19-21', year: '~850 BC' },
+      { event: 'Witnesses Elijah\'s translation; receives double portion', reference: '2 Kings 2:11-14', year: '~850 BC' },
+      { event: 'Purifies the spring at Jericho; curses mockers at Bethel', reference: '2 Kings 2:19-24', year: '~849 BC' },
+      { event: 'Multiplies the widow\'s oil', reference: '2 Kings 4:1-7', year: '~848 BC' },
+      { event: 'Raises the Shunammite\'s son from the dead', reference: '2 Kings 4:32-37', year: '~847 BC' },
+      { event: 'Heals Naaman the Syrian of leprosy', reference: '2 Kings 5', year: '~845 BC' },
+      { event: 'Causes iron axe head to float', reference: '2 Kings 6:1-7', year: '' },
+      { event: 'Sees the heavenly host protecting Dothan', reference: '2 Kings 6:15-17', year: '' },
+      { event: 'Dies of illness; his bones raise a dead man', reference: '2 Kings 13:14-21', year: '~795 BC' },
+    ],
+    relationships: ['Elijah (mentor)', 'Gehazi (servant)', 'The Shunammite woman (ministry recipient)', 'Naaman (healed foreign general)'],
+    relatedCharacters: ['elijah', 'samuel', 'isaiah', 'jeremiah'],
+  },
+
+  // ─── JEREMIAH ────────────────────────────────────────────────────────────
+  {
+    id: 'jeremiah',
+    name: 'Jeremiah',
+    hebrewGreek: 'יִרְמְיָהוּ',
+    transliteration: 'Yirmeyahu',
+    nameMeaning: 'The LORD exalts / The LORD throws / Appointed by the LORD',
+    testament: 'OT',
+    category: 'Prophet',
+    era: 'Late Monarchy / Exile (~627–585 BC)',
+    keyBooks: ['Jeremiah', 'Lamentations'],
+    oneLiner: 'The weeping prophet — called from youth to deliver a message no one wanted to hear for forty years, imprisoned, threatened, and rejected, yet who prophesied the New Covenant that Christ would fulfill.',
+    biography: `Jeremiah was called to be a prophet while still a youth, probably in his teens, in the thirteenth year of King Josiah (627 BC). His protest — "Ah, Lord GOD! Behold, I do not know how to speak, for I am only a youth" — was met with God\'s absolute commission and promise: "I knew you before I formed you in the womb; I set you apart before you were born; I appointed you as a prophet to the nations" (Jeremiah 1:5-6).
+
+For forty years, Jeremiah preached to a nation that refused to listen. Judah\'s idolatry, injustice, and false confidence in the Temple ("the temple of the LORD, the temple of the LORD" — Jeremiah 7:4) made repentance seem impossible. Jeremiah was forbidden to marry (a sign of the judgment coming), forbidden to mourn with the mourning or feast with the feasting — his entire life was a living sermon. He proclaimed the coming Babylonian invasion not as random catastrophe but as the covenant curse of Deuteronomy 28 — the consequence of persistent covenant-breaking.
+
+For this, he was beaten and put in stocks (Jeremiah 20:1-3), imprisoned in a dungeon (Jeremiah 37-38), lowered into a muddy cistern and left to die (Jeremiah 38:6), and repeatedly threatened with death. His "confessions" — raw, anguished prayers interspersed throughout the book — reveal a man at the breaking point: "Cursed be the day on which I was born!" (20:14). He wrestled with God\'s apparent silence while he suffered for faithfulness.
+
+Yet Jeremiah also wrote the New Covenant prophecy (Jeremiah 31:31-34) — the most theologically significant covenant announcement in the Old Testament: "I will put my law within them, and I will write it on their hearts." It is this covenant that Jesus announces at the Last Supper: "This cup is the new covenant in my blood" (Luke 22:20). Jeremiah, the prophet of tears, is the prophet of new beginnings.`,
+    historicalContext: `Jeremiah ministered through five kings: Josiah (the last good king), Jehoahaz (3 months), Jehoiakim (who burned Jeremiah\'s scroll — Jeremiah 36), Jehoiachin (3 months), and Zedekiah (who vacillated between listening to Jeremiah and imprisoning him). The period culminated in the Babylonian destruction of Jerusalem in 586 BC. After the fall, Jeremiah was offered freedom by Nebuchadnezzar but chose to remain with the remaining community in Judah, eventually being taken against his will to Egypt (Jeremiah 43).`,
+    keyScriptures: [
+      { reference: 'Jeremiah 1:5', text: 'Before I formed thee in the belly I knew thee; and before thou camest forth out of the womb I sanctified thee, and I ordained thee a prophet unto the nations.', significance: 'The foundational statement of divine foreknowledge, election, and calling — applicable to all believers, not only Jeremiah.' },
+      { reference: 'Jeremiah 31:31-33', text: 'Behold, the days come, saith the LORD, that I will make a new covenant with the house of Israel... I will put my law in their inward parts, and write it in their hearts; and will be their God, and they shall be my people.', significance: 'The New Covenant prophecy — the most important covenant announcement since Sinai, fulfilled in Christ and the new birth.' },
+      { reference: 'Jeremiah 29:11', text: 'For I know the thoughts that I think toward you, saith the LORD, thoughts of peace, and not of evil, to give you an expected end.', significance: 'God\'s word of hope to exiles — often misapplied but correctly understood as God\'s sovereign care for His people in suffering.' },
+    ],
+    traits: ['Sensitive', 'Courageous under fire', 'Emotionally honest', 'Theologically deep', 'Persistent', 'Compassionate'],
+    failures: ['Moments of despair in which he questioned his calling and even his birth', 'At times challenged God\'s justice in ways that bordered on accusation (Jeremiah 12:1; 20:7)'],
+    faithLessons: [
+      'Faithfulness is not measured by visible results — Jeremiah preached for forty years with minimal visible response, yet was faithful.',
+      'God\'s call precedes human ability, experience, and self-assessment — "I knew you before I formed you."',
+      'Honest, anguished prayer is not faithlessness — the confessions of Jeremiah show that God welcomes raw spiritual honesty.',
+    ],
+    typologyOfChrist: 'Jeremiah is often called the weeping prophet who most closely prefigures the suffering Messiah. Like Christ: (1) he was appointed before birth; (2) he was rejected by his own people and even his hometown (Jeremiah 12:6; cf. John 1:11); (3) he was persecuted by religious leaders and government; (4) he prophesied the destruction of the Temple and city; (5) he wept over Jerusalem (Lamentations). Some in Jesus\'s day thought He might be Jeremiah returned (Matthew 16:14).',
+    theologicalSignificance: 'Jeremiah\'s New Covenant prophecy (31:31-34) is the most cited Old Testament text in the New Testament letter to the Hebrews. It establishes that the Mosaic covenant was always provisional and designed to be superseded by a better covenant — one based on internal transformation (heart-writing of the law), full forgiveness ("I will remember their sin no more"), and direct knowledge of God for all covenant members, not just the priesthood.',
+    timeline: [
+      { event: 'Called as a youth to be a prophet during Josiah\'s reign', reference: 'Jeremiah 1', year: '627 BC' },
+      { event: 'Temple sermon — denounces false confidence in the Temple', reference: 'Jeremiah 7', year: '~609 BC' },
+      { event: 'Beaten and put in stocks by Pashhur the priest', reference: 'Jeremiah 20:1-3', year: '~605 BC' },
+      { event: 'Dictates his prophecies to Baruch; Jehoiakim burns the scroll', reference: 'Jeremiah 36', year: '~605 BC' },
+      { event: 'New Covenant prophecy', reference: 'Jeremiah 31:31-34', year: '~590 BC' },
+      { event: 'Imprisoned by Zedekiah; lowered into a cistern', reference: 'Jeremiah 37-38', year: '~588 BC' },
+      { event: 'Jerusalem falls to Babylon; Temple destroyed', reference: 'Jeremiah 39', year: '586 BC' },
+      { event: 'Chooses to remain in Judah; later taken to Egypt against his will', reference: 'Jeremiah 40-43', year: '~585 BC' },
+    ],
+    relationships: ['Hilkiah (father, a priest)', 'Baruch (secretary and companion)', 'King Josiah (under whom he began)', 'King Zedekiah (who both feared and imprisoned him)', 'Ebed-Melech (Ethiopian official who rescued him from the cistern)'],
+    relatedCharacters: ['isaiah', 'ezekiel', 'daniel', 'moses'],
+  },
+
+  // ─── JONAH ───────────────────────────────────────────────────────────────
+  {
+    id: 'jonah',
+    name: 'Jonah',
+    hebrewGreek: 'יוֹנָה',
+    transliteration: 'Yonah',
+    nameMeaning: 'Dove',
+    testament: 'OT',
+    category: 'Prophet',
+    era: 'Divided Monarchy (~785–775 BC)',
+    keyBooks: ['Jonah', '2 Kings 14:25'],
+    oneLiner: 'The reluctant prophet who fled God\'s call, was swallowed by a great fish, and was given a second chance — only to resent the very grace he had received when Nineveh repented.',
+    biography: `Jonah son of Amittai was a prophet from Gath-hepher in the territory of Zebulun (northern Israel), mentioned briefly in 2 Kings 14:25 as a prophet who predicted Israel\'s territorial expansion under Jeroboam II. His book is unique in the prophetic canon — it is not primarily a collection of prophetic oracles but a narrative about a prophet\'s failure and God\'s relentless mercy.
+
+When God commanded Jonah to go east to Nineveh (capital of Assyria, Israel\'s most feared enemy) and preach judgment, Jonah went west — boarding a ship at Joppa bound for Tarshish (likely modern Spain). He was running from God. A great storm threatened the ship; the sailors prayed to their gods while Jonah slept below deck. When the lot fell on Jonah and he confessed his flight from God, he told the sailors to throw him overboard. They did, reluctantly. The sea calmed. The sailors offered sacrifices to the LORD.
+
+God appointed a great fish to swallow Jonah. For three days and three nights he was inside the fish. From its belly he prayed — a remarkable psalm of distress and deliverance (Jonah 2). Then the fish vomited him out on dry land.
+
+The second call came — same message, same city. This time Jonah went. Nineveh — "a great city, a three-days\' journey in breadth" — heard his five-word message ("Yet forty days and Nineveh shall be overthrown!") and repented from the king to the commoner. Sackcloth and ashes. God relented of the judgment. And Jonah was furious: "O LORD, is not this what I said when I was yet in my country? That is why I made haste to flee to Tarshish; for I knew that you are a gracious God and merciful, slow to anger and abounding in steadfast love, and relenting from disaster" (Jonah 4:2).
+
+The book ends with God\'s gentle but penetrating question — "Should I not pity Nineveh, that great city?" — and no record of Jonah\'s answer. The reader is left to supply it.`,
+    historicalContext: `Nineveh was the capital of Assyria, the empire that would eventually destroy the northern kingdom of Israel in 722 BC. For Jonah to preach to Nineveh was the equivalent of a Jewish prophet preaching to Nazi Germany during World War II. His reluctance was not merely personal cowardice but national and political: if Nineveh repented and was spared, it could survive to destroy Israel — which it eventually did.`,
+    keyScriptures: [
+      { reference: 'Jonah 1:3', text: 'But Jonah rose up to flee unto Tarshish from the presence of the LORD, and went down to Joppa.', significance: 'The paradigm of human flight from divine calling — and the impossibility of outrunning God.' },
+      { reference: 'Jonah 4:2', text: 'I knew that thou art a gracious God, and merciful, slow to anger, and of great kindness, and repentest thee of the evil.', significance: 'Jonah\'s extraordinary prayer — he fled God\'s call because he knew God was too merciful; his theology was right but his response was wrong.' },
+      { reference: 'Matthew 12:40-41', text: 'For as Jonas was three days and three nights in the whale\'s belly; so shall the Son of man be three days and three nights in the heart of the earth. The men of Nineveh shall rise in judgment with this generation, and shall condemn it: because they repented at the preaching of Jonas; and, behold, a greater than Jonas is here.', significance: 'Jesus confirms the historicity of Jonah and makes his experience in the fish the sign of His own death and resurrection.' },
+    ],
+    traits: ['Bold in prayer (eventually)', 'Theologically astute', 'Reluctant', 'Nationalistic', 'Honest about his sin (to the sailors)', 'Petulant'],
+    failures: ['Fled God\'s direct command — the most explicit act of prophetic disobedience in the Old Testament', 'After Nineveh\'s repentance, preferred the city\'s destruction over God\'s mercy', 'Pouted over a plant\'s death while being indifferent to 120,000 people'],
+    faithLessons: [
+      'God\'s mercy extends beyond our theological and national categories — He loves those we consider enemies.',
+      'You cannot outrun God\'s calling — the "great fish" of circumstance will redirect the runaway.',
+      'Grudging obedience still accomplishes God\'s purposes — even Jonah\'s reluctant preaching moved a city to repentance.',
+    ],
+    typologyOfChrist: 'Jesus directly identified Jonah\'s three days in the fish as a type of His own burial and resurrection (Matthew 12:40). As Jonah emerged from the "death" of the fish\'s belly to preach to Gentiles, Christ emerged from the tomb to commission his disciples to preach to all nations. The sign of Jonah — death, burial, resurrection, and the preaching that follows — is the sign of the entire gospel.',
+    theologicalSignificance: 'Jonah establishes that God\'s salvation extends to the Gentiles — "salvation is of the LORD" (Jonah 2:9). The book deconstructs Israelite exclusivism and is one of the most important Old Testament witnesses to the universality of divine grace. It is notable that the sailors and the Ninevites respond in faith while the prophet sulks — a reversal that anticipates the New Testament\'s pattern of Gentile receptivity and Jewish resistance.',
+    timeline: [
+      { event: 'Serves as prophet in northern Israel under Jeroboam II', reference: '2 Kings 14:25', year: '~785 BC' },
+      { event: 'Called to preach to Nineveh; boards ship to Tarshish instead', reference: 'Jonah 1:1-3', year: '~775 BC' },
+      { event: 'Storm; cast overboard; swallowed by a great fish', reference: 'Jonah 1:4-17', year: '~775 BC' },
+      { event: 'Prays from the fish\'s belly; vomited onto land after three days', reference: 'Jonah 2', year: '~775 BC' },
+      { event: 'Preaches to Nineveh; the city repents en masse', reference: 'Jonah 3', year: '~775 BC' },
+      { event: 'Angry at God\'s mercy; the vine and the worm', reference: 'Jonah 4', year: '~775 BC' },
+    ],
+    relationships: ['Amittai (father)', 'The sailors (whom he influenced to fear the LORD)', 'The king of Nineveh (who heard and repented)'],
+    relatedCharacters: ['elijah', 'elisha', 'isaiah', 'jeremiah'],
+  },
+
+  // ─── HEZEKIAH ────────────────────────────────────────────────────────────
+  {
+    id: 'hezekiah',
+    name: 'Hezekiah',
+    hebrewGreek: 'חִזְקִיָּהוּ',
+    transliteration: 'Hizkiyahu',
+    nameMeaning: 'Strength of the LORD / The LORD strengthens',
+    testament: 'OT',
+    category: 'King / Poet / Sage',
+    era: 'Divided Monarchy (~715–686 BC)',
+    keyBooks: ['2 Kings', '2 Chronicles', 'Isaiah'],
+    oneLiner: 'Judah\'s most faithful king since David — who purged idolatry, reopened the Temple, and trusted God alone against the Assyrian siege, and whose prayer turned a death sentence into fifteen more years of life.',
+    biography: `Hezekiah came to the throne at twenty-five and reigned twenty-nine years in Jerusalem. The Bible\'s assessment is unequivocal: "He trusted in the LORD the God of Israel, so that there was none like him among all the kings of Judah after him, nor among those who were before him. For he held fast to the LORD. He did not depart from following him, but kept the commandments that the LORD commanded Moses" (2 Kings 18:5-6).
+
+In the first year of his reign, Hezekiah reopened and cleansed the Temple (closed by his wicked father Ahaz), restored the Levitical priesthood, reinstituted the Passover (the first celebrated since Solomon\'s day — 2 Chronicles 30:26), and tore down the high places and broke the bronze serpent (Nehushtan) that Moses had made, because Israel had begun burning incense to it. He reformed Judah\'s worship comprehensively.
+
+His greatest test came when Sennacherib of Assyria invaded and sent his field commander (the Rabshakeh) to the walls of Jerusalem with a psychological warfare campaign: "Has any god of any nation or kingdom been able to deliver his land out of my hand? Who among all the gods of these countries have delivered their countries out of my hand, that the LORD should deliver Jerusalem out of my hand?" (2 Chronicles 32:15). Hezekiah\'s response was to spread the threatening letter before the LORD in the Temple and pray. Isaiah delivered God\'s answer: Sennacherib would not enter the city. That night, the angel of the LORD struck 185,000 Assyrian soldiers dead. Jerusalem was spared.
+
+When told by Isaiah that he would die from his illness, Hezekiah prayed and wept bitterly. God granted him fifteen more years. Yet those extra years saw him make a diplomatic blunder — showing Babylonian envoys all the treasures of his palace — which Isaiah warned would eventually be carried to Babylon (Isaiah 39). Pride crept in where trust had been.`,
+    historicalContext: `The Assyrian crisis of 701 BC is the best-documented event in biblical history with external confirmation. Sennacherib\'s Prism (held in the Oriental Institute, Chicago) records his campaign against Judah: "As to Hezekiah the Jew, I shut him up like a bird in a cage in his royal city Jerusalem." Significantly, Sennacherib never records capturing Jerusalem — consistent with the biblical account of his sudden withdrawal.`,
+    keyScriptures: [
+      { reference: '2 Kings 19:14-15', text: 'And Hezekiah received the letter from the hand of the messengers, and read it: and Hezekiah went up into the house of the LORD, and spread it before the LORD. And Hezekiah prayed before the LORD.', significance: 'The supreme act of covenant faith — bringing the enemy\'s threats directly to God in prayer, trusting Him as sovereign.' },
+      { reference: '2 Kings 19:35', text: 'And it came to pass that night, that the angel of the LORD went out, and smote in the camp of the Assyrians an hundred fourscore and five thousand: and when they arose early in the morning, behold, they were all dead corpses.', significance: 'God\'s direct intervention in history — the fulfillment of Hezekiah\'s prayer and Isaiah\'s prophecy in a single night.' },
+    ],
+    traits: ['Courageous in crisis', 'Prayerful', 'Reforming', 'Trusting', 'Sometimes proud', 'Compassionate to all Israel (invited northern tribes to Passover)'],
+    failures: ['Showed Babylonian envoys all his treasury — pride that Isaiah warned would lead to exile', 'His response to the prophecy of Babylonian captivity ("At least there will be peace in my time" — 2 Kings 20:19) reveals disturbing self-centeredness'],
+    faithLessons: [
+      'Spreading your problems before the LORD (2 Kings 19:14) is the model of trusting prayer in crisis.',
+      'Revival and reformation are possible even after long periods of apostasy — one faithful leader can turn a nation.',
+      'Even great faith can be followed by pride — constant self-examination is necessary for every believer.',
+    ],
+    typologyOfChrist: 'Hezekiah\'s healing and extension of life points to Christ\'s resurrection. His removal of the bronze serpent (Nehushtan) echoes the lifting up of the serpent in the wilderness that Jesus identifies as a type of His own crucifixion (John 3:14-15). Hezekiah\'s prayer that God defend Jerusalem "for your own sake and for the sake of David your servant" (2 Kings 19:34) anticipates the intercession of David\'s greater son.',
+    theologicalSignificance: 'Hezekiah stands as the paradigm of the believing king who trusts God in impossible circumstances. His reign demonstrates that national renewal is possible through covenant faithfulness, prayer, and the removal of idolatry. His encounter with Sennacherib\'s siege is one of Scripture\'s clearest demonstrations that "with God, one plus one is enough" — that the visible army of human empire is no match for the invisible army of heaven.',
+    timeline: [
+      { event: 'Becomes king at age 25; immediately cleanses the Temple', reference: '2 Kings 18:1-4', year: '715 BC' },
+      { event: 'Celebrates Passover for all Israel — first time since Solomon', reference: '2 Chronicles 30', year: '715 BC' },
+      { event: 'Northern kingdom of Israel falls to Assyria', reference: '2 Kings 17', year: '722 BC' },
+      { event: 'Sennacherib invades Judah; Hezekiah pays tribute but Jerusalem is besieged', reference: '2 Kings 18:13-17', year: '701 BC' },
+      { event: 'Rabshakeh\'s psychological warfare; Hezekiah spreads the letter before the LORD', reference: '2 Kings 19', year: '701 BC' },
+      { event: 'Angel of the LORD strikes 185,000 Assyrians dead', reference: '2 Kings 19:35', year: '701 BC' },
+      { event: 'Terminally ill; prays; God grants 15 more years', reference: '2 Kings 20:1-6', year: '701 BC' },
+      { event: 'Shows Babylonian envoys his treasury; Isaiah warns of future exile', reference: '2 Kings 20:12-19', year: '700 BC' },
+      { event: 'Dies after 29-year reign', reference: '2 Kings 20:21', year: '686 BC' },
+    ],
+    relationships: ['Ahaz (father, wicked king)', 'Abi (mother)', 'Isaiah (prophet and advisor)', 'Sennacherib (Assyrian king, besieged Jerusalem)', 'Manasseh (son, who undid his reforms)'],
+    relatedCharacters: ['isaiah', 'jeremiah', 'daniel', 'david'],
+  },
+
+  // ─── GIDEON ──────────────────────────────────────────────────────────────
+  {
+    id: 'gideon',
+    name: 'Gideon',
+    hebrewGreek: 'גִּדְעוֹן',
+    transliteration: 'Gid\'on',
+    nameMeaning: 'Great warrior / Hewer / One who cuts down',
+    testament: 'OT',
+    category: 'Judge / Prophet',
+    era: 'Period of Judges (~1162–1122 BC)',
+    keyBooks: ['Judges'],
+    oneLiner: 'The fearful thresher who became Israel\'s deliverer — called "mighty warrior" by God\'s angel while hiding in a winepress, who reduced an army of 32,000 to 300 to prove that salvation belongs to the LORD.',
+    biography: `Israel had done evil again and God gave them into the hand of Midian for seven years. The Midianites and Amalekites swarmed the land like locusts at harvest, devastating crops until Israel cried to God. God\'s answer was Gideon, whom his angel found threshing wheat in a winepress (hiding from Midianite raiders) and addressed with almost ironic intent: "The LORD is with you, mighty warrior" (Judges 6:12).
+
+Gideon\'s response was not confidence but protest: his clan was the weakest in Manasseh, and he was the least in his father\'s house. The angel met him with divine assurance: "Go in this might of yours... Do not I send you?" (Judges 6:14). Even then, Gideon asked for a sign — he prepared an offering; the angel touched it with his staff and fire consumed it. Gideon built an altar: "Yahweh-Shalom" — the LORD is peace.
+
+His first act of obedience required nighttime courage: God commanded him to tear down his father\'s Baal altar and Asherah pole and build a proper altar in their place. He did it at night "because he was afraid of his family and the men of the city" (Judges 6:27). The same fear that had driven him to the winepress drove him to act under cover of darkness — yet he still obeyed.
+
+God\'s most famous intervention with Gideon involved the army size. From 32,000 volunteers, God reduced the force to 10,000 (dismissing the fearful), then to 300 (those who lapped water with their hands). The reason was explicit: "lest Israel boast over me, saying, \'My own hand has saved me\'" (Judges 7:2). With 300 men, torches, clay pots, and trumpets, Gideon\'s force surrounded the Midianite camp at night. The breaking pots, blazing torches, and trumpet blasts threw the vast enemy army into confusion and self-destruction.
+
+Gideon\'s later failures were significant: he demanded the Midianite gold earrings and made an ephod (possibly a priestly image) that "became a snare to Gideon and to his family" (Judges 8:27). He had seventy sons by many wives, and one concubine\'s son (Abimelech) murdered seventy of his brothers after his death.`,
+    historicalContext: `The period of the judges (~1375-1050 BC) was cyclical: apostasy, oppression, crying out, deliverance, rest, then apostasy again. The Midianites were semi-nomadic raiders from the desert east of Israel who used camels — a relatively new and devastating military advantage — to conduct sweeping raids across the agricultural lowlands. The reduction of Gideon\'s army to 300 must be understood against this overwhelming numerical disadvantage.`,
+    keyScriptures: [
+      { reference: 'Judges 6:12', text: 'And the angel of the LORD appeared unto him, and said unto him, The LORD is with thee, thou mighty man of valour.', significance: 'God addresses Gideon not by his present condition (hiding in a winepress) but by his future identity — a pattern of divine calling.' },
+      { reference: 'Judges 7:2', text: 'And the LORD said unto Gideon, The people that are with thee are too many for me to give the Midianites into their hands, lest Israel vaunt themselves against me, saying, Mine own hand hath saved me.', significance: 'God deliberately reduces human resources to ensure the victory is undeniably His — the theology of "divine weakness" that recurs throughout Scripture.' },
+    ],
+    traits: ['Honest about weakness', 'Persistent in seeking confirmation', 'Courageous (when called)', 'Faithful to specific divine instruction', 'Prone to idolatry later'],
+    failures: ['Made an idolatrous ephod from battle spoils', 'Had many wives and concubines — violating the Deuteronomic law for leaders', 'Failed to establish godly succession — Abimelech\'s catastrophe followed his death'],
+    faithLessons: [
+      'God often calls people to roles that contradict their self-assessment — He calls the weak "mighty warrior."',
+      'Divine reduction is often God\'s strategy: He works most clearly when human resources are smallest.',
+      'Early spiritual victories do not guarantee lifelong faithfulness — the ephod shows how even deliverers can become idolaters.',
+    ],
+    typologyOfChrist: 'Gideon\'s 300-man victory without human weapons points to Christ\'s victory over sin and death without conventional power. As Gideon defeated the enemy through broken clay jars and blazing torches, so Christ through the "weakness" of the cross — the breaking of His body — let the light of the resurrection shine forth, routing the enemy. The apostle Paul draws on this imagery: "We have this treasure in jars of clay" (2 Corinthians 4:7).',
+    theologicalSignificance: 'Gideon\'s story is the definitive illustration of the principle that divine strength is perfected in human weakness (2 Corinthians 12:9). The deliberate reduction of the army is one of Scripture\'s clearest theological statements about the nature of salvation: it must be traceable to God alone, not human strategy, so that God receives all the glory.',
+    timeline: [
+      { event: 'Midianites oppress Israel for seven years', reference: 'Judges 6:1', year: '~1162 BC' },
+      { event: 'Angel of the LORD calls Gideon; he destroys his father\'s Baal altar', reference: 'Judges 6:11-27', year: '~1155 BC' },
+      { event: 'Fleece tests confirm the divine call', reference: 'Judges 6:36-40', year: '~1155 BC' },
+      { event: 'Army reduced from 32,000 to 300', reference: 'Judges 7:1-8', year: '~1155 BC' },
+      { event: 'Victory over Midian with torches, jars, and trumpets', reference: 'Judges 7:9-25', year: '~1155 BC' },
+      { event: 'Refuses kingship: "The LORD shall rule over you"', reference: 'Judges 8:23', year: '~1155 BC' },
+      { event: 'Makes an idolatrous ephod from battle gold', reference: 'Judges 8:24-27', year: '~1154 BC' },
+      { event: 'Dies after 40 years of peace; Abimelech\'s catastrophic aftermath', reference: 'Judges 8:32', year: '~1122 BC' },
+    ],
+    relationships: ['Joash (father)', 'Abimelech (son by concubine who murdered 70 half-brothers)', 'Jether (son)', 'Purah (servant-companion in night raid)'],
+    relatedCharacters: ['samson', 'deborah', 'samuel', 'joshua'],
+  },
+
+  // ─── THOMAS ──────────────────────────────────────────────────────────────
+  {
+    id: 'thomas',
+    name: 'Thomas (Didymus)',
+    hebrewGreek: 'Θωμᾶς',
+    transliteration: 'Thōmas / Didymos',
+    nameMeaning: 'Twin (Aramaic Thomas, Greek Didymus — both mean "twin")',
+    testament: 'NT',
+    category: 'Apostle',
+    era: 'New Testament (~AD 27–72)',
+    keyBooks: ['John', 'Matthew', 'Mark', 'Luke', 'Acts'],
+    oneLiner: 'The apostle forever labeled a "doubter" — yet whose honest demand for evidence led to the New Testament\'s most explicit confession of Christ\'s deity, and who tradition says carried the gospel to India.',
+    biography: `Thomas is mentioned in all four apostle lists (Matthew 10:3; Mark 3:18; Luke 6:15; Acts 1:13), always in the second group of four. His character emerges most clearly in John\'s Gospel, which records three distinctive interactions.
+
+First, when Jesus announced His intention to return to Judea after Lazarus\'s death — despite recent attempts to stone him — it was Thomas who rallied the disciples with a declaration of grim loyalty: "Let us also go, that we may die with him" (John 11:16). This was not doubt but the courage of a man who loved Christ enough to face death with him.
+
+Second, at the Last Supper, when Jesus spoke of going to prepare a place and said "you know the way," Thomas asked the honest question none of the others voiced: "Lord, we do not know where you are going. How can we know the way?" (John 14:5). Jesus\'s reply — "I am the way, and the truth, and the life" — is one of the seven great I AM statements, elicited by Thomas\'s honest uncertainty.
+
+Third, the famous encounter after the resurrection. Thomas was absent when Jesus appeared to the ten. He declared: "Unless I see in his hands the mark of the nails, and place my finger into the mark of the nails, and place my hand into his side, I will never believe" (John 20:25). Eight days later, Jesus appeared again and addressed Thomas directly: "Put your finger here, and see my hands; and put out your hand, and place it in my side. Do not disbelieve, but believe." Thomas\'s response was the highest Christological confession in all four Gospels: "My Lord and my God!" (John 20:28).
+
+Jesus\'s response to Thomas — "Have you believed because you have seen me? Blessed are those who have not seen and yet have believed" (John 20:29) — is addressed not only to Thomas but to every subsequent generation of believers who must believe without physical presence.
+
+According to strong ancient tradition (preserved in the Acts of Thomas and affirmed by Eusebius, Origen, and the Syriac church), Thomas carried the gospel to Parthia and India. The Mar Thoma Church of South India traces its founding to Thomas in AD 52. He was martyred at Mylapore (modern Chennai) in AD 72.`,
+    historicalContext: `Thomas\'s skepticism about the resurrection was not theological liberalism but empirical caution — any first-century person would require extraordinary evidence for an extraordinary claim. The Mar Thoma tradition in Kerala, India, is one of the oldest Christian communities in the world, tracing to Thomas\'s mission in the first century. Eusebius (Ecclesiastical History 3.1) records that Thomas\'s mission field was Parthia.`,
+    keyScriptures: [
+      { reference: 'John 11:16', text: 'Then said Thomas, which is called Didymus, unto his fellowdisciples, Let us also go, that we may die with him.', significance: 'Thomas\'s courageous commitment — often forgotten in favor of his later doubt; he was willing to follow Christ to death.' },
+      { reference: 'John 14:5-6', text: 'Thomas saith unto him, Lord, we know not whither thou goest; and how can we know the way? Jesus saith unto him, I am the way, the truth, and the life.', significance: 'Thomas\'s honest question elicits one of the seven great I AM declarations — his doubt became the vehicle for profound revelation.' },
+      { reference: 'John 20:28', text: 'And Thomas answered and said unto him, My Lord and my God.', significance: 'The highest Christological confession in all four Gospels — the culmination of the resurrection appearances in John.' },
+    ],
+    traits: ['Honest', 'Courageous', 'Loyal to death', 'Empirically minded', 'Deeply devoted once convinced', 'Not easily manipulated by peer pressure'],
+    failures: ['Absent from the gathering when Jesus appeared — his isolation increased his doubt', 'His demand for physical evidence required a special divine accommodation'],
+    faithLessons: [
+      'Honest doubt expressed to Christ and His community is not unbelief — it is the beginning of deeper understanding.',
+      'Christ does not condemn the doubter but meets him with evidence and calls him to belief.',
+      'The greatest confessions of faith often come from those who started with the deepest questions.',
+    ],
+    typologyOfChrist: 'Thomas\'s confession — "My Lord and my God" — is the New Testament\'s most explicit statement of Christ\'s deity, representing the climax of John\'s Gospel which opened with "the Word was God" (1:1). As Thomas touched the wounds of the risen Christ, so every believer makes contact with the crucified and risen Lord through faith — trusting the testimony of those who saw.',
+    theologicalSignificance: 'Thomas\'s story is the New Testament\'s most important witness to the evidential nature of the resurrection. The empty tomb and the appearances were not vague spiritual experiences but physical events subject to examination. Jesus\'s appearance to Thomas — offering his wounds as evidence — underscores the bodily reality of the resurrection. John records this episode "so that you may believe that Jesus is the Christ, the Son of God, and that by believing you may have life in his name" (John 20:31).',
+    timeline: [
+      { event: 'Called as one of the twelve apostles', reference: 'Matthew 10:3', year: '~AD 29' },
+      { event: 'Urges the disciples to go with Jesus to die if necessary (Lazarus visit)', reference: 'John 11:16', year: '~AD 32' },
+      { event: 'Asks Jesus about the way at the Last Supper; I AM reply given', reference: 'John 14:5-6', year: 'AD 33' },
+      { event: 'Absent from first resurrection appearance; demands physical evidence', reference: 'John 20:24-25', year: 'AD 33' },
+      { event: 'Jesus appears to him; Thomas confesses "My Lord and my God"', reference: 'John 20:26-28', year: 'AD 33' },
+      { event: 'Present at Pentecost', reference: 'Acts 1:13', year: 'AD 33' },
+      { event: 'Missionary journey to Parthia and India (tradition)', year: '~AD 52' },
+      { event: 'Martyred at Mylapore, India (tradition)', year: '~AD 72' },
+    ],
+    relationships: ['The twelve apostles', 'Jesus (Lord and Master)', 'The Mar Thoma church (his spiritual descendants in India)'],
+    relatedCharacters: ['peter', 'john', 'paul', 'stephen'],
+  },
+
+  // ─── NICODEMUS ───────────────────────────────────────────────────────────
+  {
+    id: 'nicodemus',
+    name: 'Nicodemus',
+    hebrewGreek: 'Νικόδημος',
+    transliteration: 'Nikodēmos',
+    nameMeaning: 'Conqueror of the people / Victor over the people',
+    testament: 'NT',
+    category: 'Other',
+    era: 'New Testament (~AD 30–33)',
+    keyBooks: ['John'],
+    oneLiner: 'A Pharisee and member of the Sanhedrin who came to Jesus secretly by night — and whose nocturnal conversation produced the most famous verse in all Scripture: John 3:16.',
+    biography: `Nicodemus appears only in John\'s Gospel, in three scenes that trace a quiet but significant spiritual journey from cautious curiosity to courageous public alignment with Christ.
+
+In his first appearance (John 3:1-21), he comes to Jesus by night — a detail John highlights. He was a Pharisee and a "ruler of the Jews" (a member of the Sanhedrin, Israel\'s supreme ruling council, with 70 members). He addresses Jesus respectfully: "Rabbi, we know that you are a teacher come from God, for no one can do these signs that you do unless God is with him." His acknowledgment of Jesus\'s divine commission was honest and significant; his use of "we" suggests he was not alone in this private assessment.
+
+Jesus cut immediately past the surface courtesy to the underlying necessity: "Truly, truly, I say to you, unless one is born again (or: from above), he cannot see the kingdom of God." Nicodemus took the phrase literally: "How can a man be born when he is old? Can he enter a second time into his mother\'s womb?" Jesus explained that this rebirth is spiritual — of water and the Spirit — and that the Spirit moves with sovereign freedom that cannot be controlled or predicted: "The wind blows where it wishes, and you hear its sound, but you do not know where it comes from or where it goes. So it is with everyone who is born of the Spirit."
+
+The conversation led to the great passage of John 3:14-21, in which Jesus speaks of being "lifted up" (his crucifixion), of God\'s love for the world, of judgment and light and darkness. John 3:16 — "For God so loved the world..." — emerges from this conversation.
+
+In his second appearance (John 7:50-51), during the Feast of Tabernacles when the Sanhedrin debated arresting Jesus, Nicodemus spoke up with a procedural objection: "Does our law judge a man without first giving him a hearing and learning what he does?" He was immediately ridiculed.
+
+In his third appearance (John 19:38-42), after the crucifixion, Nicodemus came openly — in daylight — with Joseph of Arimathea to retrieve Jesus\'s body. He brought seventy-five pounds of myrrh and aloes — a royal quantity, befitting a king. He who came secretly by night to ask about life now came openly in daylight to honor the one who had died.`,
+    historicalContext: `The Sanhedrin was composed primarily of Pharisees and Sadducees and held significant religious and limited civil authority under Roman oversight. Membership indicated elite social standing. To identify with Jesus publicly was to risk excommunication from the synagogue (John 9:22; 12:42) and social ostracism. The progression of Nicodemus from nocturnal questioner to bold public disciple tracks the reality that many in the Jewish leadership believed but feared exposure (John 12:42-43).`,
+    keyScriptures: [
+      { reference: 'John 3:3', text: 'Jesus answered and said unto him, Verily, verily, I say unto thee, Except a man be born again, he cannot see the kingdom of God.', significance: 'The first occurrence of the essential doctrine of regeneration — addressed to Israel\'s most learned teacher.' },
+      { reference: 'John 3:16', text: 'For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.', significance: 'The most famous verse in Scripture — the gospel in one sentence, emerging from Nicodemus\'s midnight conversation.' },
+      { reference: 'John 19:39', text: 'And there came also Nicodemus, which at the first came to Jesus by night, and brought a mixture of myrrh and aloes, about an hundred pound weight.', significance: 'The completion of Nicodemus\'s journey — from secret inquirer to public disciple who honored Christ even in apparent defeat.' },
+    ],
+    traits: ['Intellectually honest', 'Cautious', 'Respectful', 'Progressively courageous', 'Generous (the 75 pounds of spices)', 'Genuinely seeking'],
+    failures: ['Initial approach was nocturnal — driven by fear of peers', 'His procedural defense of Jesus (John 7) was indirect rather than a direct confession of faith'],
+    faithLessons: [
+      'True inquiry is never wasted — even a secret question asked in the night can lead to regeneration.',
+      'The new birth is not achieved by religious position, learning, or sincerity — even a Pharisee and Sanhedrin member must be "born again."',
+      'Spiritual growth is often gradual — the one who comes in the night can emerge in full daylight by God\'s grace.',
+    ],
+    typologyOfChrist: 'John 3:14-15 — spoken to Nicodemus — is Jesus\'s first self-referential prophecy of His crucifixion in John\'s Gospel: "As Moses lifted up the serpent in the wilderness, so must the Son of Man be lifted up, that whoever believes in him may have eternal life." Nicodemus was the first to hear the gospel of the cross.',
+    theologicalSignificance: 'Nicodemus\'s conversation with Jesus is the foundational New Testament text on regeneration (new birth). The phrase "born again" (*gennēthē anōthen*) — born from above — establishes that salvation is a new creation, not a reform or improvement of the old nature. It is entirely God\'s work from above, accomplished by the sovereign Spirit. Jesus\'s surprise that a "teacher of Israel" did not understand these things (John 3:10) suggests that regeneration was a reality known in the OT (Ezekiel 36:25-27) but not widely understood.',
+    timeline: [
+      { event: 'Comes to Jesus secretly by night; born-again conversation', reference: 'John 3:1-21', year: '~AD 30' },
+      { event: 'Defends Jesus procedurally before the Sanhedrin; ridiculed', reference: 'John 7:50-52', year: 'AD 32' },
+      { event: 'Comes with Joseph of Arimathea to bury Jesus; brings 75 lbs of spices', reference: 'John 19:38-42', year: 'AD 33' },
+    ],
+    relationships: ['Joseph of Arimathea (fellow secret disciple)', 'The Sanhedrin (fellow members)', 'Jesus (teacher and Lord)'],
+    relatedCharacters: ['john', 'paul', 'nicodemus', 'stephen'],
+  },
+
+  // ─── BARNABAS ────────────────────────────────────────────────────────────
+  {
+    id: 'barnabas',
+    name: 'Barnabas',
+    hebrewGreek: 'Βαρνάβας',
+    transliteration: 'Barnabas',
+    nameMeaning: 'Son of Encouragement (Aramaic bar-nabu\'ah)',
+    testament: 'NT',
+    category: 'Apostle',
+    era: 'New Testament (~AD 33–60)',
+    keyBooks: ['Acts', 'Galatians', '1 Corinthians'],
+    oneLiner: 'The son of encouragement — the man who vouched for the newly converted Paul when everyone else was afraid, who opened the Gentile mission with him in Antioch, and who chose to restore a failed young missionary named John Mark.',
+    biography: `Barnabas was born Joseph, a Levite from Cyprus. The Jerusalem apostles renamed him Barnabas — "son of encouragement" — because his gift for building up others was so evident that it became his identity. He appears first in Acts 4:36-37 selling a field and laying the proceeds at the apostles\' feet — an early and generous expression of the communal sharing in the Jerusalem church.
+
+His most consequential act of encouragement came when Saul of Tarsus, recently converted on the Damascus road, arrived in Jerusalem and everyone was afraid of him: "They all feared him, not believing that he was a disciple" (Acts 9:26). The man who had persecuted the church to death was not trusted. Barnabas alone went to him, heard his story, and personally vouched for him before the apostles. Without Barnabas, Paul\'s integration into the Jerusalem church — and the entire trajectory of his apostolic ministry — might have been delayed or derailed.
+
+Barnabas was sent by Jerusalem to investigate the new Gentile community at Antioch in Syria. He arrived, "saw the grace of God, and was glad" (Acts 11:23), and immediately traveled to Tarsus to recruit Paul to join the work. Together they taught in Antioch for a year, during which "the disciples were called Christians for the first time" (Acts 11:26). They were co-leaders of the first great Gentile church.
+
+They traveled together on the first missionary journey (Acts 13-14), reaching Cyprus, Pisidia, and Asia Minor. Paul\'s leadership gradually became more prominent, and by Acts 14:12 the people of Lystra called Barnabas "Zeus" and Paul "Hermes" — perhaps reflecting Barnabas\'s more commanding physical presence.
+
+Their relationship fractured over John Mark, who had abandoned the first journey. When Paul refused to bring Mark on the second journey, Barnabas chose Mark — and they separated. Paul took Silas. Barnabas sailed to Cyprus with Mark. This was not Barnabas\'s finest moment of diplomacy but perhaps his most prophetic: Paul himself would later write that Mark had become useful to him for ministry (2 Timothy 4:11). Barnabas\'s encouragement had recovered a failed missionary.`,
+    historicalContext: `Cyprus, Barnabas\'s homeland, had a significant Jewish diaspora community. The Antioch church in Syria was the first significant Gentile-majority congregation and became the base for the Pauline missionary enterprise. The dispute over John Mark (the cousin of Barnabas — Colossians 4:10) reflects a genuine theological difference: Paul prioritized mission effectiveness; Barnabas prioritized the restoration of the person.`,
+    keyScriptures: [
+      { reference: 'Acts 4:36-37', text: 'And Joses, who by the apostles was surnamed Barnabas, (which is, being interpreted, The son of consolation,)... Having land, sold it, and brought the money, and laid it at the apostles\' feet.', significance: 'Barnabas\'s first act — radical generosity that embodied the new community\'s shared life.' },
+      { reference: 'Acts 9:27', text: 'But Barnabas took him, and brought him to the apostles, and declared unto them how he had seen the Lord in the way, and that he had spoken to him, and how he had preached boldly at Damascus in the name of Jesus.', significance: 'The defining moment of Barnabas\'s gift — his personal advocacy for the persecutor Paul opened the door for the church\'s most prolific apostle.' },
+      { reference: 'Acts 11:23-24', text: 'Who, when he came, and had seen the grace of God, was glad, and exhorted them all, that with purpose of heart they would cleave unto the Lord. For he was a good man, and full of the Holy Ghost and of faith.', significance: 'The Spirit\'s assessment of Barnabas — his character was the foundation of his ministry of encouragement.' },
+    ],
+    traits: ['Generous', 'Discerning of authentic grace', 'Encouraging', 'Loyal to individuals', 'Willing to take risks on people', 'Full of the Holy Spirit'],
+    failures: ['Paul rebuked him for being "carried away" into hypocrisy with Peter in Antioch (Galatians 2:13) — separating from Gentile believers when Jewish observers arrived', 'The break with Paul over John Mark, though it turned out well'],
+    faithLessons: [
+      'The ministry of encouragement — seeing the best in people and calling it forth — is as necessary as proclamation.',
+      'Sometimes the greatest thing you can do for the church is vouch for the person everyone else has written off.',
+      'Not every conflict is failure — Barnabas and Paul\'s separation multiplied missionary teams.',
+    ],
+    typologyOfChrist: 'Barnabas\'s gift of encouragement images one aspect of Christ\'s ministry — the Paraclete, the one called alongside to help (John 14:16). As the Holy Spirit is the ultimate Encourager (Paraclete), Barnabas embodied this ministry in flesh and community life. His costly generosity with the field also images Christ\'s self-giving.',
+    theologicalSignificance: 'Barnabas\'s ministry demonstrates that the body of Christ functions through complementary gifts — Paul\'s visionary leadership needed Barnabas\'s relational wisdom and encouragement. His restoration of Mark demonstrates a theology of second chances: the person who fails on one mission may yet be "useful in ministry" (2 Timothy 4:11) when given the gift of patient grace.',
+    timeline: [
+      { event: 'Sells a field; donates proceeds to Jerusalem church', reference: 'Acts 4:36-37', year: 'AD 33' },
+      { event: 'Vouches for the newly converted Saul before the apostles', reference: 'Acts 9:27', year: '~AD 35' },
+      { event: 'Sent to Antioch; sees Gentile revival; recruits Paul from Tarsus', reference: 'Acts 11:22-26', year: 'AD 43' },
+      { event: 'First missionary journey with Paul — Cyprus and Asia Minor', reference: 'Acts 13-14', year: 'AD 46-48' },
+      { event: 'Jerusalem Council — defends Gentile inclusion', reference: 'Acts 15:2-12', year: 'AD 49' },
+      { event: 'Separates from Paul over John Mark; takes Mark to Cyprus', reference: 'Acts 15:36-41', year: 'AD 49' },
+    ],
+    relationships: ['John Mark (cousin — Colossians 4:10)', 'Paul (co-apostle and later separated colleague)', 'The Jerusalem apostles (who trusted him)', 'Antioch church (co-founded with Paul)'],
+    relatedCharacters: ['paul', 'peter', 'john', 'stephen'],
+  },
+
+  // ─── MIRIAM ──────────────────────────────────────────────────────────────
+  {
+    id: 'miriam',
+    name: 'Miriam',
+    hebrewGreek: 'מִרְיָם',
+    transliteration: 'Miryam',
+    nameMeaning: 'Bitterness / Beloved / Sea of sorrow',
+    testament: 'OT',
+    category: 'Prophet',
+    era: 'Exodus (~1526–1406 BC)',
+    keyBooks: ['Exodus', 'Numbers', 'Micah'],
+    oneLiner: 'Israel\'s first prophetess — the courageous sister who watched over the infant Moses, who led Israel\'s women in the Song of the Sea, and who later fell into pride and was struck with leprosy.',
+    biography: `Miriam was the eldest of the three children of Amram and Jochebed, older than Aaron and Moses. Her first recorded act (before she is even named) was an act of wisdom and courage: when her infant brother Moses was placed in a basket in the Nile, she stood at a distance to watch what would happen, then approached Pharaoh\'s daughter — who had found the baby — and offered to find a Hebrew woman to nurse the child. Pharaoh\'s daughter agreed, and Miriam brought her own mother to nurse her own son. It was a feat of composure and quick thinking that saved both Moses\'s life and his connection to his family.
+
+Miriam next appears at the crossing of the Red Sea. After the waters closed over Pharaoh\'s army and Moses led Israel in his great song of deliverance, Miriam is identified as a prophetess: she took a tambourine and led all the women in song and dance: "Sing to the LORD, for he has triumphed gloriously; the horse and his rider he has thrown into the sea" (Exodus 15:21). Micah 6:4 lists her alongside Moses and Aaron as a leader God sent before Israel: "I sent Moses to lead you, also Aaron and Miriam."
+
+But Miriam\'s gravest failure came in the wilderness. She and Aaron spoke against Moses because of his Cushite wife, then escalated to a challenge of his unique prophetic authority: "Has the LORD spoken only through Moses? Has he not spoken through us also?" (Numbers 12:2). God\'s response was swift and terrifying: He called all three to the tent of meeting, declared Moses\'s unique standing ("mouth to mouth I speak with him"), and departed in anger. Miriam was struck with leprosy — white as snow.
+
+Aaron pled with Moses; Moses interceded for Miriam with one of Scripture\'s most compressed prayers: "O God, please heal her — please!" (Numbers 12:13). God healed her but required her to remain outside the camp for seven days. Israel waited. The entire nation paused its journey for the sake of Miriam.
+
+Miriam died at Kadesh in the wilderness of Zin (Numbers 20:1), before the entry into Canaan, alongside Moses and Aaron who also did not enter the Promised Land.`,
+    historicalContext: `Miriam is one of three women explicitly called prophets in the Old Testament (alongside Deborah and Huldah). Her tambourine-led celebration after the Red Sea crossing follows the ancient Near Eastern pattern of women leading victory celebrations after battles (cf. Judges 11:34; 1 Samuel 18:6). Her challenge of Moses\'s authority in Numbers 12 may be connected to concerns about the expansion of prophetic gifts beyond the Mosaic center — a concern that God addressed directly by affirming Moses\'s unique role.`,
+    keyScriptures: [
+      { reference: 'Exodus 15:20-21', text: 'And Miriam the prophetess, the sister of Aaron, took a timbrel in her hand; and all the women went out after her with timbrels and with dances. And Miriam answered them, Sing ye to the LORD, for he hath triumphed gloriously.', significance: 'Miriam leads Israel\'s first corporate worship after the Exodus — she is the worship leader of the liberated nation.' },
+      { reference: 'Numbers 12:10-13', text: 'And the cloud departed from off the tabernacle; and, behold, Miriam became leprous... And Moses cried unto the LORD, saying, Heal her now, O God, I beseech thee.', significance: 'The consequence of pride — and Moses\'s gracious intercession for the very person who had challenged his authority.' },
+      { reference: 'Micah 6:4', text: 'For I brought thee up out of the land of Egypt, and redeemed thee out of the house of servants; and I sent before thee Moses, Aaron, and Miriam.', significance: 'God\'s own accounting of the Exodus leadership — Miriam stands as a full co-leader alongside Moses and Aaron.' },
+    ],
+    traits: ['Courageous', 'Quick-thinking', 'Worshipful', 'Gifted leader of women', 'Proud', 'Susceptible to jealousy'],
+    failures: ['Challenged Moses\'s unique authority and was struck with leprosy', 'Joined Aaron in speaking against Moses\'s Cushite wife — using a personal grievance to challenge legitimate authority'],
+    faithLessons: [
+      'Early acts of faithfulness do not guarantee lifelong spiritual maturity — the young woman who saved Moses became the leader who challenged him.',
+      'God takes uniquely seriously the challenge of legitimate spiritual authority — Numbers 12 is a sobering warning.',
+      'Moses\'s brief, urgent intercession for his accuser models the forgiving heart that redemption produces.',
+    ],
+    typologyOfChrist: 'Miriam\'s role as prophetess and worship leader points forward to the church\'s prophetic and worshipping community. Her song after the Red Sea (Exodus 15) is a prototype of the songs sung "after deliverance" that appear throughout Revelation (Revelation 15:3 — "the song of Moses and of the Lamb"). The exodus deliverance she celebrated points to the greater exodus Christ accomplished through the cross.',
+    theologicalSignificance: 'Miriam establishes women\'s place in Israel\'s prophetic and worship leadership. Her story also illustrates the principle of Numbers 12:3 — that Moses was the meekest of men — and demonstrates that divine calling does not immunize against pride. Her healing after seven days outside the camp has been read as a symbol of exclusion, purification, and restoration that the entire community waited for.',
+    timeline: [
+      { event: 'Watches over infant Moses in the Nile basket; brokers his nursing by Jochebed', reference: 'Exodus 2:4-8', year: '~1526 BC' },
+      { event: 'Leads women in the Song of the Sea after Red Sea crossing', reference: 'Exodus 15:20-21', year: '~1446 BC' },
+      { event: 'Challenges Moses\'s authority with Aaron; struck with leprosy', reference: 'Numbers 12', year: '~1444 BC' },
+      { event: 'Healed after seven days outside the camp at Moses\'s intercession', reference: 'Numbers 12:13-15', year: '~1444 BC' },
+      { event: 'Dies at Kadesh in the wilderness of Zin', reference: 'Numbers 20:1', year: '~1407 BC' },
+    ],
+    relationships: ['Amram and Jochebed (parents)', 'Moses (brother)', 'Aaron (brother)'],
+    relatedCharacters: ['moses', 'aaron', 'deborah', 'hannah'],
+  },
+
+  // ─── RAHAB ───────────────────────────────────────────────────────────────
+  {
+    id: 'rahab',
+    name: 'Rahab',
+    hebrewGreek: 'רָחָב',
+    transliteration: 'Rachav',
+    nameMeaning: 'Wide / Broad / Spacious',
+    testament: 'OT',
+    category: 'Other',
+    era: 'Conquest of Canaan (~1406 BC)',
+    keyBooks: ['Joshua', 'Matthew', 'Hebrews', 'James'],
+    oneLiner: 'A Canaanite prostitute in Jericho who hid Israel\'s spies, confessed the LORD\'s sovereignty, and was saved by a scarlet thread — and who appears in the genealogy of Jesus Christ.',
+    biography: `Rahab was a Canaanite woman who kept a house on the wall of Jericho. When Joshua sent two spies to scout the land, they lodged at her house. The king of Jericho heard they had come and sent to Rahab demanding she hand them over. She hid the spies under stalks of flax on her roof and misled the king\'s messengers.
+
+Her confession to the spies before helping them escape reveals a faith that shames many inside the covenant people: "I know that the LORD has given you this land, and that the terror of you has fallen on us, and that all the inhabitants of the land have melted away before you. For we have heard how the LORD dried up the water of the Red Sea before you when you came out of Egypt... for the LORD your God is God in heaven above and on earth beneath" (Joshua 2:9-11).
+
+This is a full, explicit theological confession — God\'s sovereignty over creation and history, His particular covenant with Israel, His power over natural forces. She did not merely make a practical calculation; she made a theological commitment. She asked for the same mercy she was showing: spare my family when Israel enters.
+
+The sign was a scarlet thread hung from her window — the same window through which she let the spies down. When Jericho\'s walls fell and Israel swept through the city, Rahab\'s house on the wall stood, and Rahab and her entire family were brought out alive (Joshua 6:22-25).
+
+Rahab was "received" into Israel (Joshua 6:25) and appears in Matthew\'s genealogy of Jesus as the mother of Boaz (Matthew 1:5), making her the great-great-grandmother of King David and an ancestor of Christ. Hebrews 11:31 includes her in the faith hall of fame. James 2:25 uses her as the example of faith demonstrated by works.`,
+    historicalContext: `The inn-keeping and prostitution of Rahab is consistent with ancient Near Eastern practice in which women in border towns and trade cities kept establishments that offered both lodging and sexual services. Archaeologists have found evidence of houses built into the double wall systems of Late Bronze Age Canaanite cities (Jericho\'s walls date to this period). The scarlet thread has been interpreted as resembling the blood on the doorposts at Passover — a sign of divine protection through covenant identification.`,
+    keyScriptures: [
+      { reference: 'Joshua 2:11', text: 'For the LORD your God, he is God in heaven above, and in earth beneath.', significance: 'Rahab\'s theological confession — a Canaanite outsider makes the fullest statement of monotheism in the conquest narrative.' },
+      { reference: 'Hebrews 11:31', text: 'By faith the harlot Rahab perished not with them that believed not, when she had received the spies with peace.', significance: 'Rahab\'s inclusion in the faith hall of fame — her faith was real, recognized by God, and salvific.' },
+      { reference: 'Matthew 1:5', text: 'And Salmon begat Boaz of Rachab; and Boaz begat Obed of Ruth; and Obed begat Jesse.', significance: 'A Canaanite woman in the Messianic genealogy — the grace of God crossing every boundary of ethnicity and past.' },
+    ],
+    traits: ['Courageous', 'Decisive', 'Theologically astute', 'Protective of family', 'Hospitable', 'Faith-driven'],
+    failures: ['Her pre-conversion occupation', 'She deceived the king\'s messengers — though this act of misdirection protected those she was sheltering in faith'],
+    faithLessons: [
+      'God saves people of every background — no past, no ethnicity, no cultural origin is beyond the reach of grace.',
+      'Rahab\'s faith was evidenced by action — she risked her life for people she had just met, based on theological conviction.',
+      'The scarlet thread foreshadows the blood of Christ — the only sign that averts divine judgment.',
+    ],
+    typologyOfChrist: 'The scarlet thread in Rahab\'s window is one of Scripture\'s most evocative types of the blood of Christ. As Israel passed over every house marked with blood on Passover night, so Rahab\'s scarlet thread marked her house for preservation in the conquest. The color, the hanging from above, the protection of all who stayed inside — all echo the blood of Christ as the only ground of salvation from judgment.',
+    theologicalSignificance: 'Rahab demolishes every ethnic, moral, and religious boundary erected around salvation. She was a Canaanite (the covenantal enemy), a prostitute (morally disqualified by any human standard), and an inhabitant of a city under divine judgment — yet she believed and was saved. Matthew\'s placement of her in the Messianic genealogy is a deliberate theological statement: the grace of God is wider than Israel, wider than our categories of worthiness.',
+    timeline: [
+      { event: 'Hides the two spies sent by Joshua; confesses the LORD\'s sovereignty', reference: 'Joshua 2', year: '~1406 BC' },
+      { event: 'Lets the spies down by a scarlet cord through her window', reference: 'Joshua 2:15-21', year: '~1406 BC' },
+      { event: 'Jericho falls; Rahab and her family are spared', reference: 'Joshua 6:22-25', year: '~1406 BC' },
+      { event: 'Received into Israel; marries Salmon (tradition)', reference: 'Joshua 6:25', year: '~1405 BC' },
+      { event: 'Becomes mother of Boaz; ancestor of David and Christ', reference: 'Matthew 1:5', year: '~1370 BC' },
+    ],
+    relationships: ['Joshua\'s two spies (she sheltered them)', 'Her father, mother, brothers, and all her father\'s household (saved with her)', 'Salmon (husband by tradition)', 'Boaz (son)'],
+    relatedCharacters: ['joshua', 'ruth', 'david', 'naomi'],
+  },
+
+  // ─── NAOMI ───────────────────────────────────────────────────────────────
+  {
+    id: 'naomi',
+    name: 'Naomi',
+    hebrewGreek: 'נָעֳמִי',
+    transliteration: 'Na\'omi',
+    nameMeaning: 'Pleasant / Delightful',
+    testament: 'OT',
+    category: 'Other',
+    era: 'Period of Judges (~1100–1070 BC)',
+    keyBooks: ['Ruth'],
+    oneLiner: 'The widow who returned from Moab empty-handed and asked to be called "Mara" (bitter) — yet whose faithful Moabite daughter-in-law Ruth became the vessel through whom God restored her joy, her inheritance, and her place in the covenant line.',
+    biography: `Naomi was a woman of Bethlehem-Judah who emigrated to Moab with her husband Elimelech and two sons during a famine. In Moab, her sons married Moabite women — Orpah and Ruth. Then, in rapid succession, Elimelech died, and both sons died. Naomi was left with two foreign daughters-in-law in a foreign land, with no male protector, no income, and no future by the standards of her world.
+
+When she heard that the LORD had "visited his people and given them food" (Ruth 1:6) in Bethlehem, Naomi decided to return. She released both daughters-in-law to return to their own families and gods — a poignant, generous act. Orpah kissed her and left; Ruth clung to her and made her extraordinary declaration: "Where you go I will go, and where you lodge I will lodge. Your people shall be my people, and your God my God" (Ruth 1:16).
+
+When Naomi arrived back in Bethlehem after years of absence, she told the women who greeted her: "Do not call me Naomi [pleasant]; call me Mara [bitter], for the Almighty has dealt very bitterly with me. I went away full, and the LORD has brought me back empty" (Ruth 1:20-21). It was an honest lamentation — not rebellion, but grief expressed before the God she still acknowledged as sovereign.
+
+Naomi then became the strategic wisdom behind Ruth\'s future. She identified Boaz as a kinsman-redeemer (go\'el), coached Ruth on approaching him at the threshing floor, and understood that the levirate law created an opportunity for restoration. When Boaz redeemed the property and married Ruth, and Ruth bore a son (Obed), the women of Bethlehem said: "Blessed be the LORD, who has not left you this day without a redeemer" (Ruth 4:14). They placed the child in Naomi\'s arms, and she became his nurse.
+
+Obed became the grandfather of David — and Naomi, who had come back empty, was in the lineage of the Messiah.`,
+    historicalContext: `The levirate law (Deuteronomy 25:5-10) required a surviving brother to marry a deceased brother\'s widow to preserve his name and inheritance. The book of Ruth expands this concept to the broader kinsman-redeemer (go\'el) institution, where a near relative could redeem family property and marry a widow. The Moabite origin of Ruth was technically problematic (Deuteronomy 23:3 excluded Moabites from the assembly to the tenth generation), but Ruth\'s total allegiance to Israel\'s God and people was honored as genuine conversion.`,
+    keyScriptures: [
+      { reference: 'Ruth 1:20-21', text: 'And she said unto them, Call me not Naomi, call me Mara: for the Almighty hath dealt very bitterly with me. I went out full, and the LORD hath brought me home again empty.', significance: 'One of Scripture\'s most honest expressions of grief — Naomi does not pretend, yet she still speaks to and about the LORD.' },
+      { reference: 'Ruth 4:14-15', text: 'And the women said unto Naomi, Blessed be the LORD, which hath not left thee this day without a kinsman, that his name may be famous in Israel. And he shall be unto thee a restorer of thy life, and a nourisher of thine old age: for thy daughter in law, which loveth thee, which is better to thee than seven sons, hath born him.', significance: 'The completion of Naomi\'s restoration — from Mara back to Naomi, from empty to full.' },
+    ],
+    traits: ['Generous toward her daughters-in-law', 'Strategically wise', 'Honest about her grief', 'Faithfully loyal to God even in bitterness', 'Practically caring'],
+    failures: ['In her grief, she tried to send away the very people who would be instruments of her restoration', 'She briefly identified herself wholly with bitterness rather than with the God who restores'],
+    faithLessons: [
+      'Honest grief is not faithlessness — "Mara" is not apostasy but lamentation before a God still acknowledged as sovereign.',
+      'God often restores through unexpected people (a Moabite daughter-in-law) rather than the paths we expect.',
+      'The redeemer who restores what was lost is always God\'s provision — first Boaz for Naomi, ultimately Christ for all humanity.',
+    ],
+    typologyOfChrist: 'Boaz as kinsman-redeemer (go\'el) is the primary type in the book of Ruth, but Naomi is the one who knows the law and points Ruth to the redeemer. She represents the role of the covenant community — those who know the way of redemption and direct others to the one who can redeem. The go\'el institution itself is a type of Christ, who became our kinsman (incarnation) in order to redeem what we had lost.',
+    theologicalSignificance: 'The book of Ruth is a meditation on *hesed* — covenant faithfulness that goes beyond what is legally required. Both Ruth and Boaz exemplify *hesed* toward Naomi. God\'s *hesed* is the invisible background of every scene. Naomi\'s story demonstrates that divine providence works through ordinary human faithfulness and that the most unlikely people (a Moabite widow, a barley farmer) can be instruments of the Messianic purpose.',
+    timeline: [
+      { event: 'Emigrates to Moab with Elimelech and sons during famine', reference: 'Ruth 1:1-2', year: '~1100 BC' },
+      { event: 'Elimelech and both sons die; left widowed in Moab', reference: 'Ruth 1:3-5', year: '~1090 BC' },
+      { event: 'Returns to Bethlehem with Ruth; calls herself Mara', reference: 'Ruth 1:19-21', year: '~1085 BC' },
+      { event: 'Identifies Boaz as kinsman-redeemer; coaches Ruth', reference: 'Ruth 2-3', year: '~1085 BC' },
+      { event: 'Boaz redeems the property and marries Ruth', reference: 'Ruth 4:9-10', year: '~1085 BC' },
+      { event: 'Ruth bears Obed; women restore Naomi\'s name and joy', reference: 'Ruth 4:14-17', year: '~1084 BC' },
+    ],
+    relationships: ['Elimelech (husband, deceased)', 'Mahlon and Chilion (sons, deceased)', 'Ruth (daughter-in-law)', 'Orpah (daughter-in-law)', 'Boaz (kinsman-redeemer)', 'Obed (grandson)'],
+    relatedCharacters: ['ruth', 'david', 'rahab', 'samuel'],
+  },
+
+  // ─── EZRA ────────────────────────────────────────────────────────────────
+  {
+    id: 'ezra',
+    name: 'Ezra',
+    hebrewGreek: 'עֶזְרָא',
+    transliteration: 'Ezra',
+    nameMeaning: 'Help / Helper',
+    testament: 'OT',
+    category: 'Priest / Prophet',
+    era: 'Post-Exilic (~458–430 BC)',
+    keyBooks: ['Ezra', 'Nehemiah'],
+    oneLiner: 'The scribe-priest who led a second wave of returnees from Babylon to Jerusalem, wept over Israel\'s sin with such intensity the people gathered around him, and who made public reading of the Torah the foundation of post-exilic renewal.',
+    biography: `Ezra was a priest descended from Aaron and a scribe "skilled in the Law of Moses" (Ezra 7:6). He remained in Babylon after Cyrus\'s decree permitted the exiles to return, not joining Zerubbabel\'s first wave in 538 BC but coming later, in 458 BC, under King Artaxerxes I of Persia. The king issued him a remarkable authorization — a royal letter granting him authority to appoint judges, teach the law, and even execute judgment on violators (Ezra 7:25-26). Artaxerxes funded his journey out of the royal treasury.
+
+Ezra\'s personal preparation is summed up in one verse that should govern every teacher and preacher: "For Ezra had prepared his heart to seek the law of the LORD, and to do it, and to teach in Israel statutes and judgments" (Ezra 7:10). Seek it, do it, teach it — in that order.
+
+When Ezra arrived in Jerusalem and learned that the returned community had intermarried with surrounding pagan peoples (including priests and leaders), he tore his garment, pulled hair from his head and beard, and sat appalled until evening. Then he prayed — a public, prostrate, weeping prayer of national confession that lasted until evening prayer (Ezra 9). The people gathered around him weeping.
+
+The result was a national covenant renewal — the people confessed their sin and agreed to put away their foreign wives (Ezra 10). This episode, disturbing to modern sensibilities, must be understood in the context of the exilic community\'s desperate struggle not to repeat the pattern of pre-exilic syncretism that had led to the Babylonian captivity. The issue was not ethnicity but theology — the threat of Baal worship and idolatry being absorbed again through marriages that would import foreign gods.
+
+In Nehemiah\'s account, Ezra\'s greatest moment was the great public reading of the Law (Nehemiah 8). He stood on a wooden platform above the people, opened the Book of the Law before the entire assembly, and read from early morning to midday while Levites helped people understand. The people wept when they heard the law. Ezra and Nehemiah told them: "This day is holy to the LORD your God; do not mourn or weep" (Nehemiah 8:9). The weeping became feasting — one of Scripture\'s great reversals.`,
+    historicalContext: `The post-exilic period (~538-400 BC) saw the Persian Empire operate a policy of restoring subject peoples\' religious and cultural institutions, as attested in Cyrus\'s cylinder and multiple royal inscriptions. Ezra\'s authorization from Artaxerxes I was not unusual — it fit Persian policy toward loyal provincial elites. The intermarriage crisis Ezra confronted was not a new problem; Nehemiah faced it again a generation later (Nehemiah 13:23-27), suggesting the difficulty of maintaining covenant distinctiveness in a multicultural environment.`,
+    keyScriptures: [
+      { reference: 'Ezra 7:10', text: 'For Ezra had prepared his heart to seek the law of the LORD, and to do it, and to teach in Israel statutes and judgments.', significance: 'The model of biblical ministry — personal formation precedes public proclamation. Seek, do, then teach.' },
+      { reference: 'Ezra 9:5-6', text: 'And at the evening sacrifice I arose up from my heaviness... and I fell upon my knees, and spread out my hands unto the LORD my God, and said... O my God, I am ashamed and blush to lift up my face to thee.', significance: 'Ezra\'s identification with corporate sin — he weeps for sins he did not personally commit, modeling representative intercession.' },
+      { reference: 'Nehemiah 8:8', text: 'So they read in the book in the law of God distinctly, and gave the sense, and caused them to understand the reading.', significance: 'The birth of the expository preaching tradition — public reading, careful explanation, and application.' },
+    ],
+    traits: ['Deeply learned in Scripture', 'Emotionally engaged with sin', 'Persistent in prayer', 'Courageous in reform', 'Self-prepared before leading others'],
+    failures: ['His handling of the intermarriage crisis, while theologically motivated, caused significant human suffering to the families involved'],
+    faithLessons: [
+      'Spiritual leaders must first seek and do the word before teaching it — Ezra\'s sequence is the pattern for every teacher.',
+      'Representative intercession — weeping for sins you did not commit — is one of the highest forms of priestly leadership.',
+      'Scripture publicly read, clearly explained, and personally applied is the foundation of spiritual renewal.',
+    ],
+    typologyOfChrist: 'Ezra as scribe and priest who reads the law and causes people to understand it points to Christ, the Great Teacher and High Priest who opens the Scriptures (Luke 24:45) and intercedes before God (Romans 8:34; Hebrews 7:25). Ezra\'s weeping over corporate sin prefigures Christ\'s weeping over Jerusalem (Luke 19:41) and His bearing of the sins of many.',
+    theologicalSignificance: 'Ezra marks the transition from prophetic to scribal religion in Israel — the move from direct prophetic word to authoritative interpretation of written Scripture. This shift is foundational to both Judaism (the rabbinic tradition) and Christianity (the authoritative reading and interpretation of Scripture in the gathered community). The scene in Nehemiah 8 — public reading, explanation, and application of Scripture — is the template for Christian preaching and liturgy.',
+    timeline: [
+      { event: 'Born in Babylon; priestly descent traced to Aaron', reference: 'Ezra 7:1-5', year: '~480 BC' },
+      { event: 'Commissioned by Artaxerxes I; leads second return of exiles to Jerusalem', reference: 'Ezra 7-8', year: '458 BC' },
+      { event: 'Learns of intermarriage crisis; weeps and prays publicly', reference: 'Ezra 9', year: '458 BC' },
+      { event: 'Leads covenant renewal; community agrees to divorce foreign wives', reference: 'Ezra 10', year: '457 BC' },
+      { event: 'Reads the Law publicly to all Israel for half the day', reference: 'Nehemiah 8:1-8', year: '445 BC' },
+      { event: 'People weep at the law; Ezra and Nehemiah declare the day holy', reference: 'Nehemiah 8:9-12', year: '445 BC' },
+    ],
+    relationships: ['Seraiah (ancestor — Ezra 7:1)', 'Artaxerxes I (Persian king who commissioned him)', 'Nehemiah (co-laborer in post-exilic restoration)', 'The Levites who assisted in Torah reading'],
+    relatedCharacters: ['nehemiah', 'daniel', 'isaiah', 'jeremiah'],
+  },
+
+  // ─── NEHEMIAH ────────────────────────────────────────────────────────────
+  {
+    id: 'nehemiah',
+    name: 'Nehemiah',
+    hebrewGreek: 'נְחֶמְיָה',
+    transliteration: 'Nechemiah',
+    nameMeaning: 'The LORD comforts / Comforted by the LORD',
+    testament: 'OT',
+    category: 'Other',
+    era: 'Post-Exilic (~445–420 BC)',
+    keyBooks: ['Nehemiah'],
+    oneLiner: 'The cupbearer-turned-governor who wept over Jerusalem\'s walls, prayed before answering the king, and rebuilt the city in fifty-two days — a master of prayer, logistics, and courageous leadership against organized opposition.',
+    biography: `Nehemiah was the cupbearer to the Persian king Artaxerxes I — a position of intimate royal trust that required absolute loyalty and put him among the most powerful non-royal figures in the empire. When a relative brought him news that Jerusalem\'s walls lay in ruins and its gates burned, Nehemiah wept, mourned, fasted, and prayed for days. His prayer (Nehemiah 1:5-11) is a model of covenant intercession: it begins with God\'s greatness, acknowledges Israel\'s specific sins, appeals to the covenant promises of Deuteronomy, and ends with a specific request.
+
+When the king noticed his sorrow and asked what he wanted, Nehemiah "prayed to the God of heaven" — a split-second silent prayer before answering — and then made his request with diplomatic precision: leave to go rebuild Jerusalem, royal letters guaranteeing passage and timber for the gates. The king granted everything. Nehemiah recognized the divine hand: "The gracious hand of my God was upon me" (Nehemiah 2:8).
+
+In Jerusalem, Nehemiah conducted a secret night inspection of the walls before making any announcements. Then he rallied the people: "You see the trouble we are in... Come, let us rebuild the wall of Jerusalem, that we may no longer suffer derision." The response was immediate: "Let us rise up and build" (Nehemiah 2:17-18).
+
+The opposition was fierce. Sanballat, Tobiah, and Geshem mocked, threatened, conspired, and attempted to lure Nehemiah to a meeting they intended as an assassination (Nehemiah 6:2). His response to every threat was first prayer, then action: the workers built with one hand and held a weapon in the other. The wall was rebuilt in fifty-two days (Nehemiah 6:15) — an achievement that even their enemies recognized as the work of God.
+
+Nehemiah\'s second term (Nehemiah 13) reveals his passionate, sometimes physical, enforcement of the Sabbath and covenant purity. He confronted Sabbath traders, threw the household goods of Tobiah out of the Temple room he had occupied, and "contended with" Israelites who had married foreign women — the same crisis Ezra had addressed thirteen years earlier.`,
+    historicalContext: `Persian cupbearers occupied positions of extraordinary influence — they tasted the king\'s wine for poison, had unrestricted access to the royal person, and were often involved in diplomatic decisions. Nehemiah\'s rapid transition from court official to provincial governor of Judah (Nehemiah 5:14) reflects both his abilities and Persian administrative flexibility. The Elephantine papyri from Egypt (~407 BC) mention Nehemiah\'s successor as governor, confirming the historicity of his administration.`,
+    keyScriptures: [
+      { reference: 'Nehemiah 2:4-5', text: 'Then the king said unto me, For what dost thou make request? So I prayed to the God of heaven. And I said unto the king... send me unto Judah, unto the city of my fathers\' sepulchres, that I may build it.', significance: 'The arrow prayer — split-second intercession in the middle of a high-stakes conversation, modeling prayer as the first response to every challenge.' },
+      { reference: 'Nehemiah 4:9', text: 'Nevertheless we made our prayer unto our God, and set a watch against them day and night, because of them.', significance: 'Nehemiah\'s integrated theology: prayer and action together — "we prayed... and set a watch." Neither alone was sufficient.' },
+      { reference: 'Nehemiah 6:15', text: 'So the wall was finished in the twenty and fifth day of the month Elul, in fifty and two days.', significance: 'The completion that testified to divine enablement — even Israel\'s enemies recognized that God had accomplished this work.' },
+    ],
+    traits: ['Prayerful in crisis', 'Strategically brilliant', 'Courageous against intimidation', 'Emotionally engaged with God\'s honor', 'Practically effective', 'Occasionally impulsive in enforcement'],
+    failures: ['His physical confrontations in later reforms may have crossed pastoral lines', 'The Sanballat/Tobiah opposition was never fully resolved — it returned in his second term'],
+    faithLessons: [
+      'Effective leadership integrates prayer and action — Nehemiah never prayed as a substitute for planning, nor planned as a substitute for prayer.',
+      'Brief, urgent, specific prayer in the moment of decision is as valid as extended devotional prayer.',
+      'Rebuilding what has been destroyed — walls, community, covenant faithfulness — is always possible under God\'s hand.',
+    ],
+    typologyOfChrist: 'Nehemiah as governor-servant who leaves a position of comfort and privilege to restore his broken people images Christ\'s incarnation. As Nehemiah left the Persian court to rebuild Jerusalem\'s walls, Christ left the courts of heaven to rebuild fallen humanity. The fifty-two days of wall building point to the rapid, definitive nature of Christ\'s redemptive work — accomplished in three years of public ministry and three days in the tomb.',
+    theologicalSignificance: 'Nehemiah establishes the model of "working and watching" — the integration of human effort and divine dependence. His book is the most practically detailed account of urban community renewal in Scripture, showing that covenant restoration requires both spiritual renewal (Ezra\'s work) and structural repair (Nehemiah\'s work). Together, Ezra and Nehemiah model the inseparability of word and deed, revival and reform.',
+    timeline: [
+      { event: 'Cupbearer to Artaxerxes I in Susa; receives news of Jerusalem\'s desolation', reference: 'Nehemiah 1', year: '446 BC' },
+      { event: 'Arrow prayer before the king; commissioned with letters and timber', reference: 'Nehemiah 2:1-8', year: '445 BC' },
+      { event: 'Arrives in Jerusalem; secret night inspection of the walls', reference: 'Nehemiah 2:11-16', year: '445 BC' },
+      { event: 'Organizes the builders; opposition begins immediately', reference: 'Nehemiah 3-4', year: '445 BC' },
+      { event: 'Builders work with tools in one hand, weapons in the other', reference: 'Nehemiah 4:17', year: '445 BC' },
+      { event: 'Wall completed in 52 days', reference: 'Nehemiah 6:15', year: '445 BC' },
+      { event: 'Great public reading of the Law with Ezra', reference: 'Nehemiah 8', year: '445 BC' },
+      { event: 'Returns to Persia; comes back for second term; reforms worship', reference: 'Nehemiah 13', year: '~433 BC' },
+    ],
+    relationships: ['Artaxerxes I (king and employer)', 'Sanballat, Tobiah, Geshem (opponents)', 'Ezra (co-laborer in spiritual reform)', 'Hanani (brother who brought news — Nehemiah 1:2)'],
+    relatedCharacters: ['ezra', 'daniel', 'isaiah', 'david'],
+  },
+
+  // ─── CALEB ───────────────────────────────────────────────────────────────
+  {
+    id: 'caleb',
+    name: 'Caleb',
+    hebrewGreek: 'כָּלֵב',
+    transliteration: 'Kalev',
+    nameMeaning: 'Dog / Whole-hearted',
+    testament: 'OT',
+    category: 'Military Leader / Prophet',
+    era: 'Exodus / Conquest (~1500–1375 BC)',
+    keyBooks: ['Numbers', 'Joshua'],
+    oneLiner: 'One of only two spies who trusted God\'s word over the majority\'s fear — and who at eighty-five years old still claimed his mountain, fighting with the same energy as when he first received the promise forty-five years earlier.',
+    biography: `Caleb son of Jephunneh was from the tribe of Judah. He was one of the twelve spies sent by Moses to scout the land of Canaan (Numbers 13). Ten of the twelve returned with a fearful report: the cities are fortified, the people are giants, "we were like grasshoppers in our own sight, and so we were in their sight" (Numbers 13:33). The people wept and wanted to return to Egypt.
+
+Caleb and Joshua stood alone: "Let us go up at once and occupy it, for we are well able to overcome it" (Numbers 13:30). When the congregation threatened to stone them (Numbers 14:10), the glory of the LORD appeared at the tent of meeting. God\'s response was forty years of wilderness wandering as judgment on the unbelieving generation — and a personal promise to Caleb: "But my servant Caleb, because he has a different spirit and has followed me fully, I will bring into the land into which he went, and his descendants shall possess it" (Numbers 14:24).
+
+Forty-five years later, at age eighty-five, Caleb appeared before Joshua to claim that promise. His words are among the most inspiring in the Old Testament: "I am as strong today as I was in the day that Moses sent me; my strength now is as my strength was then, for war and for going and coming. So now give me this hill country of which the LORD spoke on that day" (Joshua 14:11-12). The "hill country" he requested was Hebron — home of the Anakim, the very giants that had frightened the other spies.
+
+Caleb drove them out. He took Hebron at eighty-five as confidently as Joshua took Jericho at sixty. His daughter Achsah also demonstrated his spirit — she boldly asked for and received both the Negeb land and springs of water as her inheritance (Joshua 15:18-19).`,
+    historicalContext: `The Anakim (Numbers 13:28-33) were a large, strong people associated with the pre-Israelite inhabitants of Hebron (Kiriath-arba). Their presence in the scouted territory triggered the famous grasshopper report. Caleb\'s descent is noted as the son of Jephunneh the Kenizzite — a non-Israelite clan that had been absorbed into Judah. His faithful service as a "sojourner" who fully embraced covenant loyalty makes his story a theological commentary on what true belonging to God\'s people means.`,
+    keyScriptures: [
+      { reference: 'Numbers 14:24', text: 'But my servant Caleb, because he had another spirit with him, and hath followed me fully, him will I bring into the land whereinto he went; and his seed shall possess it.', significance: 'God\'s personal promise to the man with a different spirit — wholehearted devotion distinguishes Caleb from his generation.' },
+      { reference: 'Joshua 14:11-12', text: 'As yet I am as strong this day as I was in the day that Moses sent me: as my strength was then, even so is my strength now... give me this mountain.', significance: 'The most triumphant claim of continued faith and strength in all the conquest narrative — an eighty-five-year-old claiming his mountain.' },
+    ],
+    traits: ['Wholehearted', 'Fearless', 'Spiritually tenacious', 'Patient through long waiting', 'Never bitter about the delay', 'Physically vigorous into old age'],
+    failures: ['No significant moral failures recorded — Caleb is one of Scripture\'s rare examples of sustained integrity from youth to old age'],
+    faithLessons: [
+      'Forty-five years of waiting did not diminish Caleb\'s faith — he kept trusting the specific promise God had made to him.',
+      '"A different spirit" — wholehearted devotion — is what distinguishes the few from the faithless majority.',
+      'The promises God makes are redeemable, however long the waiting — "give me this mountain" was the act of a man who had never forgotten the promise.',
+    ],
+    typologyOfChrist: 'Caleb\'s patient waiting for the promised inheritance, and his vigorous claiming of it after forty-five years, points to the patience of faith in the final resurrection inheritance. As Caleb\'s strength was not diminished by decades of waiting, so Christ promises: "He who endures to the end will be saved" (Matthew 24:13). The mountain Caleb claimed — Hebron, city of the Anakim — was the impossible territory claimed by faith.',
+    theologicalSignificance: 'Caleb and Joshua together establish the "faithful remnant" principle — God preserves and rewards those who follow Him wholeheartedly even when the majority defects. They are the only two members of the Exodus generation to enter Canaan, a fact cited repeatedly in Numbers and Deuteronomy as the paradigm of covenant faithfulness rewarded. Caleb\'s Kenizzite origin adds the dimension of a faithful "outsider" who fully embraces covenant identity — a forerunner of the Gentile inclusion in the new covenant.',
+    timeline: [
+      { event: 'Chosen as the representative spy from Judah', reference: 'Numbers 13:6', year: '~1445 BC' },
+      { event: 'Reports that Canaan is conquerable; opposes the faithless majority', reference: 'Numbers 13:30; 14:6-9', year: '~1445 BC' },
+      { event: 'God promises Caleb his personal inheritance in Canaan', reference: 'Numbers 14:24', year: '~1445 BC' },
+      { event: 'Forty years of wilderness wandering; outlives his fearful generation', year: '~1445–1406 BC' },
+      { event: 'At age 85 comes before Joshua to claim his inheritance', reference: 'Joshua 14:6-15', year: '~1400 BC' },
+      { event: 'Drives out the Anakim and takes Hebron', reference: 'Joshua 15:14', year: '~1399 BC' },
+    ],
+    relationships: ['Jephunneh (father — a Kenizzite)', 'Achsah (daughter)', 'Joshua (companion in faith from the spy mission)', 'Moses (under whose authority he served)'],
+    relatedCharacters: ['joshua', 'moses', 'david', 'samuel'],
+  },
+
+  // ─── TIMOTHY ─────────────────────────────────────────────────────────────
+  {
+    id: 'timothy',
+    name: 'Timothy',
+    hebrewGreek: 'Τιμόθεος',
+    transliteration: 'Timotheos',
+    nameMeaning: 'Honoring God / One who honors God',
+    testament: 'NT',
+    category: 'Other',
+    era: 'New Testament (~AD 47–65)',
+    keyBooks: ['Acts', '1 Timothy', '2 Timothy', '1 Corinthians', 'Philippians', 'Colossians', '1 Thessalonians', '2 Thessalonians', 'Philemon'],
+    oneLiner: 'Paul\'s closest co-worker and "true son in the faith" — a young pastor with a sincere faith inherited from his grandmother and mother, whose name appears more frequently in Paul\'s letters than any other person.',
+    biography: `Timothy was from Lystra in Asia Minor (modern Turkey), the son of a Jewish mother (Eunice) and a Greek (Gentile) father. His grandmother Lois had passed genuine faith to Eunice, who had passed it to Timothy — making him a third-generation believer in a pattern Paul commended as the ideal transmission of faith (2 Timothy 1:5). He had learned the sacred scriptures from infancy (2 Timothy 3:15).
+
+Paul met Timothy during his second missionary journey and recognized an outstanding young disciple, well spoken of by the believers in Lystra and Iconium. He took Timothy as a co-worker, but first circumcised him — not as a theological requirement for salvation, but for the sake of the Jewish communities they would work among (Acts 16:1-3). This pragmatic accommodation shows both Paul\'s strategic missiological thinking and Timothy\'s willingness to suffer for the mission.
+
+Timothy became Paul\'s most trusted delegate. He was sent to Thessalonica to strengthen the young church while Paul was in Athens (1 Thessalonians 3:2). He was sent to Corinth to remind them of Paul\'s ways in Christ (1 Corinthians 4:17). He appears as co-sender in six of Paul\'s letters (2 Corinthians, Philippians, Colossians, 1 & 2 Thessalonians, Philemon), and Paul sent him to Philippi calling him "like-minded" — the only person who would "genuinely be anxious" for the Philippians\' welfare (Philippians 2:20-22).
+
+Paul\'s letters to Timothy reveal a young man with genuine gifts, sincere faith, and real vulnerabilities: he was apparently naturally timid (2 Timothy 1:7 — "God gave us a spirit not of fear"), suffered from stomach ailments (1 Timothy 5:23), and was young enough that some were looking down on him (1 Timothy 4:12 — "Let no one despise your youth"). Paul\'s pastoral care for him — "my beloved son" — is among the most personal material in all his letters.
+
+Timothy was imprisoned at some point and later released (Hebrews 13:23). According to church tradition, he served as bishop of Ephesus and was martyred under Domitian around AD 97.`,
+    historicalContext: `Lystra was a Roman colony in the region of Lycaonia in Asia Minor. Timothy\'s mixed Jewish-Gentile background made him a significant figure for Paul\'s mission strategy — he could move between both communities. The "sincere faith" (1 Timothy 1:5; 2 Timothy 1:5) language Paul uses for Timothy and his family is the Greek *anupokritos* — unfeigned, unmasked faith, as opposed to hypocritical performance. Paul\'s reference to Timothy\'s grandmother suggests a three-generation span of Christian faith beginning perhaps from the Pentecost period or early mission.`,
+    keyScriptures: [
+      { reference: '2 Timothy 1:5', text: 'When I call to remembrance the unfeigned faith that is in thee, which dwelt first in thy grandmother Lois, and thy mother Eunice; and I am persuaded that in thee also.', significance: 'The intergenerational transmission of genuine faith — Timothy\'s character was shaped by two godly women before Paul ever met him.' },
+      { reference: '1 Timothy 4:12', text: 'Let no man despise thy youth; but be thou an example of the believers, in word, in conversation, in charity, in spirit, in faith, in purity.', significance: 'Paul\'s defining charge to the young pastor — counter the disadvantage of youth not by authority but by exemplary character.' },
+      { reference: '2 Timothy 4:2', text: 'Preach the word; be instant in season, out of season; reprove, rebuke, exhort with all longsuffering and doctrine.', significance: 'The timeless charge to every preacher — Paul\'s final words to his closest disciple and the capstone of pastoral theology.' },
+    ],
+    traits: ['Sincere in faith', 'Naturally serving', 'Teachable', 'Somewhat timid', 'Loyal to Paul and to Christ', 'Deeply pastoral'],
+    failures: ['Natural timidity that needed repeated encouragement (2 Timothy 1:6-7)', 'Possibly prone to allowing others to despise his youth rather than establishing authoritative leadership'],
+    faithLessons: [
+      'Faith is caught before it is taught — Timothy\'s grandmother and mother shaped him before Paul arrived.',
+      'God uses timid, physically unimpressive people for His greatest purposes — Timothy\'s weakness was no barrier to his calling.',
+      'Fan into flame the gift God has given you — 2 Timothy 1:6 suggests the gift needed active stirring, not passive possession.',
+    ],
+    typologyOfChrist: 'Timothy images the disciple who receives from his teacher and passes on faithfully to the next generation — "the things that you have heard from me in the presence of many witnesses entrust to faithful men, who will be able to teach others also" (2 Timothy 2:2). This four-generation chain of transmission (Paul → Timothy → faithful men → others) is the pattern Christ established through the apostles.',
+    theologicalSignificance: 'The Pastoral Epistles (1 & 2 Timothy, Titus) are the New Testament\'s primary documents on church leadership, ministry, and the passing of apostolic doctrine to the next generation. Timothy is the primary addressee, making him central to the theology of pastoral succession. His mixed Jewish-Gentile background also makes him a living embodiment of the "one new man" created by the gospel (Ephesians 2:15).',
+    timeline: [
+      { event: 'Born in Lystra; raised in faith by Lois and Eunice', reference: '2 Timothy 1:5', year: '~AD 17' },
+      { event: 'Met by Paul in Lystra on second missionary journey; circumcised and taken as co-worker', reference: 'Acts 16:1-3', year: '~AD 48' },
+      { event: 'Sent to Thessalonica to strengthen the new church while Paul is in Athens', reference: '1 Thessalonians 3:2', year: 'AD 50' },
+      { event: 'Sent to Corinth to remind them of Paul\'s teaching', reference: '1 Corinthians 4:17', year: '~AD 55' },
+      { event: 'With Paul in Rome during his first imprisonment; co-sends letters to Philippians and Colossians', reference: 'Philippians 1:1', year: '~AD 61' },
+      { event: 'Left in Ephesus as pastor; receives 1 Timothy', reference: '1 Timothy 1:3', year: '~AD 62' },
+      { event: 'Receives 2 Timothy — Paul\'s final letter — while Paul is in a Roman dungeon', reference: '2 Timothy', year: '~AD 65' },
+      { event: 'Imprisoned and released (mentioned in Hebrews 13:23)', year: '~AD 67' },
+    ],
+    relationships: ['Paul (spiritual father and mentor)', 'Lois (grandmother)', 'Eunice (mother)', 'Silas (co-worker in missions)', 'The Ephesian church (his pastoral charge)'],
+    relatedCharacters: ['paul', 'barnabas', 'peter', 'stephen'],
+  },
 ];
 
 export const CHARACTER_CATEGORIES = [
-  'Patriarch', 'King / Poet / Sage', 'Prophet', 'Apostle', 'Judge / Prophet', 'Military Leader / Prophet', 'Disciple', 'Martyr / Deacon', 'Queen', 'Other',
+  'Patriarch', 'King / Poet / Sage', 'Prophet', 'Priest / Prophet', 'Apostle', 'Judge / Prophet', 'Military Leader / Prophet', 'Disciple', 'Martyr / Deacon', 'Queen', 'Other',
 ];
 
 export const ALL_CHARACTER_IDS = CHARACTERS.map(c => c.id);
