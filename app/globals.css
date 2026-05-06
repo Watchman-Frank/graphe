@@ -1,26 +1,137 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --shell-950: #0C0B0A;
+    --shell-900: #131210;
+    --shell-800: #1E1C1A;
+    --shell-700: #2A2724;
+    --shell-600: #3D3830;
+    --shell-500: #5C5549;
+    --shell-400: #7A7269;
+
+    --parchment-50: #FDFAF3;
+    --parchment-100: #F5ECD7;
+    --parchment-200: #E8D5B0;
+    --parchment-300: #D4B896;
+    --parchment-400: #C09A7A;
+
+    --gold-200: #F0D980;
+    --gold-300: #E8C96A;
+    --gold-400: #C9A84C;
+    --gold-500: #A8872E;
+    --gold-600: #7A6020;
+
+    --burgundy-300: #C4617A;
+    --burgundy-400: #A34D60;
+    --burgundy-500: #7B2D3E;
+    --burgundy-600: #5C1E2C;
+
+    --sepia-900: #2C1810;
+    --sepia-700: #4A2E1A;
+    --sepia-500: #7A5228;
   }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-color: var(--shell-950);
+    color: #E8E0D5;
+    font-family: 'Georgia', serif;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background-color: var(--gold-400);
+    color: var(--sepia-900);
+  }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--shell-900); }
+  ::-webkit-scrollbar-thumb { background: var(--shell-600); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--gold-500); }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .parchment {
+    background-color: var(--parchment-100);
+    color: var(--sepia-900);
+  }
+
+  .glass {
+    background: rgba(30, 28, 26, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(201, 168, 76, 0.15);
+  }
+
+  .scripture-font {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    line-height: 1.95;
+    letter-spacing: 0.01em;
+  }
+
+  .verse-num {
+    font-size: 0.6em;
+    vertical-align: super;
+    color: var(--gold-400);
+    font-weight: 700;
+    margin-right: 0.3em;
+  }
+
+  .highlight-yellow { background-color: rgba(250, 220, 50, 0.38); border-radius: 2px; }
+  .highlight-green  { background-color: rgba(80, 200, 120, 0.32); border-radius: 2px; }
+  .highlight-blue   { background-color: rgba(80, 160, 240, 0.32); border-radius: 2px; }
+  .highlight-pink   { background-color: rgba(240, 100, 160, 0.30); border-radius: 2px; }
+  .highlight-purple { background-color: rgba(160, 100, 240, 0.30); border-radius: 2px; }
+
+  .gold-glow { box-shadow: 0 0 24px rgba(201, 168, 76, 0.18); }
+  .gold-border { border-color: var(--gold-400); }
+  .text-gold { color: var(--gold-400); }
+  .text-parchment { color: var(--parchment-200); }
+  .bg-shell-900 { background-color: var(--shell-900); }
+  .bg-shell-800 { background-color: var(--shell-800); }
+  .bg-shell-700 { background-color: var(--shell-700); }
+}
+
+/* Audio waveform */
+.wave-bar {
+  display: inline-block;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--gold-400);
+  animation: wave 1.2s ease-in-out infinite;
+}
+.wave-bar:nth-child(1) { animation-delay: 0s; height: 8px; }
+.wave-bar:nth-child(2) { animation-delay: 0.1s; height: 16px; }
+.wave-bar:nth-child(3) { animation-delay: 0.2s; height: 24px; }
+.wave-bar:nth-child(4) { animation-delay: 0.3s; height: 16px; }
+.wave-bar:nth-child(5) { animation-delay: 0.4s; height: 8px; }
+
+@keyframes wave {
+  0%, 100% { transform: scaleY(0.5); opacity: 0.6; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+
+/* Journal */
+.journal-editor {
+  outline: none;
+  min-height: 420px;
+  font-size: 1.1rem;
+  line-height: 1.85;
+  color: #1a0f0a;
+  font-family: 'Georgia', serif;
+}
+.journal-editor:empty:before {
+  content: attr(data-placeholder);
+  color: #9A8878;
+  pointer-events: none;
 }
