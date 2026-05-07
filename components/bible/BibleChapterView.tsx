@@ -524,7 +524,6 @@ export function BibleChapterView({ book, chapter, initialVerse }: Props) {
         body: JSON.stringify({
           text: text.slice(0, 4000),
           voiceId: elevenLabs.voiceId,
-          apiKey: elevenLabs.apiKey,
           stability: elevenLabs.stability,
           similarityBoost: elevenLabs.similarityBoost,
           style: elevenLabs.style,
@@ -547,7 +546,7 @@ export function BibleChapterView({ book, chapter, initialVerse }: Props) {
     }
   }
 
-  const hasVoice = !!elevenLabs.apiKey && !!elevenLabs.voiceId;
+  const hasVoice = !!elevenLabs.voiceId;
 
   return (
     <div className="min-h-screen flex flex-col">

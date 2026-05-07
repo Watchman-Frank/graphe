@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(request: NextRequest) {
-  const apiKey = request.headers.get('xi-api-key');
-  if (!apiKey) return NextResponse.json({ error: 'API key required' }, { status: 401 });
+function getApiKey(): string | null {
+  return process.env.ELEVENLABS_API_KEY ?? null;
+}
+
+export async function GET() {
+  const apiKey = getApiKey();
+  if (!apiKey) return NextResponse.json({ error: 'ElevenLabs API key not configured' }, { status: 503 });
 
   const res = await fetch('https://api.elevenlabs.io/v1/voices', {
     headers: { 'xi-api-key': apiKey },
+    next: { revalidate: 3600 },
   });
 
   if (!res.ok) return NextResponse.json({ error: 'Failed to fetch voices' }, { status: res.status });
@@ -13,11 +18,10 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const apiKey = request.headers.get('xi-api-key');
-  if (!apiKey) return NextResponse.json({ error: 'API key required' }, { status: 401 });
+  const apiKey = getApiKey();
+  if (!apiKey) return NextResponse.json({ error: 'ElevenLabs API key not configured' }, { status: 503 });
 
   const formData = await request.formData();
-
   const res = await fetch('https://api.elevenlabs.io/v1/voices/add', {
     method: 'POST',
     headers: { 'xi-api-key': apiKey },
@@ -29,7 +33,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
-  const apiKey = request.headers.get('xi-api-key');
+  const apiKey = getApiKey();
   const { searchParams } = new URL(request.url);
   const voiceId = searchParams.get('voiceId');
   if (!apiKey || !voiceId) return NextResponse.json({ error: 'Missing params' }, { status: 400 });
