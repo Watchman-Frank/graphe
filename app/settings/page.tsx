@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useSettingsStore } from '@/stores/settingsStore';
-import { Mic, Loader2, Volume2, BookOpen, Bell, Check } from 'lucide-react';
+import { Mic, Loader2, Volume2, BookOpen, Bell, Check, Key, Eye, EyeOff } from 'lucide-react';
 
 const SPEEDS = [0.75, 1.0, 1.25, 1.5, 2.0];
 
@@ -38,24 +38,59 @@ function Slider({ label, value, onChange, min = 0, max = 1, step = 0.05, descrip
 }
 
 export default function SettingsPage() {
-  const { elevenLabs, apiBibleKey, defaultTranslation, setElevenLabsConfig, setApiBibleKey, setDefaultTranslation } = useSettingsStore();
+  const { elevenLabs, defaultTranslation, setElevenLabsConfig, setDefaultTranslation } = useSettingsStore();
+
+  // API key input (local state, saved on confirm)
+  const [keyInput, setKeyInput] = useState(elevenLabs.apiKey ?? '');
+  const [showKey, setShowKey] = useState(false);
+  const [keySaved, setKeySaved] = useState(false);
+
   const [voices, setVoices] = useState<{ voice_id: string; name: string; category?: string }[]>([]);
-  const [voicesLoading, setVoicesLoading] = useState(true);
+  const [voicesLoading, setVoicesLoading] = useState(false);
   const [voicesError, setVoicesError] = useState('');
-  const [testText, setTestText] = useState('For God so loved the world, that he gave his only begotten Son.');
+
+  const [testText, setTestText] = useState('For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.');
   const [previewLoading, setPreviewLoading] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetch('/api/voice/clone')
+  // Load voices when we have an API key
+  function loadVoices(key: string) {
+    if (!key) return;
+    setVoicesLoading(true);
+    setVoicesError('');
+    fetch('/api/voice/clone', {
+      headers: { 'x-elevenlabs-key': key },
+    })
       .then(r => r.json())
       .then(data => {
         if (data.error) throw new Error(data.error);
-        setVoices(data.voices ?? []);
+        const list: { voice_id: string; name: string; category?: string }[] = data.voices ?? [];
+        setVoices(list);
+
+        // Auto-select "franko 1" (or first cloned/custom voice) if none selected yet
+        if (!elevenLabs.voiceId && list.length > 0) {
+          const preferred = list.find(v => v.name.toLowerCase().includes('franko'));
+          const cloned = list.find(v => v.category === 'cloned' || v.category === 'professional' || v.category === 'generated');
+          const pick = preferred ?? cloned ?? list[0];
+          if (pick) setElevenLabsConfig({ voiceId: pick.voice_id, voiceName: pick.name });
+        }
       })
       .catch(err => setVoicesError(err.message ?? 'Could not load voices.'))
       .finally(() => setVoicesLoading(false));
+  }
+
+  // Load on mount if key already saved
+  useEffect(() => {
+    if (elevenLabs.apiKey) loadVoices(elevenLabs.apiKey);
   }, []);
+
+  function saveKey() {
+    const trimmed = keyInput.trim();
+    setElevenLabsConfig({ apiKey: trimmed });
+    setKeySaved(true);
+    setTimeout(() => setKeySaved(false), 2000);
+    if (trimmed) loadVoices(trimmed);
+  }
 
   async function previewVoice() {
     if (!elevenLabs.voiceId) return;
@@ -67,22 +102,27 @@ export default function SettingsPage() {
         body: JSON.stringify({
           text: testText,
           voiceId: elevenLabs.voiceId,
+          apiKey: elevenLabs.apiKey,
           stability: elevenLabs.stability,
           similarityBoost: elevenLabs.similarityBoost,
           style: elevenLabs.style,
           speakerBoost: elevenLabs.speakerBoost,
         }),
       });
-      if (res.ok) {
-        const blob = await res.blob();
-        setAudioUrl(URL.createObjectURL(blob));
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error ?? 'Preview failed');
       }
-    } catch {
-      alert('Preview failed.');
+      const blob = await res.blob();
+      setAudioUrl(URL.createObjectURL(blob));
+    } catch (e: any) {
+      alert(e.message ?? 'Preview failed.');
     } finally {
       setPreviewLoading(false);
     }
   }
+
+  const hasKey = !!(elevenLabs.apiKey || process.env.NEXT_PUBLIC_HAS_ELEVENLABS_KEY);
 
   return (
     <div className="px-4 py-8 md:px-10 md:py-12 max-w-2xl">
@@ -91,39 +131,74 @@ export default function SettingsPage() {
         <h1 className="text-2xl md:text-3xl font-bold" style={{ color: 'var(--parchment-100)', fontFamily: 'Georgia,serif' }}>Settings</h1>
       </div>
 
-      {/* Translation */}
-      <Section title="Bible Translation" icon={BookOpen}>
-        <div className="flex gap-3">
-          {[
-            { id: 'kjv', sub: 'King James Version · Public domain' },
-            { id: 'nkjv', sub: 'New King James Version · Thomas Nelson' },
-          ].map(t => (
+      {/* ── ElevenLabs API Key ───────────────────────────────────────────────── */}
+      <Section title="ElevenLabs API Key" icon={Key}>
+        <p className="text-xs mb-4" style={{ color: 'var(--shell-400)' }}>
+          Required for the "Read to Me" feature. Get your key from{' '}
+          <a href="https://elevenlabs.io" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--gold-400)' }}>elevenlabs.io</a>{' '}
+          → Profile → API Keys. It is stored only in your browser.
+        </p>
+        <div className="flex gap-2">
+          <div className="relative flex-1">
+            <input
+              type={showKey ? 'text' : 'password'}
+              value={keyInput}
+              onChange={e => setKeyInput(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && saveKey()}
+              placeholder="sk-..."
+              className="w-full px-3 py-2.5 rounded-xl border text-sm outline-none font-mono"
+              style={{
+                background: 'var(--shell-900)',
+                borderColor: elevenLabs.apiKey ? 'rgba(201,168,76,0.4)' : 'rgba(255,255,255,0.1)',
+                color: 'var(--parchment-200)',
+              }}
+            />
             <button
-              key={t.id}
-              onClick={() => setDefaultTranslation(t.id as any)}
-              className="flex-1 rounded-xl p-3 border text-left transition-all"
-              style={
-                defaultTranslation === t.id
-                  ? { background: 'rgba(201,168,76,0.12)', borderColor: 'rgba(201,168,76,0.4)' }
-                  : { background: 'var(--shell-900)', borderColor: 'rgba(255,255,255,0.07)' }
-              }
+              onClick={() => setShowKey(s => !s)}
+              className="absolute right-3 top-1/2 -translate-y-1/2"
+              style={{ color: 'var(--shell-400)' }}
             >
-              <p className="font-bold text-sm mb-0.5" style={{ color: 'var(--parchment-200)' }}>{t.id.toUpperCase()}</p>
-              <p className="text-xs" style={{ color: 'var(--shell-400)' }}>{t.sub}</p>
+              {showKey ? <EyeOff size={14} /> : <Eye size={14} />}
             </button>
-          ))}
+          </div>
+          <button
+            onClick={saveKey}
+            disabled={!keyInput.trim()}
+            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-bold transition-all hover:scale-105 disabled:opacity-40"
+            style={{ background: 'rgba(201,168,76,0.15)', borderColor: 'rgba(201,168,76,0.3)', border: '1px solid', color: 'var(--gold-300)' }}
+          >
+            {keySaved ? <Check size={14} /> : 'Save'}
+          </button>
         </div>
+        {elevenLabs.apiKey && (
+          <p className="text-xs mt-2 flex items-center gap-1" style={{ color: '#7bc47b' }}>
+            <Check size={12} /> API key saved
+          </p>
+        )}
       </Section>
 
-      {/* Voice selection */}
-      <Section title="Voice" icon={Mic}>
-        {voicesLoading ? (
+      {/* ── Voice selection ─────────────────────────────────────────────────── */}
+      <Section title="Reading Voice" icon={Mic}>
+        {!elevenLabs.apiKey ? (
+          <p className="text-sm" style={{ color: 'var(--shell-400)' }}>
+            Enter your ElevenLabs API key above to load your voices.
+          </p>
+        ) : voicesLoading ? (
           <div className="flex items-center gap-2 py-2" style={{ color: 'var(--shell-400)' }}>
             <Loader2 size={15} className="animate-spin" />
             <span className="text-sm">Loading voices…</span>
           </div>
         ) : voicesError ? (
-          <p className="text-sm" style={{ color: 'var(--shell-400)' }}>{voicesError}</p>
+          <div>
+            <p className="text-sm mb-2" style={{ color: '#e87b7b' }}>{voicesError}</p>
+            <button
+              onClick={() => loadVoices(elevenLabs.apiKey)}
+              className="text-xs px-3 py-1.5 rounded-lg border"
+              style={{ borderColor: 'rgba(201,168,76,0.3)', color: 'var(--gold-400)' }}
+            >
+              Retry
+            </button>
+          </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {voices.map(v => {
@@ -152,10 +227,10 @@ export default function SettingsPage() {
           </div>
         )}
 
-        {/* Audio quality */}
-        {voices.length > 0 && (
+        {/* Audio quality sliders */}
+        {voices.length > 0 && elevenLabs.voiceId && (
           <div className="mt-6">
-            <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: 'var(--shell-400)' }}>Audio Quality</p>
+            <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: 'var(--shell-400)' }}>Voice Quality</p>
             <Slider label="Stability" value={elevenLabs.stability} onChange={v => setElevenLabsConfig({ stability: v })} description="Higher = more consistent; Lower = more expressive" />
             <Slider label="Similarity Boost" value={elevenLabs.similarityBoost} onChange={v => setElevenLabsConfig({ similarityBoost: v })} description="How closely to replicate the cloned voice" />
             <Slider label="Style Exaggeration" value={elevenLabs.style} onChange={v => setElevenLabsConfig({ style: v })} description="Amplifies the voice style (increase gently)" />
@@ -178,7 +253,7 @@ export default function SettingsPage() {
         {/* Voice preview */}
         {elevenLabs.voiceId && (
           <div className="rounded-xl p-4 border mt-2" style={{ background: 'var(--shell-900)', borderColor: 'rgba(201,168,76,0.15)' }}>
-            <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--gold-400)' }}>Preview</p>
+            <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--gold-400)' }}>Test Voice</p>
             <textarea
               value={testText}
               onChange={e => setTestText(e.target.value)}
@@ -190,21 +265,45 @@ export default function SettingsPage() {
               <button
                 onClick={previewVoice}
                 disabled={previewLoading}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all hover:scale-105"
                 style={{ background: 'rgba(201,168,76,0.15)', color: 'var(--gold-300)', border: '1px solid rgba(201,168,76,0.3)' }}
               >
                 {previewLoading ? <Loader2 size={14} className="animate-spin" /> : <Volume2 size={14} />}
-                Generate Preview
+                {previewLoading ? 'Generating…' : 'Preview Voice'}
               </button>
               {audioUrl && (
-                <audio controls src={audioUrl} className="flex-1 h-8" style={{ accentColor: 'var(--gold-400)' }} />
+                <audio controls src={audioUrl} className="flex-1 h-8" style={{ accentColor: 'var(--gold-400)' }} autoPlay />
               )}
             </div>
           </div>
         )}
       </Section>
 
-      {/* Notifications */}
+      {/* ── Translation ──────────────────────────────────────────────────────── */}
+      <Section title="Bible Translation" icon={BookOpen}>
+        <div className="flex gap-3">
+          {[
+            { id: 'kjv', sub: 'King James Version · Public domain' },
+            { id: 'nkjv', sub: 'New King James Version · Thomas Nelson' },
+          ].map(t => (
+            <button
+              key={t.id}
+              onClick={() => setDefaultTranslation(t.id as any)}
+              className="flex-1 rounded-xl p-3 border text-left transition-all"
+              style={
+                defaultTranslation === t.id
+                  ? { background: 'rgba(201,168,76,0.12)', borderColor: 'rgba(201,168,76,0.4)' }
+                  : { background: 'var(--shell-900)', borderColor: 'rgba(255,255,255,0.07)' }
+              }
+            >
+              <p className="font-bold text-sm mb-0.5" style={{ color: 'var(--parchment-200)' }}>{t.id.toUpperCase()}</p>
+              <p className="text-xs" style={{ color: 'var(--shell-400)' }}>{t.sub}</p>
+            </button>
+          ))}
+        </div>
+      </Section>
+
+      {/* ── Notifications ────────────────────────────────────────────────────── */}
       <Section title="Notifications & Reminders" icon={Bell}>
         <p className="text-sm mb-4" style={{ color: 'var(--shell-400)' }}>
           Enable browser notifications to receive reminders for your reading plans.

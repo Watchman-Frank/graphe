@@ -1,13 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
-  const apiKey = process.env.ELEVENLABS_API_KEY;
-  if (!apiKey) {
-    return NextResponse.json({ error: 'ElevenLabs API key not configured' }, { status: 503 });
-  }
-
   try {
-    const { text, voiceId, stability, similarityBoost, style, speakerBoost } = await request.json();
+    const body = await request.json();
+    const apiKey = process.env.ELEVENLABS_API_KEY || body.apiKey || '';
+
+    if (!apiKey) {
+      return NextResponse.json({ error: 'ElevenLabs API key not configured. Add it in Settings.' }, { status: 503 });
+    }
+
+    const { text, voiceId, stability, similarityBoost, style, speakerBoost } = body;
 
     if (!voiceId || !text) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });

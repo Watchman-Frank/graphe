@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-function getApiKey(): string | null {
-  return process.env.ELEVENLABS_API_KEY ?? null;
+function getApiKey(req?: NextRequest): string | null {
+  return process.env.ELEVENLABS_API_KEY || req?.headers.get('x-elevenlabs-key') || null;
 }
 
-export async function GET() {
-  const apiKey = getApiKey();
+export async function GET(request: NextRequest) {
+  const apiKey = getApiKey(request);
   if (!apiKey) return NextResponse.json({ error: 'ElevenLabs API key not configured' }, { status: 503 });
 
   const res = await fetch('https://api.elevenlabs.io/v1/voices', {
@@ -18,7 +18,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  const apiKey = getApiKey();
+  const apiKey = getApiKey(request);
   if (!apiKey) return NextResponse.json({ error: 'ElevenLabs API key not configured' }, { status: 503 });
 
   const formData = await request.formData();
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
-  const apiKey = getApiKey();
+  const apiKey = getApiKey(request);
   const { searchParams } = new URL(request.url);
   const voiceId = searchParams.get('voiceId');
   if (!apiKey || !voiceId) return NextResponse.json({ error: 'Missing params' }, { status: 400 });

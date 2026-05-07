@@ -471,6 +471,9 @@ export function BibleChapterView({ book, chapter, initialVerse }: Props) {
   const [selectedVerse, setSelectedVerse] = useState<BibleVerse | null>(null);
   const [showGoTo, setShowGoTo] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const chunkQueueRef = useRef<string[]>([]);
+  const chunkIndexRef = useRef<number>(0);
+  const [chunkProgress, setChunkProgress] = useState({ current: 0, total: 0 });
 
   const bookMeta = getBookById(book);
   const totalChapters = bookMeta?.chapters ?? 1;
@@ -480,6 +483,15 @@ export function BibleChapterView({ book, chapter, initialVerse }: Props) {
   useEffect(() => {
     setLoadingPassage(true);
     setError('');
+    // Reset audio when chapter changes
+    setPlaying(false);
+    setAudioUrl(null);
+    chunkQueueRef.current = [];
+    chunkIndexRef.current = 0;
+    setChunkProgress({ current: 0, total: 0 });
+    if (audioRef.current) {
+      audioRef.current.src = '';
+    }
     const ref = `${book.replace(/\s+/g, '+')}+${chapter}`;
     fetch(`/api/bible?ref=${ref}&translation=${translation}`)
       .then(r => r.json())
@@ -513,36 +525,86 @@ export function BibleChapterView({ book, chapter, initialVerse }: Props) {
     if (audioRef.current) audioRef.current.playbackRate = playbackSpeed;
   }, [playbackSpeed]);
 
-  async function generateAudio() {
-    if (!passage || !elevenLabs.apiKey || !elevenLabs.voiceId) return;
+  function buildChunks(verses: BibleVerse[]): string[] {
+    const MAX = 4500;
+    const chunks: string[] = [];
+    let current = '';
+    for (const v of verses) {
+      const part = `Verse ${v.verse}. ${v.text} `;
+      if (current.length + part.length > MAX && current.length > 0) {
+        chunks.push(current.trim());
+        current = part;
+      } else {
+        current += part;
+      }
+    }
+    if (current.trim()) chunks.push(current.trim());
+    return chunks;
+  }
+
+  async function playChunk(text: string, index: number, total: number) {
     setLoading(true);
-    const text = passage.verses.map(v => `Verse ${v.verse}. ${v.text}`).join(' ');
+    setChunkProgress({ current: index + 1, total });
     try {
       const res = await fetch('/api/tts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          text: text.slice(0, 4000),
+          text,
           voiceId: elevenLabs.voiceId,
+          apiKey: elevenLabs.apiKey,
           stability: elevenLabs.stability,
           similarityBoost: elevenLabs.similarityBoost,
           style: elevenLabs.style,
           speakerBoost: elevenLabs.speakerBoost,
         }),
       });
-      if (!res.ok) throw new Error();
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: 'TTS failed' }));
+        throw new Error(err.error ?? 'TTS failed');
+      }
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
       setAudioUrl(url);
       if (audioRef.current) {
         audioRef.current.src = url;
-        audioRef.current.play();
+        await audioRef.current.play();
         setPlaying(true);
       }
-    } catch {
-      alert('Audio generation failed. Check your ElevenLabs API key in Settings.');
+    } catch (e: any) {
+      const msg = e?.message ?? '';
+      if (msg.includes('API key')) {
+        alert('ElevenLabs API key not set. Go to Settings → ElevenLabs API Key and enter your key.');
+      } else {
+        alert(`Audio failed: ${msg || 'Check your ElevenLabs API key and voice in Settings.'}`);
+      }
+      setPlaying(false);
+      chunkQueueRef.current = [];
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function generateAudio() {
+    if (!passage || !elevenLabs.voiceId) return;
+    const chunks = buildChunks(passage.verses);
+    chunkQueueRef.current = chunks;
+    chunkIndexRef.current = 0;
+    await playChunk(chunks[0], 0, chunks.length);
+  }
+
+  async function handleAudioEnded() {
+    setPlaying(false);
+    const next = chunkIndexRef.current + 1;
+    const queue = chunkQueueRef.current;
+    if (next < queue.length) {
+      chunkIndexRef.current = next;
+      await playChunk(queue[next], next, queue.length);
+    } else {
+      // Finished all chunks
+      chunkQueueRef.current = [];
+      chunkIndexRef.current = 0;
+      setChunkProgress({ current: 0, total: 0 });
     }
   }
 
@@ -762,9 +824,14 @@ export function BibleChapterView({ book, chapter, initialVerse }: Props) {
 
         <div className="flex items-center gap-1">
           {isPlaying && (
-            <div className="flex items-center gap-0.5 mr-3">
+            <div className="flex items-center gap-0.5 mr-2">
               {[1, 2, 3, 4, 5].map(i => <div key={i} className="wave-bar" />)}
             </div>
+          )}
+          {chunkProgress.total > 1 && (isPlaying || audioLoading) && (
+            <span className="text-xs font-bold mr-2" style={{ color: 'var(--gold-500)' }}>
+              Part {chunkProgress.current}/{chunkProgress.total}
+            </span>
           )}
           <BookMarked size={14} style={{ color: 'var(--gold-400)' }} />
           <span className="text-xs font-medium" style={{ color: 'var(--shell-400)' }}>
@@ -791,7 +858,7 @@ export function BibleChapterView({ book, chapter, initialVerse }: Props) {
         )}
       </div>
 
-      <audio ref={audioRef} onEnded={() => setPlaying(false)} style={{ display: 'none' }} />
+      <audio ref={audioRef} onEnded={handleAudioEnded} style={{ display: 'none' }} />
     </div>
   );
 }
