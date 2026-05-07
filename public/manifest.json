@@ -1,0 +1,32 @@
+{
+  "name": "Graphe – Bible Study",
+  "short_name": "Graphe",
+  "description": "Bible reading, study tools, commentaries, and Greek/Hebrew word study — works offline.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d0c0a",
+  "theme_color": "#C9A84C",
+  "orientation": "portrait-primary",
+  "categories": ["books", "education", "lifestyle"],
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Bible Reader",
+      "short_name": "Read",
+      "description": "Open the Bible reader",
+      "url": "/bible",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Journal",
+      "short_name": "Journal",
+      "description": "Open your study journal",
+      "url": "/journal",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
