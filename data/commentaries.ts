@@ -1093,3 +1093,32 @@ export function getCommentaryByReference(reference: string): PassageCommentary |
 }
 
 export const COMMENTARY_INDEX = COMMENTARIES.map(({ reference, title }) => ({ reference, title }));
+
+export function getVerseCommentary(
+  bookId: string,
+  chapter: number,
+  verse: number,
+): { mh: string; jfb: string } | null {
+  const passage = COMMENTARIES.find(c => c.reference === `${bookId}+${chapter}`);
+  if (!passage) return null;
+
+  const chapterVerse = `${chapter}:${verse}`;
+
+  function matchVerse(vc: VerseCommentary): boolean {
+    // verse field is like "Genesis 1:1" or "Genesis 1:26-27"
+    // check if it ends with "chapter:verse" or contains "chapter:verse-"
+    return (
+      vc.verse.endsWith(chapterVerse) ||
+      vc.verse.includes(`${chapterVerse}-`)
+    );
+  }
+
+  const mhVerse = passage.mh.verseCommentaries.find(matchVerse);
+  const jfbVerse = passage.jfb.verseCommentaries.find(matchVerse);
+  if (!mhVerse && !jfbVerse) return null;
+
+  return {
+    mh: mhVerse?.commentary ?? '',
+    jfb: jfbVerse?.commentary ?? '',
+  };
+}

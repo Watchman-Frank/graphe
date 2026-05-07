@@ -1,20 +1,23 @@
 'use client';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
   ChevronLeft, ChevronRight, BookOpen, Bookmark, Highlighter,
   PlayCircle, PauseCircle, Volume2, Loader2, GraduationCap,
-  BookMarked, Type, Mic2
+  BookMarked, Type, Mic2, Navigation, Link2, MessageSquare,
+  ChevronDown, ChevronUp, X,
 } from 'lucide-react';
 import { useBibleStore } from '@/stores/bibleStore';
 import { useAudioStore } from '@/stores/audioStore';
 import { useBookmarksStore } from '@/stores/bookmarksStore';
 import { useHighlightsStore, type HighlightColor } from '@/stores/highlightsStore';
 import { useSettingsStore } from '@/stores/settingsStore';
-import { getBookById } from '@/lib/bible/books';
+import { getBookById, BIBLE_BOOKS } from '@/lib/bible/books';
 import { cn } from '@/lib/utils/cn';
 import type { BibleVerse, BiblePassage } from '@/types/bible';
+import { getCrossReferences, parseCrossRef, type CrossRef } from '@/data/crossReferences';
+import { getVerseCommentary } from '@/data/commentaries';
 
 const HIGHLIGHT_COLORS: { color: HighlightColor; label: string; cls: string }[] = [
   { color: 'yellow', label: 'Yellow', cls: 'highlight-yellow' },
@@ -33,6 +36,157 @@ const FONT_SIZES = {
 
 const SPEEDS = [0.75, 1.0, 1.25, 1.5, 2.0];
 
+// ── Cross-reference chip with hover preview ──────────────────────────────────
+
+const previewCache = new Map<string, string>();
+
+function CrossRefChip({ crossRef }: { crossRef: CrossRef }) {
+  const router = useRouter();
+  const [preview, setPreview] = useState<string | null>(previewCache.get(crossRef.ref) ?? null);
+  const [loading, setLoading] = useState(false);
+  const [showTip, setShowTip] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function handleMouseEnter() {
+    timerRef.current = setTimeout(() => {
+      setShowTip(true);
+      if (!preview && !loading) {
+        setLoading(true);
+        fetch(`/api/bible?ref=${crossRef.ref}`)
+          .then(r => r.json())
+          .then(data => {
+            const text: string = data.verses?.[0]?.text?.trim() ?? '';
+            previewCache.set(crossRef.ref, text);
+            setPreview(text);
+          })
+          .catch(() => setPreview(''))
+          .finally(() => setLoading(false));
+      }
+    }, 250);
+  }
+
+  function handleMouseLeave() {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    setShowTip(false);
+  }
+
+  function handleClick() {
+    const parsed = parseCrossRef(crossRef.ref);
+    if (parsed) {
+      router.push(`/bible/${parsed.book}/${parsed.chapter}?verse=${parsed.verse}`);
+    }
+  }
+
+  return (
+    <div className="relative inline-block" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      <button
+        onClick={handleClick}
+        className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold border transition-all hover:scale-105"
+        style={{
+          background: 'rgba(201,168,76,0.08)',
+          borderColor: 'rgba(201,168,76,0.25)',
+          color: 'var(--gold-400)',
+        }}
+      >
+        <Link2 size={10} />
+        {crossRef.label}
+      </button>
+
+      {showTip && (
+        <div
+          className="absolute bottom-full left-0 mb-2 z-50 w-64 rounded-xl border p-3 shadow-2xl text-xs leading-relaxed"
+          style={{
+            background: 'var(--shell-800)',
+            borderColor: 'rgba(201,168,76,0.3)',
+            color: 'var(--parchment-200)',
+          }}
+        >
+          <p className="font-bold mb-1" style={{ color: 'var(--gold-400)' }}>{crossRef.label}</p>
+          {loading ? (
+            <Loader2 size={12} className="animate-spin" style={{ color: 'var(--shell-400)' }} />
+          ) : (
+            <p className="italic">{preview || '—'}</p>
+          )}
+          <p className="mt-2 text-xs" style={{ color: 'var(--shell-500)' }}>Click to open</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Inline verse commentary panel ────────────────────────────────────────────
+
+function VerseCommentaryPanel({
+  commentary,
+}: {
+  commentary: { mh: string; jfb: string };
+}) {
+  const [open, setOpen] = useState(false);
+  const [tab, setTab] = useState<'mh' | 'jfb'>('mh');
+  const active = tab === 'mh' ? commentary.mh : commentary.jfb;
+
+  return (
+    <div className="mt-2 ml-4">
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold border transition-all"
+        style={{
+          background: open ? 'rgba(201,168,76,0.12)' : 'rgba(201,168,76,0.04)',
+          borderColor: 'rgba(201,168,76,0.2)',
+          color: open ? 'var(--gold-300)' : 'var(--shell-400)',
+        }}
+      >
+        <MessageSquare size={11} />
+        Commentary
+        {open ? <ChevronUp size={11} /> : <ChevronDown size={11} />}
+      </button>
+
+      {open && (
+        <div
+          className="mt-2 rounded-xl border p-4"
+          style={{
+            background: 'rgba(201,168,76,0.03)',
+            borderColor: 'rgba(201,168,76,0.15)',
+          }}
+        >
+          {/* Tabs */}
+          <div className="flex gap-1 mb-3">
+            {(['mh', 'jfb'] as const).map(t => (
+              <button
+                key={t}
+                onClick={() => setTab(t)}
+                className="px-3 py-1 rounded-lg text-xs font-bold transition-all"
+                style={
+                  tab === t
+                    ? { background: 'var(--gold-400)', color: 'var(--sepia-900)' }
+                    : { color: 'var(--shell-400)', background: 'transparent' }
+                }
+              >
+                {t === 'mh' ? 'Matthew Henry' : 'JFB'}
+              </button>
+            ))}
+          </div>
+
+          {active ? (
+            <p
+              className="text-xs leading-relaxed whitespace-pre-line"
+              style={{ color: 'var(--parchment-300)' }}
+            >
+              {active}
+            </p>
+          ) : (
+            <p className="text-xs italic" style={{ color: 'var(--shell-500)' }}>
+              No commentary available for this source.
+            </p>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Verse action menu ─────────────────────────────────────────────────────────
+
 interface VerseMenuProps {
   verse: BibleVerse;
   book: string;
@@ -41,7 +195,7 @@ interface VerseMenuProps {
 }
 
 function VerseMenu({ verse, book, chapter, onClose }: VerseMenuProps) {
-  const { addBookmark, removeBookmark, isBookmarked } = useBookmarksStore();
+  const { addBookmark, removeBookmark, isBookmarked, bookmarks } = useBookmarksStore();
   const { addHighlight, removeHighlight, getHighlightForVerse } = useHighlightsStore();
   const bookmarked = isBookmarked(book, chapter, verse.verse);
   const highlight = getHighlightForVerse(book, chapter, verse.verse);
@@ -54,7 +208,8 @@ function VerseMenu({ verse, book, chapter, onClose }: VerseMenuProps) {
       <button
         onClick={() => {
           if (bookmarked) {
-            // remove
+            const bm = bookmarks.find(b => b.book === book && b.chapter === chapter && b.verse === verse.verse);
+            if (bm) removeBookmark(bm.id);
           } else {
             addBookmark({ book, chapter, verse: verse.verse, text: verse.text, color: '#C9A84C' });
           }
@@ -82,9 +237,7 @@ function VerseMenu({ verse, book, chapter, onClose }: VerseMenuProps) {
             onClose();
           }}
           className={cn('w-7 h-7 rounded-full border-2 transition-transform hover:scale-110', cls)}
-          style={{
-            borderColor: highlight?.color === color ? 'white' : 'transparent',
-          }}
+          style={{ borderColor: highlight?.color === color ? 'white' : 'transparent' }}
           title={label}
         />
       ))}
@@ -92,12 +245,143 @@ function VerseMenu({ verse, book, chapter, onClose }: VerseMenuProps) {
   );
 }
 
+// ── Go-to navigation panel ────────────────────────────────────────────────────
+
+function GoToPanel({ onClose }: { onClose: () => void }) {
+  const router = useRouter();
+  const [selectedBook, setSelectedBook] = useState('');
+  const [selectedChapter, setSelectedChapter] = useState('');
+  const [selectedVerse, setSelectedVerse] = useState('');
+
+  const bookMeta = BIBLE_BOOKS.find(b => b.id === selectedBook);
+  const maxChapters = bookMeta?.chapters ?? 0;
+
+  function handleGo() {
+    if (!selectedBook || !selectedChapter) return;
+    const path = `/bible/${selectedBook}/${selectedChapter}`;
+    router.push(selectedVerse ? `${path}?verse=${selectedVerse}` : path);
+    onClose();
+  }
+
+  return (
+    <div
+      className="absolute top-full left-0 right-0 z-40 border-b px-4 md:px-8 py-4 flex flex-wrap items-end gap-3"
+      style={{
+        background: 'rgba(13,12,10,0.97)',
+        backdropFilter: 'blur(12px)',
+        borderColor: 'rgba(201,168,76,0.15)',
+      }}
+    >
+      <div className="flex flex-wrap items-end gap-3 w-full">
+        {/* Book */}
+        <div className="flex flex-col gap-1">
+          <label className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--shell-400)' }}>
+            Book
+          </label>
+          <select
+            value={selectedBook}
+            onChange={e => { setSelectedBook(e.target.value); setSelectedChapter(''); setSelectedVerse(''); }}
+            className="rounded-lg px-3 py-2 text-sm border"
+            style={{
+              background: 'var(--shell-800)',
+              borderColor: 'rgba(201,168,76,0.25)',
+              color: 'var(--parchment-100)',
+              minWidth: 160,
+            }}
+          >
+            <option value="">Choose book…</option>
+            <optgroup label="Old Testament">
+              {BIBLE_BOOKS.filter(b => b.testament === 'OT').map(b => (
+                <option key={b.id} value={b.id}>{b.name}</option>
+              ))}
+            </optgroup>
+            <optgroup label="New Testament">
+              {BIBLE_BOOKS.filter(b => b.testament === 'NT').map(b => (
+                <option key={b.id} value={b.id}>{b.name}</option>
+              ))}
+            </optgroup>
+          </select>
+        </div>
+
+        {/* Chapter */}
+        {selectedBook && (
+          <div className="flex flex-col gap-1">
+            <label className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--shell-400)' }}>
+              Chapter
+            </label>
+            <select
+              value={selectedChapter}
+              onChange={e => { setSelectedChapter(e.target.value); setSelectedVerse(''); }}
+              className="rounded-lg px-3 py-2 text-sm border"
+              style={{
+                background: 'var(--shell-800)',
+                borderColor: 'rgba(201,168,76,0.25)',
+                color: 'var(--parchment-100)',
+                minWidth: 100,
+              }}
+            >
+              <option value="">Chapter…</option>
+              {Array.from({ length: maxChapters }, (_, i) => i + 1).map(n => (
+                <option key={n} value={n}>{n}</option>
+              ))}
+            </select>
+          </div>
+        )}
+
+        {/* Verse (optional) */}
+        {selectedChapter && (
+          <div className="flex flex-col gap-1">
+            <label className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--shell-400)' }}>
+              Verse <span style={{ color: 'var(--shell-600)' }}>(optional)</span>
+            </label>
+            <input
+              type="number"
+              min={1}
+              max={200}
+              placeholder="e.g. 16"
+              value={selectedVerse}
+              onChange={e => setSelectedVerse(e.target.value)}
+              className="rounded-lg px-3 py-2 text-sm border w-24"
+              style={{
+                background: 'var(--shell-800)',
+                borderColor: 'rgba(201,168,76,0.25)',
+                color: 'var(--parchment-100)',
+              }}
+            />
+          </div>
+        )}
+
+        <div className="flex gap-2">
+          <button
+            onClick={handleGo}
+            disabled={!selectedBook || !selectedChapter}
+            className="px-5 py-2 rounded-lg text-sm font-bold transition-all hover:scale-105 disabled:opacity-40"
+            style={{ background: 'var(--gold-400)', color: 'var(--sepia-900)' }}
+          >
+            Go
+          </button>
+          <button
+            onClick={onClose}
+            className="p-2 rounded-lg border"
+            style={{ borderColor: 'rgba(201,168,76,0.2)', color: 'var(--shell-400)' }}
+          >
+            <X size={16} />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Main component ────────────────────────────────────────────────────────────
+
 interface Props {
   book: string;
   chapter: number;
+  initialVerse?: number;
 }
 
-export function BibleChapterView({ book, chapter }: Props) {
+export function BibleChapterView({ book, chapter, initialVerse }: Props) {
   const router = useRouter();
   const { translation, fontSize, setFontSize, setCurrentPassage, addToRecentlyRead } = useBibleStore();
   const { isPlaying, isLoading: audioLoading, playbackSpeed, audioUrl, setPlaying, setPlaybackSpeed, setAudioUrl, setLoading } = useAudioStore();
@@ -108,6 +392,7 @@ export function BibleChapterView({ book, chapter }: Props) {
   const [loading, setLoadingPassage] = useState(true);
   const [error, setError] = useState('');
   const [selectedVerse, setSelectedVerse] = useState<BibleVerse | null>(null);
+  const [showGoTo, setShowGoTo] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const bookMeta = getBookById(book);
@@ -131,14 +416,20 @@ export function BibleChapterView({ book, chapter }: Props) {
       .finally(() => setLoadingPassage(false));
   }, [book, chapter, translation]);
 
-  // Audio control
+  // Scroll to initial verse after passage loads
+  useEffect(() => {
+    if (!initialVerse || loading || !passage) return;
+    const el = document.getElementById(`v${initialVerse}`);
+    if (el) {
+      setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+    }
+  }, [initialVerse, loading, passage]);
+
+  // Audio
   useEffect(() => {
     if (!audioRef.current) return;
-    if (isPlaying) {
-      audioRef.current.play().catch(() => setPlaying(false));
-    } else {
-      audioRef.current.pause();
-    }
+    if (isPlaying) audioRef.current.play().catch(() => setPlaying(false));
+    else audioRef.current.pause();
   }, [isPlaying]);
 
   useEffect(() => {
@@ -201,6 +492,20 @@ export function BibleChapterView({ book, chapter }: Props) {
         </div>
 
         <div className="flex items-center gap-2">
+          {/* Go to verse */}
+          <button
+            onClick={() => setShowGoTo(o => !o)}
+            className="p-1.5 rounded-lg border text-xs font-bold transition-all"
+            title="Go to verse"
+            style={
+              showGoTo
+                ? { background: 'rgba(201,168,76,0.2)', borderColor: 'rgba(201,168,76,0.4)', color: 'var(--gold-300)' }
+                : { borderColor: 'rgba(201,168,76,0.2)', color: 'var(--gold-400)' }
+            }
+          >
+            <Navigation size={15} />
+          </button>
+
           {/* Font size */}
           <button
             onClick={() => {
@@ -239,8 +544,6 @@ export function BibleChapterView({ book, chapter }: Props) {
                   <PlayCircle size={22} />
                 </button>
               )}
-
-              {/* Speed */}
               <select
                 value={playbackSpeed}
                 onChange={e => setPlaybackSpeed(Number(e.target.value))}
@@ -256,6 +559,9 @@ export function BibleChapterView({ book, chapter }: Props) {
             </Link>
           )}
         </div>
+
+        {/* Go-to panel */}
+        {showGoTo && <GoToPanel onClose={() => setShowGoTo(false)} />}
       </div>
 
       {/* Content */}
@@ -281,32 +587,62 @@ export function BibleChapterView({ book, chapter }: Props) {
               <div className="w-16 h-0.5 mx-auto mt-4" style={{ background: 'linear-gradient(to right, transparent, var(--gold-400), transparent)' }} />
             </div>
 
-            {/* Verses */}
-            <div className={cn('scripture-font', FONT_SIZES[fontSize])} style={{ color: 'var(--parchment-100)' }}>
+            {/* Verses — block layout for cross-refs + commentary */}
+            <div className={cn('scripture-font', FONT_SIZES[fontSize])}>
               {passage.verses.map(verse => {
                 const hl = highlightsStore.getHighlightForVerse(book, chapter, verse.verse);
+                const crossRefs = getCrossReferences(book, chapter, verse.verse);
+                const commentary = getVerseCommentary(book, chapter, verse.verse);
+
                 return (
-                  <span
+                  <div
                     key={verse.verse}
-                    className={cn(
-                      'relative cursor-pointer transition-colors rounded px-0.5',
-                      hl ? `highlight-${hl.color}` : 'hover:bg-white/5'
-                    )}
-                    onClick={() =>
-                      setSelectedVerse(selectedVerse?.verse === verse.verse ? null : verse)
-                    }
+                    id={`v${verse.verse}`}
+                    className="mb-5 pb-4 border-b"
+                    style={{ borderColor: 'rgba(255,255,255,0.04)' }}
                   >
-                    <sup className="verse-num">{verse.verse}</sup>
-                    {verse.text}{' '}
-                    {selectedVerse?.verse === verse.verse && (
-                      <VerseMenu
-                        verse={verse}
-                        book={book}
-                        chapter={chapter}
-                        onClose={() => setSelectedVerse(null)}
-                      />
+                    {/* Verse text */}
+                    <div
+                      className={cn(
+                        'relative cursor-pointer rounded px-2 py-1 transition-colors leading-relaxed',
+                        hl ? `highlight-${hl.color}` : 'hover:bg-white/5',
+                      )}
+                      style={{ color: 'var(--parchment-100)' }}
+                      onClick={() =>
+                        setSelectedVerse(selectedVerse?.verse === verse.verse ? null : verse)
+                      }
+                    >
+                      <sup
+                        className="verse-num mr-1.5 select-none"
+                        style={{ color: 'var(--gold-400)', fontWeight: 700, fontSize: '0.7em' }}
+                      >
+                        {verse.verse}
+                      </sup>
+                      {verse.text}
+                      {selectedVerse?.verse === verse.verse && (
+                        <VerseMenu
+                          verse={verse}
+                          book={book}
+                          chapter={chapter}
+                          onClose={() => setSelectedVerse(null)}
+                        />
+                      )}
+                    </div>
+
+                    {/* Cross references */}
+                    {crossRefs.length > 0 && (
+                      <div className="flex gap-1.5 flex-wrap mt-2 ml-2">
+                        {crossRefs.map(cr => (
+                          <CrossRefChip key={cr.ref} crossRef={cr} />
+                        ))}
+                      </div>
                     )}
-                  </span>
+
+                    {/* Inline commentary */}
+                    {commentary && (commentary.mh || commentary.jfb) && (
+                      <VerseCommentaryPanel commentary={commentary} />
+                    )}
+                  </div>
                 );
               })}
             </div>
@@ -332,7 +668,7 @@ export function BibleChapterView({ book, chapter }: Props) {
         <div className="flex items-center gap-1">
           {isPlaying && (
             <div className="flex items-center gap-0.5 mr-3">
-              {[1,2,3,4,5].map(i => <div key={i} className="wave-bar" />)}
+              {[1, 2, 3, 4, 5].map(i => <div key={i} className="wave-bar" />)}
             </div>
           )}
           <BookMarked size={14} style={{ color: 'var(--gold-400)' }} />
@@ -360,12 +696,7 @@ export function BibleChapterView({ book, chapter }: Props) {
         )}
       </div>
 
-      {/* Hidden audio element */}
-      <audio
-        ref={audioRef}
-        onEnded={() => setPlaying(false)}
-        style={{ display: 'none' }}
-      />
+      <audio ref={audioRef} onEnded={() => setPlaying(false)} style={{ display: 'none' }} />
     </div>
   );
 }
