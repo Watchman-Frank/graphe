@@ -118,10 +118,11 @@ function CrossRefChip({ crossRef }: { crossRef: CrossRef }) {
 // ── Inline verse commentary panel ────────────────────────────────────────────
 
 const dynamicCache = new Map<string, string>();
-// Cache patristic chapter JSON keyed "book:chapter"
 const patriisticChapterCache = new Map<string, Record<string, { a: string; s: string; q: string }[]>>();
+const wordStudyChapterCache = new Map<string, Record<string, WordStudyEntry[]>>();
 
 interface PatristicEntry { a: string; s: string; q: string; }
+interface WordStudyEntry { t: string; g: string; s: string; c: string; tr?: string; }
 
 function VerseCommentaryPanel({
   book,
@@ -136,12 +137,32 @@ function VerseCommentaryPanel({
 }) {
   const { anthropicKey } = useSettingsStore();
   const [open, setOpen] = useState(false);
-  const [activeId, setActiveId] = useState('patristic');
+  const [activeId, setActiveId] = useState('wordstudy');
   const [dynamicContent, setDynamicContent] = useState<Record<string, string>>({});
   const [patriisticEntries, setPatriisticEntries] = useState<PatristicEntry[] | null>(null);
+  const [wordStudyWords, setWordStudyWords] = useState<WordStudyEntry[] | null>(null);
   const [loading, setLoadingSource] = useState<string | null>(null);
 
   const staticIds = new Set(staticCommentary?.mh ? ['mh'] : []).add(staticCommentary?.jfb ? 'jfb' : '');
+
+  async function loadWordStudy() {
+    const chapKey = `${book}:${chapter}`;
+    setLoadingSource('wordstudy');
+    try {
+      let chapData = wordStudyChapterCache.get(chapKey);
+      if (!chapData) {
+        const res = await fetch(`/wordstudy/${book}/${chapter}.json`);
+        if (!res.ok) { setWordStudyWords([]); return; }
+        chapData = await res.json() as Record<string, WordStudyEntry[]>;
+        wordStudyChapterCache.set(chapKey, chapData);
+      }
+      setWordStudyWords(chapData[String(verse)] ?? []);
+    } catch {
+      setWordStudyWords([]);
+    } finally {
+      setLoadingSource(null);
+    }
+  }
 
   async function loadPatristic() {
     const chapKey = `${book}:${chapter}`;
@@ -187,6 +208,7 @@ function VerseCommentaryPanel({
 
   function handleTabClick(id: string) {
     setActiveId(id);
+    if (id === 'wordstudy') { if (wordStudyWords === null) loadWordStudy(); return; }
     if (id === 'patristic') { if (patriisticEntries === null) loadPatristic(); return; }
     const isStatic = (id === 'mh' && !!staticCommentary?.mh) || (id === 'jfb' && !!staticCommentary?.jfb);
     if (!isStatic && !dynamicContent[id]) {
@@ -198,7 +220,8 @@ function VerseCommentaryPanel({
     const newOpen = !open;
     setOpen(newOpen);
     if (newOpen) {
-      if (activeId === 'patristic') { if (patriisticEntries === null) loadPatristic(); }
+      if (activeId === 'wordstudy') { if (wordStudyWords === null) loadWordStudy(); }
+      else if (activeId === 'patristic') { if (patriisticEntries === null) loadPatristic(); }
       else if (!dynamicContent[activeId]) { loadSource(activeId); }
     }
   }
@@ -267,6 +290,38 @@ function VerseCommentaryPanel({
                 <Loader2 size={14} className="animate-spin" />
                 <span className="text-xs">Loading {COMMENTARY_SOURCES.find(s => s.id === activeId)?.label}…</span>
               </div>
+            ) : activeId === 'wordstudy' ? (
+              wordStudyWords && wordStudyWords.length > 0 ? (
+                <div className="max-h-72 overflow-y-auto">
+                  <div className="flex flex-wrap gap-2 py-1">
+                    {wordStudyWords.map((w, i) => (
+                      <div
+                        key={i}
+                        className="rounded-lg px-2.5 py-2 border flex flex-col items-center min-w-[4rem]"
+                        style={{ background: 'rgba(201,168,76,0.05)', borderColor: 'rgba(201,168,76,0.12)' }}
+                      >
+                        <span
+                          className="text-sm font-bold leading-tight"
+                          style={{ color: 'var(--gold-300)', fontFamily: 'serif', direction: w.tr ? 'rtl' : 'ltr' }}
+                        >
+                          {w.t}
+                        </span>
+                        {w.tr && (
+                          <span className="text-[10px] italic mt-0.5" style={{ color: 'var(--shell-400)' }}>{w.tr}</span>
+                        )}
+                        <span className="text-[11px] font-semibold mt-1" style={{ color: 'var(--parchment-200)' }}>{w.g}</span>
+                        <span className="text-[9px] mt-0.5 uppercase tracking-wide" style={{ color: 'var(--shell-500)' }}>
+                          {w.s ? `${w.tr ? 'H' : 'G'}${w.s}` : ''} · {w.c}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : wordStudyWords !== null ? (
+                <div className="py-3 text-center">
+                  <p className="text-xs italic" style={{ color: 'var(--shell-500)' }}>No word study data for this verse.</p>
+                </div>
+              ) : null
             ) : activeId === 'patristic' ? (
               patriisticEntries && patriisticEntries.length > 0 ? (
                 <div className="space-y-3 max-h-72 overflow-y-auto">
