@@ -1,12 +1,6 @@
 import Link from 'next/link';
 import { BookOpen, GraduationCap, NotebookPen, CalendarDays, Map, Mic, ArrowRight, Scroll } from 'lucide-react';
-
-const DAILY_VERSE = {
-  text: 'Thy word is a lamp unto my feet, and a light unto my path.',
-  reference: 'Psalm 119:105',
-  book: 'psalms',
-  chapter: 119,
-};
+import { getDailyVerse } from '@/data/dailyVerses';
 
 const FEATURES = [
   { href: '/bible', icon: BookOpen, label: 'Read', description: 'KJV & NKJV with audio in your own voice', color: 'var(--gold-400)', bg: 'rgba(201,168,76,0.1)', border: 'rgba(201,168,76,0.2)' },
@@ -18,6 +12,8 @@ const FEATURES = [
 ];
 
 export default function Home() {
+  const verse = getDailyVerse();
+
   return (
     <div className="min-h-screen px-4 py-8 md:px-10 md:py-12">
       <div className="mb-10">
@@ -45,14 +41,14 @@ export default function Home() {
           ✦ Verse of the Day
         </p>
         <blockquote className="scripture-font text-lg md:text-2xl font-medium mb-4" style={{ color: 'var(--parchment-100)' }}>
-          &ldquo;{DAILY_VERSE.text}&rdquo;
+          &ldquo;{verse.text}&rdquo;
         </blockquote>
         <div className="flex items-center justify-between flex-wrap gap-2">
           <span className="text-sm font-semibold" style={{ color: 'var(--gold-400)' }}>
-            — {DAILY_VERSE.reference}
+            — {verse.reference}
           </span>
           <Link
-            href={`/bible/${DAILY_VERSE.book}/${DAILY_VERSE.chapter}`}
+            href={`/bible/${verse.book}/${verse.chapter}`}
             className="flex items-center gap-1.5 text-sm font-medium"
             style={{ color: 'var(--gold-300)' }}
           >
