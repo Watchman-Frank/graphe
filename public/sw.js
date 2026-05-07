@@ -2,7 +2,7 @@
 // Caches Bible text, cross-refs, word study, patristic, and commentary
 // as the user navigates. Previously read content works without internet.
 
-const VERSION = 'graphe-v1';
+const VERSION = 'graphe-v2';
 
 const CACHES = {
   shell:      `${VERSION}-shell`,
