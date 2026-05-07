@@ -128,8 +128,9 @@ function VerseCommentaryPanel({
   chapter: number;
   staticCommentary: { mh: string; jfb: string } | null;
 }) {
+  const { anthropicKey } = useSettingsStore();
   const [open, setOpen] = useState(false);
-  const [activeId, setActiveId] = useState('mh');
+  const [activeId, setActiveId] = useState('ai');
   const [dynamicContent, setDynamicContent] = useState<Record<string, string>>({});
   const [loading, setLoadingSource] = useState<string | null>(null);
 
@@ -143,7 +144,9 @@ function VerseCommentaryPanel({
     }
     setLoadingSource(id);
     try {
-      const res = await fetch(`/api/commentary?book=${book}&chapter=${chapter}&source=${id}`);
+      const headers: Record<string, string> = {};
+      if (anthropicKey) headers['x-anthropic-key'] = anthropicKey;
+      const res = await fetch(`/api/commentary?book=${book}&chapter=${chapter}&source=${id}`, { headers });
       const data = await res.json();
       const text: string = data.text ?? '';
       dynamicCache.set(cacheKey, text);
@@ -164,16 +167,11 @@ function VerseCommentaryPanel({
     }
   }
 
-  // Pre-load first dynamic source when panel opens
   function handleOpen() {
     const newOpen = !open;
     setOpen(newOpen);
-    if (newOpen) {
-      // If MH has static content, that's the default — no fetch needed
-      // Otherwise trigger load of MH from worlddic
-      if (!staticCommentary?.mh && !dynamicContent['mh']) {
-        loadSource('mh');
-      }
+    if (newOpen && !dynamicContent[activeId]) {
+      loadSource(activeId);
     }
   }
 

@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useSettingsStore } from '@/stores/settingsStore';
-import { Mic, Loader2, Volume2, BookOpen, Bell, Check, Key, Eye, EyeOff } from 'lucide-react';
+import { Mic, Loader2, Volume2, BookOpen, Bell, Check, Key, Eye, EyeOff, MessageSquare } from 'lucide-react';
 
 const SPEEDS = [0.75, 1.0, 1.25, 1.5, 2.0];
 
@@ -38,12 +38,15 @@ function Slider({ label, value, onChange, min = 0, max = 1, step = 0.05, descrip
 }
 
 export default function SettingsPage() {
-  const { elevenLabs, defaultTranslation, setElevenLabsConfig, setDefaultTranslation } = useSettingsStore();
+  const { elevenLabs, anthropicKey, defaultTranslation, setElevenLabsConfig, setAnthropicKey, setDefaultTranslation } = useSettingsStore();
 
   // API key input (local state, saved on confirm)
   const [keyInput, setKeyInput] = useState(elevenLabs.apiKey ?? '');
   const [showKey, setShowKey] = useState(false);
   const [keySaved, setKeySaved] = useState(false);
+  const [anthropicInput, setAnthropicInput] = useState(anthropicKey ?? '');
+  const [anthropicSaved, setAnthropicSaved] = useState(false);
+  const [showAnthropicKey, setShowAnthropicKey] = useState(false);
 
   const [voices, setVoices] = useState<{ voice_id: string; name: string; category?: string }[]>([]);
   const [voicesLoading, setVoicesLoading] = useState(false);
@@ -83,6 +86,13 @@ export default function SettingsPage() {
   useEffect(() => {
     if (elevenLabs.apiKey) loadVoices(elevenLabs.apiKey);
   }, []);
+
+  function saveAnthropicKey() {
+    const trimmed = anthropicInput.trim();
+    setAnthropicKey(trimmed);
+    setAnthropicSaved(true);
+    setTimeout(() => setAnthropicSaved(false), 2000);
+  }
 
   function saveKey() {
     const trimmed = keyInput.trim();
@@ -276,6 +286,52 @@ export default function SettingsPage() {
               )}
             </div>
           </div>
+        )}
+      </Section>
+
+      {/* ── Anthropic API Key (AI Commentary) ───────────────────────────────── */}
+      <Section title="AI Commentary (Anthropic)" icon={MessageSquare}>
+        <p className="text-xs mb-4" style={{ color: 'var(--shell-400)' }}>
+          Powers the <strong style={{ color: 'var(--parchment-200)' }}>AI Commentary</strong> tab — gives you commentary on every chapter of all 66 books. Get your key from{' '}
+          <a href="https://console.anthropic.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--gold-400)' }}>console.anthropic.com</a>.
+          Also used as a fallback when classic commentaries don't cover a passage.
+        </p>
+        <div className="flex gap-2">
+          <div className="relative flex-1">
+            <input
+              type={showAnthropicKey ? 'text' : 'password'}
+              value={anthropicInput}
+              onChange={e => setAnthropicInput(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && saveAnthropicKey()}
+              placeholder="sk-ant-..."
+              className="w-full px-3 py-2.5 rounded-xl border text-sm outline-none font-mono"
+              style={{
+                background: 'var(--shell-900)',
+                borderColor: anthropicKey ? 'rgba(201,168,76,0.4)' : 'rgba(255,255,255,0.1)',
+                color: 'var(--parchment-200)',
+              }}
+            />
+            <button
+              onClick={() => setShowAnthropicKey(s => !s)}
+              className="absolute right-3 top-1/2 -translate-y-1/2"
+              style={{ color: 'var(--shell-400)' }}
+            >
+              {showAnthropicKey ? <EyeOff size={14} /> : <Eye size={14} />}
+            </button>
+          </div>
+          <button
+            onClick={saveAnthropicKey}
+            disabled={!anthropicInput.trim()}
+            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-bold transition-all hover:scale-105 disabled:opacity-40"
+            style={{ background: 'rgba(201,168,76,0.15)', borderColor: 'rgba(201,168,76,0.3)', border: '1px solid', color: 'var(--gold-300)' }}
+          >
+            {anthropicSaved ? <Check size={14} /> : 'Save'}
+          </button>
+        </div>
+        {anthropicKey && (
+          <p className="text-xs mt-2 flex items-center gap-1" style={{ color: '#7bc47b' }}>
+            <Check size={12} /> Anthropic key saved — AI Commentary is active
+          </p>
         )}
       </Section>
 

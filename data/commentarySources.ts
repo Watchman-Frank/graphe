@@ -5,6 +5,7 @@ export interface CommentarySource {
 }
 
 export const COMMENTARY_SOURCES: CommentarySource[] = [
+  { id: 'ai',            label: 'AI Commentary',   prefix: ''            },
   { id: 'mh',            label: 'Matthew Henry',   prefix: 'Matt_Hen_Wh'  },
   { id: 'mh-concise',    label: 'Henry (Concise)', prefix: 'Matt_Hen_Con' },
   { id: 'jfb',           label: 'JFB Critical',    prefix: 'Critical_Expl'},

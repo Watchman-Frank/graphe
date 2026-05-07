@@ -16,12 +16,14 @@ interface ElevenLabsConfig {
 interface SettingsState {
   elevenLabs: ElevenLabsConfig;
   apiBibleKey: string;
+  anthropicKey: string;
   theme: 'dark' | 'light';
   fontFamily: 'garamond' | 'georgia' | 'inter';
   notificationsEnabled: boolean;
   defaultTranslation: Translation;
   setElevenLabsConfig: (config: Partial<ElevenLabsConfig>) => void;
   setApiBibleKey: (key: string) => void;
+  setAnthropicKey: (key: string) => void;
   setTheme: (theme: 'dark' | 'light') => void;
   setFontFamily: (font: 'garamond' | 'georgia' | 'inter') => void;
   setDefaultTranslation: (t: Translation) => void;
@@ -43,6 +45,7 @@ export const useSettingsStore = create<SettingsState>()(
     (set) => ({
       elevenLabs: defaultElevenLabs,
       apiBibleKey: '',
+      anthropicKey: '',
       theme: 'dark',
       fontFamily: 'garamond',
       notificationsEnabled: false,
@@ -50,6 +53,7 @@ export const useSettingsStore = create<SettingsState>()(
       setElevenLabsConfig: (config) =>
         set((s) => ({ elevenLabs: { ...s.elevenLabs, ...config } })),
       setApiBibleKey: (key) => set({ apiBibleKey: key }),
+      setAnthropicKey: (key) => set({ anthropicKey: key }),
       setTheme: (theme) => set({ theme }),
       setFontFamily: (fontFamily) => set({ fontFamily }),
       setDefaultTranslation: (t) => set({ defaultTranslation: t }),
