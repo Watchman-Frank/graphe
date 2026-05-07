@@ -606,18 +606,31 @@ export function BibleChapterView({ book, chapter, initialVerse }: Props) {
             <GraduationCap size={15} />
           </Link>
 
-          {/* Audio */}
+          {/* Read to Me */}
           {hasVoice ? (
             <div className="flex items-center gap-1">
               {audioLoading ? (
-                <Loader2 size={20} className="animate-spin" style={{ color: 'var(--gold-400)' }} />
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border" style={{ borderColor: 'rgba(201,168,76,0.3)', color: 'var(--gold-400)' }}>
+                  <Loader2 size={13} className="animate-spin" />
+                  <span className="text-xs font-bold hidden sm:inline">Loading…</span>
+                </div>
               ) : isPlaying ? (
-                <button onClick={() => setPlaying(false)} style={{ color: 'var(--gold-400)' }}>
-                  <PauseCircle size={22} />
+                <button
+                  onClick={() => setPlaying(false)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border transition-all"
+                  style={{ background: 'rgba(201,168,76,0.15)', borderColor: 'rgba(201,168,76,0.4)', color: 'var(--gold-300)' }}
+                >
+                  <PauseCircle size={14} />
+                  <span className="text-xs font-bold hidden sm:inline">Pause</span>
                 </button>
               ) : (
-                <button onClick={audioUrl ? () => setPlaying(true) : generateAudio} style={{ color: 'var(--gold-400)' }}>
-                  <PlayCircle size={22} />
+                <button
+                  onClick={audioUrl ? () => setPlaying(true) : generateAudio}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border transition-all hover:scale-105"
+                  style={{ background: 'rgba(201,168,76,0.08)', borderColor: 'rgba(201,168,76,0.3)', color: 'var(--gold-400)' }}
+                >
+                  <PlayCircle size={14} />
+                  <span className="text-xs font-bold hidden sm:inline">{audioUrl ? 'Play' : 'Read to Me'}</span>
                 </button>
               )}
               <select
@@ -630,8 +643,12 @@ export function BibleChapterView({ book, chapter, initialVerse }: Props) {
               </select>
             </div>
           ) : (
-            <Link href="/settings" className="flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-lg border" style={{ borderColor: 'rgba(201,168,76,0.2)', color: 'var(--shell-400)' }}>
-              <Mic2 size={12} /> Voice
+            <Link
+              href="/settings"
+              className="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg border transition-all hover:scale-105"
+              style={{ background: 'rgba(201,168,76,0.06)', borderColor: 'rgba(201,168,76,0.2)', color: 'var(--gold-400)' }}
+            >
+              <Mic2 size={12} /> Read to Me
             </Link>
           )}
         </div>

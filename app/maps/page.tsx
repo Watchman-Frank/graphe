@@ -1,8 +1,12 @@
 'use client';
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import type { BibleMapData } from '@/components/maps/BibleMap';
-import { MapPin, Loader2 } from 'lucide-react';
+import { MapPin, Loader2, Images, X } from 'lucide-react';
+import MAPS_GALLERY from '@/data/mapsGallery.json';
+
+type GalleryItem = { title: string; file: string; category: string };
 
 // Leaflet uses browser APIs — must be client-only
 const BibleMap = dynamic(() => import('@/components/maps/BibleMap'), {
@@ -158,9 +162,17 @@ const LEGEND = [
   { type: 'region', color: '#A87BE8', label: 'Region' },
 ];
 
+const GALLERY_CATEGORIES = ['All', ...Array.from(new Set((MAPS_GALLERY as GalleryItem[]).map(m => m.category)))];
+
 export default function MapsPage() {
   const [activeMap, setActiveMap] = useState(MAPS[0]);
   const [activeMeasurement, setActiveMeasurement] = useState<keyof typeof MEASUREMENTS>('Length');
+  const [galleryCategory, setGalleryCategory] = useState('All');
+  const [lightboxImg, setLightboxImg] = useState<GalleryItem | null>(null);
+
+  const filteredGallery = galleryCategory === 'All'
+    ? (MAPS_GALLERY as GalleryItem[])
+    : (MAPS_GALLERY as GalleryItem[]).filter(m => m.category === galleryCategory);
 
   return (
     <div className="px-4 py-8 md:px-10 md:py-12">
@@ -238,6 +250,97 @@ export default function MapsPage() {
           </div>
         </div>
       </div>
+
+      {/* Maps & Charts Gallery */}
+      <div className="mb-12">
+        <div className="flex items-center gap-2 mb-4">
+          <Images size={16} style={{ color: 'var(--gold-400)' }} />
+          <h2 className="text-sm font-bold uppercase tracking-widest" style={{ color: 'var(--gold-400)' }}>
+            Maps & Charts Gallery
+          </h2>
+          <span className="text-xs px-2 py-0.5 rounded-full font-bold" style={{ background: 'rgba(201,168,76,0.12)', color: 'var(--gold-500)' }}>
+            {filteredGallery.length}
+          </span>
+        </div>
+        <p className="text-xs mb-4" style={{ color: 'var(--shell-500)' }}>
+          Historical Bible maps and charts from the UniqueBible collection. Click any image to enlarge.
+        </p>
+
+        {/* Category filter */}
+        <div className="flex gap-2 flex-wrap mb-5">
+          {GALLERY_CATEGORIES.map(cat => (
+            <button
+              key={cat}
+              onClick={() => setGalleryCategory(cat)}
+              className="px-3 py-1.5 rounded-xl border text-xs font-bold transition-all"
+              style={
+                galleryCategory === cat
+                  ? { background: 'rgba(201,168,76,0.18)', borderColor: 'rgba(201,168,76,0.4)', color: 'var(--gold-300)' }
+                  : { background: 'var(--shell-800)', borderColor: 'rgba(255,255,255,0.07)', color: 'var(--shell-400)' }
+              }
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        {/* Image grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+          {filteredGallery.map(item => (
+            <button
+              key={item.file}
+              onClick={() => setLightboxImg(item)}
+              className="group relative rounded-xl overflow-hidden border transition-all hover:scale-[1.02] hover:shadow-xl text-left"
+              style={{ borderColor: 'rgba(201,168,76,0.15)', background: 'var(--shell-800)' }}
+            >
+              <div className="relative w-full" style={{ paddingBottom: '70%' }}>
+                <img
+                  src={item.file}
+                  alt={item.title}
+                  loading="lazy"
+                  className="absolute inset-0 w-full h-full object-cover transition-opacity group-hover:opacity-90"
+                />
+              </div>
+              <div className="p-2 border-t" style={{ borderColor: 'rgba(201,168,76,0.1)' }}>
+                <p className="text-xs font-semibold leading-tight line-clamp-2" style={{ color: 'var(--parchment-200)' }}>{item.title}</p>
+                <p className="text-xs mt-0.5 font-bold uppercase tracking-wider" style={{ color: 'var(--gold-500)' }}>{item.category}</p>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Lightbox */}
+      {lightboxImg && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(8px)' }}
+          onClick={() => setLightboxImg(null)}
+        >
+          <div
+            className="relative max-w-5xl w-full max-h-[90vh] flex flex-col rounded-2xl overflow-hidden border"
+            style={{ borderColor: 'rgba(201,168,76,0.25)', background: 'var(--shell-900)' }}
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: 'rgba(201,168,76,0.15)' }}>
+              <div>
+                <p className="font-bold text-sm" style={{ color: 'var(--parchment-100)' }}>{lightboxImg.title}</p>
+                <p className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--gold-500)' }}>{lightboxImg.category}</p>
+              </div>
+              <button onClick={() => setLightboxImg(null)} style={{ color: 'var(--shell-400)' }}>
+                <X size={20} />
+              </button>
+            </div>
+            <div className="overflow-auto flex-1 flex items-center justify-center p-4">
+              <img
+                src={lightboxImg.file}
+                alt={lightboxImg.title}
+                className="max-w-full max-h-[75vh] object-contain rounded-lg"
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Measurements */}
       <div>
