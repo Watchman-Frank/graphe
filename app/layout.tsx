@@ -33,7 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="flex min-h-screen">
           <Sidebar />
           <main
-            className="flex-1 md:ml-64 pb-20 md:pb-0 min-h-screen"
+            className="flex-1 pb-20 md:pb-0 min-h-screen"
             style={{ background: 'var(--shell-950)' }}
           >
             {children}
