@@ -18,6 +18,7 @@ import { cn } from '@/lib/utils/cn';
 import type { BibleVerse, BiblePassage } from '@/types/bible';
 import { getCrossReferences, parseCrossRef, type CrossRef } from '@/data/crossReferences';
 import { getVerseCommentary } from '@/data/commentaries';
+import { COMMENTARY_SOURCES } from '@/data/commentarySources';
 
 const HIGHLIGHT_COLORS: { color: HighlightColor; label: string; cls: string }[] = [
   { color: 'yellow', label: 'Yellow', cls: 'highlight-yellow' },
@@ -116,19 +117,78 @@ function CrossRefChip({ crossRef }: { crossRef: CrossRef }) {
 
 // ── Inline verse commentary panel ────────────────────────────────────────────
 
+const dynamicCache = new Map<string, string>();
+
 function VerseCommentaryPanel({
-  commentary,
+  book,
+  chapter,
+  staticCommentary,
 }: {
-  commentary: { mh: string; jfb: string };
+  book: string;
+  chapter: number;
+  staticCommentary: { mh: string; jfb: string } | null;
 }) {
   const [open, setOpen] = useState(false);
-  const [tab, setTab] = useState<'mh' | 'jfb'>('mh');
-  const active = tab === 'mh' ? commentary.mh : commentary.jfb;
+  const [activeId, setActiveId] = useState('mh');
+  const [dynamicContent, setDynamicContent] = useState<Record<string, string>>({});
+  const [loading, setLoadingSource] = useState<string | null>(null);
+
+  const staticIds = new Set(staticCommentary?.mh ? ['mh'] : []).add(staticCommentary?.jfb ? 'jfb' : '');
+
+  async function loadSource(id: string) {
+    const cacheKey = `${book}+${chapter}+${id}`;
+    if (dynamicCache.has(cacheKey)) {
+      setDynamicContent(prev => ({ ...prev, [id]: dynamicCache.get(cacheKey)! }));
+      return;
+    }
+    setLoadingSource(id);
+    try {
+      const res = await fetch(`/api/commentary?book=${book}&chapter=${chapter}&source=${id}`);
+      const data = await res.json();
+      const text: string = data.text ?? '';
+      dynamicCache.set(cacheKey, text);
+      setDynamicContent(prev => ({ ...prev, [id]: text }));
+    } catch {
+      setDynamicContent(prev => ({ ...prev, [id]: '' }));
+    } finally {
+      setLoadingSource(null);
+    }
+  }
+
+  function handleTabClick(id: string) {
+    setActiveId(id);
+    // Pre-load static ids immediately, dynamic ones on demand
+    const isStatic = (id === 'mh' && !!staticCommentary?.mh) || (id === 'jfb' && !!staticCommentary?.jfb);
+    if (!isStatic && !dynamicContent[id]) {
+      loadSource(id);
+    }
+  }
+
+  // Pre-load first dynamic source when panel opens
+  function handleOpen() {
+    const newOpen = !open;
+    setOpen(newOpen);
+    if (newOpen) {
+      // If MH has static content, that's the default — no fetch needed
+      // Otherwise trigger load of MH from worlddic
+      if (!staticCommentary?.mh && !dynamicContent['mh']) {
+        loadSource('mh');
+      }
+    }
+  }
+
+  function getContent(id: string): string {
+    if (id === 'mh' && staticCommentary?.mh) return staticCommentary.mh;
+    if (id === 'jfb' && staticCommentary?.jfb) return staticCommentary.jfb;
+    return dynamicContent[id] ?? '';
+  }
+
+  const activeContent = getContent(activeId);
 
   return (
-    <div className="mt-2 ml-4">
+    <div className="mt-2 ml-2">
       <button
-        onClick={() => setOpen(o => !o)}
+        onClick={handleOpen}
         className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold border transition-all"
         style={{
           background: open ? 'rgba(201,168,76,0.12)' : 'rgba(201,168,76,0.04)',
@@ -137,48 +197,65 @@ function VerseCommentaryPanel({
         }}
       >
         <MessageSquare size={11} />
-        Commentary
+        {COMMENTARY_SOURCES.length} Commentaries
         {open ? <ChevronUp size={11} /> : <ChevronDown size={11} />}
       </button>
 
       {open && (
         <div
-          className="mt-2 rounded-xl border p-4"
-          style={{
-            background: 'rgba(201,168,76,0.03)',
-            borderColor: 'rgba(201,168,76,0.15)',
-          }}
+          className="mt-2 rounded-xl border"
+          style={{ background: 'rgba(10,9,8,0.6)', borderColor: 'rgba(201,168,76,0.15)' }}
         >
-          {/* Tabs */}
-          <div className="flex gap-1 mb-3">
-            {(['mh', 'jfb'] as const).map(t => (
-              <button
-                key={t}
-                onClick={() => setTab(t)}
-                className="px-3 py-1 rounded-lg text-xs font-bold transition-all"
-                style={
-                  tab === t
-                    ? { background: 'var(--gold-400)', color: 'var(--sepia-900)' }
-                    : { color: 'var(--shell-400)', background: 'transparent' }
-                }
-              >
-                {t === 'mh' ? 'Matthew Henry' : 'JFB'}
-              </button>
-            ))}
+          {/* Scrollable tab row */}
+          <div
+            className="flex gap-1 overflow-x-auto px-3 pt-3 pb-2"
+            style={{ scrollbarWidth: 'none' }}
+          >
+            {COMMENTARY_SOURCES.map(src => {
+              const hasStatic = (src.id === 'mh' && !!staticCommentary?.mh) || (src.id === 'jfb' && !!staticCommentary?.jfb);
+              const hasLoaded = hasStatic || !!dynamicContent[src.id];
+              const isActive = activeId === src.id;
+              return (
+                <button
+                  key={src.id}
+                  onClick={() => handleTabClick(src.id)}
+                  className="shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all"
+                  style={
+                    isActive
+                      ? { background: 'var(--gold-400)', color: 'var(--sepia-900)' }
+                      : hasLoaded
+                      ? { background: 'rgba(201,168,76,0.1)', color: 'var(--gold-400)', border: '1px solid rgba(201,168,76,0.2)' }
+                      : { background: 'transparent', color: 'var(--shell-400)', border: '1px solid rgba(255,255,255,0.06)' }
+                  }
+                >
+                  {src.label}
+                </button>
+              );
+            })}
           </div>
 
-          {active ? (
-            <p
-              className="text-xs leading-relaxed whitespace-pre-line"
-              style={{ color: 'var(--parchment-300)' }}
-            >
-              {active}
-            </p>
-          ) : (
-            <p className="text-xs italic" style={{ color: 'var(--shell-500)' }}>
-              No commentary available for this source.
-            </p>
-          )}
+          {/* Content */}
+          <div className="px-4 pb-4 pt-1">
+            {loading === activeId ? (
+              <div className="flex items-center gap-2 py-4" style={{ color: 'var(--shell-400)' }}>
+                <Loader2 size={14} className="animate-spin" />
+                <span className="text-xs">Loading {COMMENTARY_SOURCES.find(s => s.id === activeId)?.label}…</span>
+              </div>
+            ) : activeContent ? (
+              <p
+                className="text-xs leading-relaxed whitespace-pre-line max-h-72 overflow-y-auto"
+                style={{ color: 'var(--parchment-300)' }}
+              >
+                {activeContent}
+              </p>
+            ) : (
+              <div className="py-3 text-center">
+                <p className="text-xs italic" style={{ color: 'var(--shell-500)' }}>
+                  {dynamicContent[activeId] === '' ? 'Commentary not available for this passage.' : 'Click to load commentary.'}
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>
@@ -638,10 +715,12 @@ export function BibleChapterView({ book, chapter, initialVerse }: Props) {
                       </div>
                     )}
 
-                    {/* Inline commentary */}
-                    {commentary && (commentary.mh || commentary.jfb) && (
-                      <VerseCommentaryPanel commentary={commentary} />
-                    )}
+                    {/* Inline commentary — always available via dynamic fetch */}
+                    <VerseCommentaryPanel
+                      book={book}
+                      chapter={chapter}
+                      staticCommentary={commentary}
+                    />
                   </div>
                 );
               })}
