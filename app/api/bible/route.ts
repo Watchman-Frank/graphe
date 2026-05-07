@@ -32,12 +32,15 @@ const BOOK_NAME_MAP: Record<string, string> = {
   '1john': '1 john', '2john': '2 john', '3john': '3 john',
 };
 
-// ref format: "bookId+chapter" or "bookId+chapter:verse" or "bookId+chapter:verse-verse"
+// ref format: "bookId+chapter" or "bookId chapter" (+ decoded as space by URLSearchParams)
+// optionally with ":verse" or ":verse-verse" suffix
 function parseRef(ref: string): { bookId: string; chapter: number; verseStart?: number; verseEnd?: number } | null {
-  const plusIdx = ref.indexOf('+');
-  if (plusIdx === -1) return null;
-  const bookId = ref.slice(0, plusIdx).toLowerCase();
-  const rest = ref.slice(plusIdx + 1);
+  // '+' is decoded as space by URLSearchParams, but handle both just in case
+  let sepIdx = ref.indexOf('+');
+  if (sepIdx === -1) sepIdx = ref.indexOf(' ');
+  if (sepIdx === -1) return null;
+  const bookId = ref.slice(0, sepIdx).toLowerCase();
+  const rest = ref.slice(sepIdx + 1);
   const colonIdx = rest.indexOf(':');
   if (colonIdx === -1) {
     return { bookId, chapter: parseInt(rest, 10) };
