@@ -3,7 +3,7 @@ import { BookOpen, GraduationCap, NotebookPen, CalendarDays, Map, Mic, ArrowRigh
 import { getDailyVerse } from '@/data/dailyVerses';
 
 const FEATURES = [
-  { href: '/bible', icon: BookOpen, label: 'Read', description: 'KJV & NKJV with audio in your own voice', color: 'var(--gold-400)', bg: 'rgba(201,168,76,0.1)', border: 'rgba(201,168,76,0.2)' },
+  { href: '/bible', icon: BookOpen, label: 'Read', description: 'KJV & NKJV with audio in multiple voices', color: 'var(--gold-400)', bg: 'rgba(201,168,76,0.1)', border: 'rgba(201,168,76,0.2)' },
   { href: '/study', icon: GraduationCap, label: 'Study', description: 'Commentaries, Greek & Hebrew, theology', color: '#7BB8E8', bg: 'rgba(123,184,232,0.08)', border: 'rgba(123,184,232,0.2)' },
   { href: '/books', icon: Scroll, label: 'Books', description: 'Deep overviews, themes & highlights', color: 'var(--burgundy-300)', bg: 'rgba(196,97,122,0.08)', border: 'rgba(196,97,122,0.2)' },
   { href: '/maps', icon: Map, label: 'Maps', description: 'Historical maps & ancient measurements', color: '#7BE8B8', bg: 'rgba(123,232,184,0.08)', border: 'rgba(123,232,184,0.2)' },
@@ -87,12 +87,12 @@ export default function Home() {
           <Mic size={20} style={{ color: 'var(--gold-400)' }} />
         </div>
         <div>
-          <p className="font-bold mb-1" style={{ color: 'var(--parchment-100)' }}>Hear scripture in your own voice</p>
+          <p className="font-bold mb-1" style={{ color: 'var(--parchment-100)' }}>Hear scripture read aloud</p>
           <p className="text-sm mb-3" style={{ color: 'var(--shell-400)' }}>
-            Clone your voice with ElevenLabs and listen to any passage in your accent, your pace, your tone.
+            Choose a voice and listen to any passage — multiple voices available, ready to use instantly.
           </p>
           <Link href="/settings" className="inline-flex items-center gap-1.5 text-sm font-semibold" style={{ color: 'var(--gold-400)' }}>
-            Set up your voice <ArrowRight size={14} />
+            Choose your voice <ArrowRight size={14} />
           </Link>
         </div>
       </div>

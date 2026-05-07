@@ -3,10 +3,10 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const apiKey = process.env.ELEVENLABS_API_KEY || body.apiKey || '';
+    const apiKey = process.env.ELEVENLABS_API_KEY ?? '';
 
     if (!apiKey) {
-      return NextResponse.json({ error: 'ElevenLabs API key not configured. Add it in Settings.' }, { status: 503 });
+      return NextResponse.json({ error: 'ElevenLabs is not configured on this server.' }, { status: 503 });
     }
 
     const { text, voiceId, stability, similarityBoost, style, speakerBoost } = body;

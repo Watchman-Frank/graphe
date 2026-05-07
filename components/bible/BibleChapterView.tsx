@@ -751,7 +751,6 @@ export function BibleChapterView({ book, chapter, initialVerse }: Props) {
         body: JSON.stringify({
           text,
           voiceId: elevenLabs.voiceId,
-          apiKey: elevenLabs.apiKey,
           stability: elevenLabs.stability,
           similarityBoost: elevenLabs.similarityBoost,
           style: elevenLabs.style,

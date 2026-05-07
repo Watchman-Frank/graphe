@@ -4,7 +4,6 @@ import { persist } from 'zustand/middleware';
 import type { Translation } from '@/types/bible';
 
 interface ElevenLabsConfig {
-  apiKey: string;
   voiceId: string | null;
   voiceName: string | null;
   stability: number;
@@ -31,7 +30,6 @@ interface SettingsState {
 }
 
 const defaultElevenLabs: ElevenLabsConfig = {
-  apiKey: '',
   voiceId: null,
   voiceName: null,
   stability: 0.5,
