@@ -16,7 +16,7 @@ import { useSettingsStore } from '@/stores/settingsStore';
 import { getBookById, BIBLE_BOOKS } from '@/lib/bible/books';
 import { cn } from '@/lib/utils/cn';
 import type { BibleVerse, BiblePassage } from '@/types/bible';
-import { getCrossReferences, parseCrossRef, type CrossRef } from '@/data/crossReferences';
+import { parseCrossRef, type CrossRef } from '@/data/crossReferences';
 import { getVerseCommentary } from '@/data/commentaries';
 import { COMMENTARY_SOURCES } from '@/data/commentarySources';
 
@@ -40,6 +40,8 @@ const SPEEDS = [0.75, 1.0, 1.25, 1.5, 2.0];
 // ── Cross-reference chip with hover preview ──────────────────────────────────
 
 const previewCache = new Map<string, string>();
+// Cache chapter cross-ref JSON keyed "book:chapter"
+const crossRefChapterCache = new Map<string, Record<string, CrossRef[]>>();
 
 function CrossRefChip({ crossRef }: { crossRef: CrossRef }) {
   const router = useRouter();
@@ -572,6 +574,7 @@ export function BibleChapterView({ book, chapter, initialVerse }: Props) {
   const [loading, setLoadingPassage] = useState(true);
   const [error, setError] = useState('');
   const [selectedVerse, setSelectedVerse] = useState<BibleVerse | null>(null);
+  const [crossRefData, setCrossRefData] = useState<Record<string, CrossRef[]>>({});
   const [showGoTo, setShowGoTo] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const chunkQueueRef = useRef<string[]>([]);
@@ -582,6 +585,20 @@ export function BibleChapterView({ book, chapter, initialVerse }: Props) {
   const totalChapters = bookMeta?.chapters ?? 1;
   const prevChapter = chapter > 1 ? chapter - 1 : null;
   const nextChapter = chapter < totalChapters ? chapter + 1 : null;
+
+  // Load cross-references for this chapter
+  useEffect(() => {
+    const chapKey = `${book}:${chapter}`;
+    const cached = crossRefChapterCache.get(chapKey);
+    if (cached) { setCrossRefData(cached); return; }
+    fetch(`/crossrefs/${book}/${chapter}.json`)
+      .then(r => r.ok ? r.json() : {})
+      .then((data: Record<string, CrossRef[]>) => {
+        crossRefChapterCache.set(chapKey, data);
+        setCrossRefData(data);
+      })
+      .catch(() => setCrossRefData({}));
+  }, [book, chapter]);
 
   useEffect(() => {
     setLoadingPassage(true);
@@ -849,7 +866,7 @@ export function BibleChapterView({ book, chapter, initialVerse }: Props) {
             <div className={cn('scripture-font', FONT_SIZES[fontSize])}>
               {passage.verses.map(verse => {
                 const hl = highlightsStore.getHighlightForVerse(book, chapter, verse.verse);
-                const crossRefs = getCrossReferences(book, chapter, verse.verse);
+                const crossRefs: CrossRef[] = crossRefData[String(verse.verse)] ?? [];
                 const commentary = getVerseCommentary(book, chapter, verse.verse);
 
                 return (
