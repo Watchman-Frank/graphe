@@ -637,7 +637,7 @@ interface Props {
 
 export function BibleChapterView({ book, chapter, initialVerse }: Props) {
   const router = useRouter();
-  const { translation, fontSize, setFontSize, setCurrentPassage, addToRecentlyRead } = useBibleStore();
+  const { translation, fontSize, setFontSize, setTranslation, setCurrentPassage, addToRecentlyRead } = useBibleStore();
   const { isPlaying, isLoading: audioLoading, playbackSpeed, audioUrl, setPlaying, setPlaybackSpeed, setAudioUrl, setLoading } = useAudioStore();
   const { elevenLabs } = useSettingsStore();
   const highlightsStore = useHighlightsStore();
@@ -822,9 +822,20 @@ export function BibleChapterView({ book, chapter, initialVerse }: Props) {
           <span className="font-bold text-sm md:text-base" style={{ color: 'var(--parchment-100)' }}>
             {bookMeta?.name ?? book} {chapter}
           </span>
-          <span className="text-xs px-2 py-0.5 rounded-full font-bold" style={{ background: 'rgba(201,168,76,0.15)', color: 'var(--gold-400)' }}>
-            {translation.toUpperCase()}
-          </span>
+          <div className="flex items-center gap-0.5 p-0.5 rounded-full" style={{ background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.2)' }}>
+            {(['kjv', 'nkjv'] as const).map(t => (
+              <button
+                key={t}
+                onClick={() => setTranslation(t)}
+                className="px-2 py-0.5 rounded-full text-xs font-bold transition-all"
+                style={translation === t
+                  ? { background: 'var(--gold-400)', color: 'var(--sepia-900)' }
+                  : { color: 'var(--shell-400)' }}
+              >
+                {t.toUpperCase()}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="flex items-center gap-2">

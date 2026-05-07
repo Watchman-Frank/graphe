@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useSettingsStore } from '@/stores/settingsStore';
+import { useBibleStore } from '@/stores/bibleStore';
 import { Mic, Loader2, Volume2, BookOpen, Bell, Check } from 'lucide-react';
 
 const SPEEDS = [0.75, 1.0, 1.25, 1.5, 2.0];
@@ -39,6 +40,7 @@ function Slider({ label, value, onChange, min = 0, max = 1, step = 0.05, descrip
 
 export default function SettingsPage() {
   const { elevenLabs, defaultTranslation, setElevenLabsConfig, setDefaultTranslation } = useSettingsStore();
+  const { setTranslation: setBibleTranslation } = useBibleStore();
 
   const [voices, setVoices] = useState<{ voice_id: string; name: string; category?: string }[]>([]);
   const [voicesLoading, setVoicesLoading] = useState(false);
@@ -217,7 +219,7 @@ export default function SettingsPage() {
           ].map(t => (
             <button
               key={t.id}
-              onClick={() => setDefaultTranslation(t.id as any)}
+              onClick={() => { setDefaultTranslation(t.id as any); setBibleTranslation(t.id as any); }}
               className="flex-1 rounded-xl p-3 border text-left transition-all"
               style={
                 defaultTranslation === t.id
