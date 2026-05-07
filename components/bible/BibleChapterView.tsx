@@ -118,25 +118,52 @@ function CrossRefChip({ crossRef }: { crossRef: CrossRef }) {
 // ── Inline verse commentary panel ────────────────────────────────────────────
 
 const dynamicCache = new Map<string, string>();
+// Cache patristic chapter JSON keyed "book:chapter"
+const patriisticChapterCache = new Map<string, Record<string, { a: string; s: string; q: string }[]>>();
+
+interface PatristicEntry { a: string; s: string; q: string; }
 
 function VerseCommentaryPanel({
   book,
   chapter,
+  verse,
   staticCommentary,
 }: {
   book: string;
   chapter: number;
+  verse: number;
   staticCommentary: { mh: string; jfb: string } | null;
 }) {
   const { anthropicKey } = useSettingsStore();
   const [open, setOpen] = useState(false);
-  const [activeId, setActiveId] = useState('ai');
+  const [activeId, setActiveId] = useState('patristic');
   const [dynamicContent, setDynamicContent] = useState<Record<string, string>>({});
+  const [patriisticEntries, setPatriisticEntries] = useState<PatristicEntry[] | null>(null);
   const [loading, setLoadingSource] = useState<string | null>(null);
 
   const staticIds = new Set(staticCommentary?.mh ? ['mh'] : []).add(staticCommentary?.jfb ? 'jfb' : '');
 
+  async function loadPatristic() {
+    const chapKey = `${book}:${chapter}`;
+    setLoadingSource('patristic');
+    try {
+      let chapData = patriisticChapterCache.get(chapKey);
+      if (!chapData) {
+        const res = await fetch(`/patristic/${book}/${chapter}.json`);
+        if (!res.ok) { setPatriisticEntries([]); return; }
+        chapData = await res.json() as Record<string, PatristicEntry[]>;
+        patriisticChapterCache.set(chapKey, chapData);
+      }
+      setPatriisticEntries(chapData[String(verse)] ?? []);
+    } catch {
+      setPatriisticEntries([]);
+    } finally {
+      setLoadingSource(null);
+    }
+  }
+
   async function loadSource(id: string) {
+    if (id === 'patristic') { loadPatristic(); return; }
     const cacheKey = `${book}+${chapter}+${id}`;
     if (dynamicCache.has(cacheKey)) {
       setDynamicContent(prev => ({ ...prev, [id]: dynamicCache.get(cacheKey)! }));
@@ -160,7 +187,7 @@ function VerseCommentaryPanel({
 
   function handleTabClick(id: string) {
     setActiveId(id);
-    // Pre-load static ids immediately, dynamic ones on demand
+    if (id === 'patristic') { if (patriisticEntries === null) loadPatristic(); return; }
     const isStatic = (id === 'mh' && !!staticCommentary?.mh) || (id === 'jfb' && !!staticCommentary?.jfb);
     if (!isStatic && !dynamicContent[id]) {
       loadSource(id);
@@ -170,8 +197,9 @@ function VerseCommentaryPanel({
   function handleOpen() {
     const newOpen = !open;
     setOpen(newOpen);
-    if (newOpen && !dynamicContent[activeId]) {
-      loadSource(activeId);
+    if (newOpen) {
+      if (activeId === 'patristic') { if (patriisticEntries === null) loadPatristic(); }
+      else if (!dynamicContent[activeId]) { loadSource(activeId); }
     }
   }
 
@@ -239,6 +267,28 @@ function VerseCommentaryPanel({
                 <Loader2 size={14} className="animate-spin" />
                 <span className="text-xs">Loading {COMMENTARY_SOURCES.find(s => s.id === activeId)?.label}…</span>
               </div>
+            ) : activeId === 'patristic' ? (
+              patriisticEntries && patriisticEntries.length > 0 ? (
+                <div className="space-y-3 max-h-72 overflow-y-auto">
+                  {patriisticEntries.map((entry, i) => (
+                    <div
+                      key={i}
+                      className="rounded-lg p-3 border"
+                      style={{ background: 'rgba(201,168,76,0.05)', borderColor: 'rgba(201,168,76,0.12)' }}
+                    >
+                      <div className="flex items-baseline gap-2 mb-1.5">
+                        <span className="text-xs font-bold" style={{ color: 'var(--gold-400)' }}>{entry.a}</span>
+                        {entry.s && <span className="text-xs italic truncate" style={{ color: 'var(--shell-400)' }}>{entry.s}</span>}
+                      </div>
+                      <p className="text-xs leading-relaxed" style={{ color: 'var(--parchment-300)' }}>{entry.q}</p>
+                    </div>
+                  ))}
+                </div>
+              ) : patriisticEntries !== null ? (
+                <div className="py-3 text-center">
+                  <p className="text-xs italic" style={{ color: 'var(--shell-500)' }}>No Church Fathers commentary for this verse.</p>
+                </div>
+              ) : null
             ) : activeContent ? (
               <p
                 className="text-xs leading-relaxed whitespace-pre-line max-h-72 overflow-y-auto"
@@ -795,6 +845,7 @@ export function BibleChapterView({ book, chapter, initialVerse }: Props) {
                     <VerseCommentaryPanel
                       book={book}
                       chapter={chapter}
+                      verse={verse.verse}
                       staticCommentary={commentary}
                     />
                   </div>

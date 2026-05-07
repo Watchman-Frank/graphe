@@ -2,10 +2,12 @@ export interface CommentarySource {
   id: string;
   label: string;
   prefix: string;
+  type?: 'worlddic' | 'patristic' | 'ai';
 }
 
 export const COMMENTARY_SOURCES: CommentarySource[] = [
-  { id: 'ai',            label: 'AI Commentary',   prefix: ''            },
+  { id: 'ai',            label: 'AI Commentary',   prefix: '',            type: 'ai'        },
+  { id: 'patristic',     label: 'Church Fathers',  prefix: '',            type: 'patristic' },
   { id: 'mh',            label: 'Matthew Henry',   prefix: 'Matt_Hen_Wh'  },
   { id: 'mh-concise',    label: 'Henry (Concise)', prefix: 'Matt_Hen_Con' },
   { id: 'jfb',           label: 'JFB Critical',    prefix: 'Critical_Expl'},
