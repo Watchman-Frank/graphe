@@ -43,52 +43,100 @@ const previewCache = new Map<string, string>();
 // Cache chapter cross-ref JSON keyed "book:chapter"
 const crossRefChapterCache = new Map<string, Record<string, CrossRef[]>>();
 
+const BACK_KEY = 'graphe-crossref-back';
+
 function CrossRefChip({ crossRef }: { crossRef: CrossRef }) {
   const router = useRouter();
   const [preview, setPreview] = useState<string | null>(previewCache.get(crossRef.ref) ?? null);
-  const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(false);
   const [showTip, setShowTip] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastPointerType = useRef<string>('mouse');
 
+  function fetchPreview() {
+    if (preview !== null || fetching) return;
+    setFetching(true);
+    fetch(`/api/bible?ref=${crossRef.ref}`)
+      .then(r => r.json())
+      .then(data => {
+        const text: string = data.verses?.[0]?.text?.trim() ?? '';
+        previewCache.set(crossRef.ref, text);
+        setPreview(text);
+      })
+      .catch(() => setPreview(''))
+      .finally(() => setFetching(false));
+  }
+
+  // Close tooltip when tapping/clicking outside
+  useEffect(() => {
+    if (!showTip) return;
+    function onOutside(e: PointerEvent) {
+      if (!containerRef.current?.contains(e.target as Node)) setShowTip(false);
+    }
+    document.addEventListener('pointerdown', onOutside);
+    return () => document.removeEventListener('pointerdown', onOutside);
+  }, [showTip]);
+
+  function navigate() {
+    const parsed = parseCrossRef(crossRef.ref);
+    if (!parsed) return;
+    // Save current page so we can go back
+    sessionStorage.setItem(BACK_KEY, window.location.pathname + window.location.search);
+    router.push(`/bible/${parsed.book}/${parsed.chapter}?verse=${parsed.verse}`);
+  }
+
+  // Desktop: hover shows tooltip, click navigates
   function handleMouseEnter() {
-    timerRef.current = setTimeout(() => {
+    if (lastPointerType.current === 'touch') return;
+    hoverTimerRef.current = setTimeout(() => {
       setShowTip(true);
-      if (!preview && !loading) {
-        setLoading(true);
-        fetch(`/api/bible?ref=${crossRef.ref}`)
-          .then(r => r.json())
-          .then(data => {
-            const text: string = data.verses?.[0]?.text?.trim() ?? '';
-            previewCache.set(crossRef.ref, text);
-            setPreview(text);
-          })
-          .catch(() => setPreview(''))
-          .finally(() => setLoading(false));
-      }
-    }, 250);
+      fetchPreview();
+    }, 220);
   }
 
   function handleMouseLeave() {
-    if (timerRef.current) clearTimeout(timerRef.current);
-    setShowTip(false);
+    if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
+    if (lastPointerType.current !== 'touch') setShowTip(false);
   }
 
-  function handleClick() {
-    const parsed = parseCrossRef(crossRef.ref);
-    if (parsed) {
-      router.push(`/bible/${parsed.book}/${parsed.chapter}?verse=${parsed.verse}`);
+  function handlePointerDown(e: React.PointerEvent) {
+    lastPointerType.current = e.pointerType;
+  }
+
+  function handleClick(e: React.MouseEvent) {
+    if (lastPointerType.current === 'touch') {
+      // First tap: show tooltip. Second tap on chip when tip already open: navigate.
+      if (showTip) {
+        e.preventDefault();
+        navigate();
+      } else {
+        e.preventDefault();
+        setShowTip(true);
+        fetchPreview();
+      }
+    } else {
+      // Mouse click: navigate directly (tooltip shown by hover)
+      navigate();
     }
   }
 
   return (
-    <div className="relative inline-block" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <div
+      ref={containerRef}
+      className="relative inline-block"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <button
+        onPointerDown={handlePointerDown}
         onClick={handleClick}
-        className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold border transition-all hover:scale-105"
+        className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold border transition-all active:scale-95"
         style={{
-          background: 'rgba(201,168,76,0.08)',
-          borderColor: 'rgba(201,168,76,0.25)',
+          background: showTip ? 'rgba(201,168,76,0.18)' : 'rgba(201,168,76,0.08)',
+          borderColor: 'rgba(201,168,76,0.3)',
           color: 'var(--gold-400)',
+          touchAction: 'manipulation',
         }}
       >
         <Link2 size={10} />
@@ -97,20 +145,44 @@ function CrossRefChip({ crossRef }: { crossRef: CrossRef }) {
 
       {showTip && (
         <div
-          className="absolute bottom-full left-0 mb-2 z-50 w-64 rounded-xl border p-3 shadow-2xl text-xs leading-relaxed"
+          className="absolute bottom-full left-0 mb-2 z-50 rounded-xl border shadow-2xl text-xs leading-relaxed"
           style={{
             background: 'var(--shell-800)',
             borderColor: 'rgba(201,168,76,0.3)',
             color: 'var(--parchment-200)',
+            width: '17rem',
+            maxWidth: 'calc(100vw - 2rem)',
           }}
         >
-          <p className="font-bold mb-1" style={{ color: 'var(--gold-400)' }}>{crossRef.label}</p>
-          {loading ? (
-            <Loader2 size={12} className="animate-spin" style={{ color: 'var(--shell-400)' }} />
-          ) : (
-            <p className="italic">{preview || '—'}</p>
-          )}
-          <p className="mt-2 text-xs" style={{ color: 'var(--shell-500)' }}>Click to open</p>
+          {/* Header */}
+          <div
+            className="flex items-center justify-between px-3 pt-2.5 pb-1.5 border-b"
+            style={{ borderColor: 'rgba(201,168,76,0.15)' }}
+          >
+            <span className="font-bold text-xs" style={{ color: 'var(--gold-400)' }}>
+              {crossRef.label}
+            </span>
+            <button
+              onPointerDown={e => e.stopPropagation()}
+              onClick={e => { e.stopPropagation(); navigate(); }}
+              className="flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold border transition-colors"
+              style={{
+                background: 'rgba(201,168,76,0.12)',
+                borderColor: 'rgba(201,168,76,0.3)',
+                color: 'var(--gold-300)',
+              }}
+            >
+              Open <ChevronRight size={10} />
+            </button>
+          </div>
+          {/* Verse text */}
+          <div className="px-3 py-2.5">
+            {fetching ? (
+              <Loader2 size={12} className="animate-spin" style={{ color: 'var(--shell-400)' }} />
+            ) : (
+              <p className="italic" style={{ color: 'var(--parchment-300)' }}>{preview || '—'}</p>
+            )}
+          </div>
         </div>
       )}
     </div>
@@ -576,6 +648,7 @@ export function BibleChapterView({ book, chapter, initialVerse }: Props) {
   const [selectedVerse, setSelectedVerse] = useState<BibleVerse | null>(null);
   const [crossRefData, setCrossRefData] = useState<Record<string, CrossRef[]>>({});
   const [showGoTo, setShowGoTo] = useState(false);
+  const [backTarget, setBackTarget] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const chunkQueueRef = useRef<string[]>([]);
   const chunkIndexRef = useRef<number>(0);
@@ -585,6 +658,12 @@ export function BibleChapterView({ book, chapter, initialVerse }: Props) {
   const totalChapters = bookMeta?.chapters ?? 1;
   const prevChapter = chapter > 1 ? chapter - 1 : null;
   const nextChapter = chapter < totalChapters ? chapter + 1 : null;
+
+  // Pick up the back-navigation target set by CrossRefChip
+  useEffect(() => {
+    const saved = sessionStorage.getItem(BACK_KEY);
+    setBackTarget(saved ?? null);
+  }, [book, chapter]);
 
   // Load cross-references for this chapter
   useEffect(() => {
@@ -838,6 +917,35 @@ export function BibleChapterView({ book, chapter, initialVerse }: Props) {
         {/* Go-to panel */}
         {showGoTo && <GoToPanel onClose={() => setShowGoTo(false)} />}
       </div>
+
+      {/* Back-navigation banner — shown after jumping from a cross-reference */}
+      {backTarget && (
+        <div
+          className="flex items-center gap-2 px-4 py-2 border-b"
+          style={{ background: 'rgba(201,168,76,0.07)', borderColor: 'rgba(201,168,76,0.15)' }}
+        >
+          <button
+            onClick={() => {
+              sessionStorage.removeItem(BACK_KEY);
+              setBackTarget(null);
+              router.push(backTarget);
+            }}
+            className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border transition-all active:scale-95"
+            style={{ background: 'rgba(201,168,76,0.12)', borderColor: 'rgba(201,168,76,0.3)', color: 'var(--gold-300)' }}
+          >
+            <ChevronLeft size={13} />
+            Back to previous passage
+          </button>
+          <button
+            onClick={() => { sessionStorage.removeItem(BACK_KEY); setBackTarget(null); }}
+            className="ml-auto p-1 rounded"
+            style={{ color: 'var(--shell-500)' }}
+            aria-label="Dismiss"
+          >
+            <X size={13} />
+          </button>
+        </div>
+      )}
 
       {/* Content */}
       <div className="flex-1 px-4 md:px-12 lg:px-24 py-8 max-w-3xl mx-auto w-full">
