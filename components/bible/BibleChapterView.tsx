@@ -6,13 +6,14 @@ import {
   ChevronLeft, ChevronRight, BookOpen, Bookmark, Highlighter,
   PlayCircle, PauseCircle, Volume2, Loader2, GraduationCap,
   BookMarked, Type, Mic2, Navigation, Link2, MessageSquare,
-  ChevronDown, ChevronUp, X,
+  ChevronDown, ChevronUp, X, PenLine, Check, Trash2,
 } from 'lucide-react';
 import { useBibleStore } from '@/stores/bibleStore';
 import { useAudioStore } from '@/stores/audioStore';
 import { useBookmarksStore } from '@/stores/bookmarksStore';
 import { useHighlightsStore, type HighlightColor } from '@/stores/highlightsStore';
 import { useSettingsStore } from '@/stores/settingsStore';
+import { useVerseNotesStore } from '@/stores/verseNotesStore';
 import { getBookById, BIBLE_BOOKS } from '@/lib/bible/books';
 import { cn } from '@/lib/utils/cn';
 import type { BibleVerse, BiblePassage } from '@/types/bible';
@@ -434,6 +435,116 @@ function VerseCommentaryPanel({
             )}
           </div>
         </div>
+      )}
+    </div>
+  );
+}
+
+// ── Verse note panel ─────────────────────────────────────────────────────────
+
+function VerseNotePanel({ book, chapter, verse }: { book: string; chapter: number; verse: number }) {
+  const { getNote, setNote, removeNote } = useVerseNotesStore();
+  const saved = getNote(book, chapter, verse);
+  const [open, setOpen] = useState(false);
+  const [draft, setDraft] = useState('');
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  function handleOpen() {
+    setDraft(saved);
+    setOpen(true);
+    setTimeout(() => textareaRef.current?.focus(), 30);
+  }
+
+  function handleSave() {
+    const trimmed = draft.trim();
+    if (trimmed) setNote(book, chapter, verse, trimmed);
+    else removeNote(book, chapter, verse);
+    setOpen(false);
+  }
+
+  function handleDelete() {
+    removeNote(book, chapter, verse);
+    setOpen(false);
+  }
+
+  return (
+    <div className="mt-2 ml-2">
+      {!open ? (
+        <button
+          onClick={handleOpen}
+          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold border transition-all"
+          style={{
+            background: saved ? 'rgba(139,92,246,0.1)' : 'rgba(139,92,246,0.04)',
+            borderColor: saved ? 'rgba(139,92,246,0.35)' : 'rgba(139,92,246,0.18)',
+            color: saved ? 'rgb(196,168,255)' : 'var(--shell-400)',
+          }}
+        >
+          <PenLine size={11} />
+          {saved ? 'Note' : 'Add note'}
+        </button>
+      ) : (
+        <div
+          className="rounded-xl border p-3"
+          style={{ background: 'rgba(10,9,8,0.6)', borderColor: 'rgba(139,92,246,0.25)' }}
+        >
+          {saved && (
+            <p
+              className="text-xs leading-relaxed mb-2 pb-2 border-b"
+              style={{ color: 'var(--parchment-300)', borderColor: 'rgba(139,92,246,0.15)' }}
+            >
+              {saved}
+            </p>
+          )}
+          <textarea
+            ref={textareaRef}
+            value={draft}
+            onChange={e => setDraft(e.target.value)}
+            placeholder="Write your note here…"
+            rows={3}
+            className="w-full rounded-lg px-3 py-2 text-xs resize-none border outline-none focus:border-purple-400/50 transition-colors"
+            style={{
+              background: 'rgba(139,92,246,0.06)',
+              borderColor: 'rgba(139,92,246,0.2)',
+              color: 'var(--parchment-100)',
+            }}
+          />
+          <div className="flex items-center gap-2 mt-2">
+            <button
+              onClick={handleSave}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold border transition-all"
+              style={{ background: 'rgba(139,92,246,0.18)', borderColor: 'rgba(139,92,246,0.4)', color: 'rgb(196,168,255)' }}
+            >
+              <Check size={11} /> Save
+            </button>
+            <button
+              onClick={() => setOpen(false)}
+              className="px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all"
+              style={{ borderColor: 'rgba(255,255,255,0.08)', color: 'var(--shell-400)' }}
+            >
+              Cancel
+            </button>
+            {saved && (
+              <button
+                onClick={handleDelete}
+                className="ml-auto inline-flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs border transition-all"
+                style={{ borderColor: 'rgba(239,68,68,0.2)', color: 'rgba(239,68,68,0.7)' }}
+              >
+                <Trash2 size={11} /> Delete
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Preview when collapsed and note exists */}
+      {!open && saved && (
+        <p
+          className="mt-1 text-xs italic leading-relaxed line-clamp-2 cursor-pointer"
+          style={{ color: 'var(--shell-400)', maxWidth: '42ch' }}
+          onClick={handleOpen}
+        >
+          {saved}
+        </p>
       )}
     </div>
   );
@@ -1038,6 +1149,9 @@ export function BibleChapterView({ book, chapter, initialVerse }: Props) {
                       verse={verse.verse}
                       staticCommentary={commentary}
                     />
+
+                    {/* Verse note */}
+                    <VerseNotePanel book={book} chapter={chapter} verse={verse.verse} />
                   </div>
                 );
               })}
